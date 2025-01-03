@@ -6,6 +6,12 @@ services:
     command: bash /workspace/dokploy/init.sh
     environment:
       - SHELL=/bin/bash
+      - ADMIN_PASSWORD
+      - MARIADB_ROOT_PASSWORD
+      - REDIS_QUEUE_HOST
+      - REDIS_CACHE_HOST
+      - REDIS_SOCKETIO_HOST
+      - MARIADB_HOST
     working_dir: /home/frappe
     volumes:
       - .:/workspace
