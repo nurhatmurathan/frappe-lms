@@ -29,7 +29,7 @@
 							{{ formatNumber(chartDetails.data.users) }}
 						</div>
 						<div class="text-gray-700">
-							{{ __('Signups') }}
+							{{ __('Регистрации') }}
 						</div>
 					</div>
 				</div>
