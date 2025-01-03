@@ -3,7 +3,7 @@ version: "3"
 services:
   frappe-lms:
     image: frappe/bench:latest
-    command: bash /workspace/dokploy/init.sh
+    command: bash /workspace/init.sh
     environment:
       - SHELL=/bin/bash
       - ADMIN_PASSWORD
