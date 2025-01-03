@@ -1,32 +1,29 @@
-version: "3.7"
-name: lms
+version: "3"
+
 services:
-  mariadb:
-    image: mariadb:10.8
-    command:
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
-      - --skip-character-set-client-handshake
-      - --skip-innodb-read-only-compressed # Temporary fix for MariaDB 10.6
-    environment:
-      MYSQL_ROOT_PASSWORD: 123
-    volumes:
-      - mariadb-data:/var/lib/mysql
-
-  redis:
-    image: redis:alpine
-
-  frappe:
+  frappe-lms:
     image: frappe/bench:latest
     command: bash /workspace/init.sh
     environment:
       - SHELL=/bin/bash
-    working_dir: /home/frappe
+    working_dir: /home/frappe-lms
     volumes:
       - .:/workspace
     ports:
       - 8000:8000
       - 9000:9000
-
-volumes:
-  mariadb-data:
+    restart: always
+    networks:
+      - dokploy-network
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.frappe-lms.rule=Host(`frappe-lms.dokploy.com`)
+      - traefik.http.routers.frappe-lms.entrypoints=websecure
+      - traefik.http.routers.frappe-lms.tls.certResolver=letsencrypt
+      - traefik.http.services.frappe-lms.loadbalancer.server.port=8000
+  # Add more containers below (nginx, postgres, etc.)
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+networks:
+  dokploy-network:
+    external: true

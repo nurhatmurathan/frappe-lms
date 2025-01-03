@@ -1,5 +1,6 @@
-#!bin/bash
+#!/bin/bash
 
+# Check if frappe-bench already exists
 if [ -d "/home/frappe/frappe-bench/apps/frappe" ]; then
     echo "Bench already exists, skipping init"
     cd frappe-bench
@@ -8,28 +9,31 @@ else
     echo "Creating new bench..."
 fi
 
+# Set PATH using environment variables
 export PATH="${NVM_DIR}/versions/node/v${NODE_VERSION_DEVELOP}/bin/:${PATH}"
 
+# Initialize bench
 bench init --skip-redis-config-generation frappe-bench
 
 cd frappe-bench
 
-# Use containers instead of localhost
-bench set-mariadb-host mariadb
-bench set-redis-cache-host redis:6379
-bench set-redis-queue-host redis:6379
-bench set-redis-socketio-host redis:6379
+# Use environment variables for hosts and ports
+bench set-mariadb-host "${MARIADB_HOST:-mariadb}"
+bench set-redis-cache-host "${REDIS_CACHE_HOST:-redis:6379}"
+bench set-redis-queue-host "${REDIS_QUEUE_HOST:-redis:6379}"
+bench set-redis-socketio-host "${REDIS_SOCKETIO_HOST:-redis:6379}"
 
 # Remove redis, watch from Procfile
 sed -i '/redis/d' ./Procfile
 sed -i '/watch/d' ./Procfile
 
-bench get-app lms
+# Install app and configure site
+bench get-app https://github.com/nurhatmurathan/frappe-lms.git
 
 bench new-site lms.localhost \
 --force \
---mariadb-root-password 123 \
---admin-password admin \
+--mariadb-root-password "${MARIADB_ROOT_PASSWORD:-123}" \
+--admin-password "${ADMIN_PASSWORD:-admin}" \
 --no-mariadb-socket
 
 bench --site lms.localhost install-app lms
