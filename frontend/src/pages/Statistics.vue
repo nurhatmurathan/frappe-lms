@@ -16,7 +16,7 @@
 							{{ formatNumber(chartDetails.data.courses) }}
 						</div>
 						<div class="text-gray-700">
-							{{ __('Courses') }}
+							{{ __('Курсы') }}
 						</div>
 					</div>
 				</div>
