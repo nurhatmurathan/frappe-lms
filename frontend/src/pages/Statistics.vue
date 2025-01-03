@@ -42,7 +42,7 @@
 							{{ formatNumber(chartDetails.data.enrollments) }}
 						</div>
 						<div class="text-gray-700">
-							{{ __('Enrollments') }}
+							{{ __('Зачисления') }}
 						</div>
 					</div>
 				</div>
