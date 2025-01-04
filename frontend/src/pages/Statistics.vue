@@ -55,7 +55,7 @@
 							{{ formatNumber(chartDetails.data.completions) }}
 						</div>
 						<div class="text-gray-700">
-							{{ __('Completions') }}
+							{{ __('Доработки') }}
 						</div>
 					</div>
 				</div>
