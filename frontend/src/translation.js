@@ -22,13 +22,13 @@ function translate(message) {
 					return typeof args[number] != 'undefined'
 						? args[number]
 						: match
-				}
+				},
 			)
 		},
 	}
 }
 
-function fetchTranslations(lang) {
+function fetchTranslations(lang = 'en') {
 	createResource({
 		url: 'lms.lms.api.get_translations',
 		cache: 'translations',
