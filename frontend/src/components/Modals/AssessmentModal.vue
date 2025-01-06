@@ -2,11 +2,11 @@
 	<Dialog
 		v-model="show"
 		:options="{
-			title: __('Add an assessment'),
+			title: __('Добавить оценку'),
 			size: 'sm',
 			actions: [
 				{
-					label: __('Submit'),
+					label: __('Отправить'),
 					variant: 'solid',
 					onClick: (close) => addAssessment(close),
 				},
@@ -19,12 +19,12 @@
 					type="select"
 					:options="assessmentTypes"
 					v-model="assessmentType"
-					:label="__('Type')"
+					:label="__('Тип')"
 				/>
 				<Link
 					v-model="assessment"
 					:doctype="assessmentType"
-					:label="__('Assessment')"
+					:label="__('Оценка')"
 				/>
 			</div>
 		</template>
@@ -73,7 +73,7 @@ const addAssessment = (close) => {
 				showToast(__('Success'), __('Assessment added successfully'), 'check')
 				close()
 			},
-		}
+		},
 	)
 }
 

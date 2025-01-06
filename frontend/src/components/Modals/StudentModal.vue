@@ -2,7 +2,7 @@
 	<Dialog
 		v-model="show"
 		:options="{
-			title: __('Add a Student'),
+			title: __('Добавить студента'),
 			size: 'sm',
 			actions: [
 				{
@@ -68,7 +68,7 @@ const addStudent = (close) => {
 			onError(err) {
 				showToast(__('Error'), __(err.messages?.[0] || err), 'x')
 			},
-		}
+		},
 	)
 }
 </script>

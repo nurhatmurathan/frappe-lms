@@ -3,11 +3,11 @@
 		v-model="show"
 		class="text-base"
 		:options="{
-			title: __('Apply for this job'),
+			title: __('Подать заявку на эту работу'),
 			size: 'lg',
 			actions: [
 				{
-					label: 'Submit',
+					label: 'Отправить',
 					variant: 'solid',
 					onClick: (close) => {
 						submitResume(close)
@@ -21,7 +21,7 @@
 				<p>
 					{{
 						__(
-							'Submit your resume to proceed with your application for this position. Upon submission, it will be shared with the job poster.'
+							'Отправьте свое резюме, чтобы продолжить подачу заявки на эту должность. После отправки оно будет передано работодателю.',
 						)
 					}}
 				</p>
@@ -39,7 +39,9 @@
 							<div class="">
 								<Button @click="openFileSelector" :loading="uploading">
 									{{
-										uploading ? `Uploading ${progress}%` : 'Upload your resume'
+										uploading
+											? `Загрузка ${progress}%`
+											: 'Загрузите свое резюме'
 									}}
 								</Button>
 							</div>
@@ -47,14 +49,14 @@
 					</FileUploader>
 				</div>
 				<div v-else class="flex items-center">
-					<div class="border rounded-md p-2 mr-2">
+					<div class="p-2 mr-2 border rounded-md">
 						<FileText class="h-5 w-5 stroke-1.5 text-gray-700" />
 					</div>
 					<div class="flex flex-col">
 						<span>
 							{{ resume.file_name }}
 						</span>
-						<span class="text-sm text-gray-500 mt-1">
+						<span class="mt-1 text-sm text-gray-500">
 							{{ getFileSize(resume.file_size) }}
 						</span>
 					</div>
@@ -131,7 +133,7 @@ const submitResume = (close) => {
 					timeout: 10,
 				})
 			},
-		}
+		},
 	)
 }
 </script>

@@ -3,11 +3,11 @@
 		v-model="show"
 		class="text-base"
 		:options="{
-			title: __('Add web page to sidebar'),
+			title: __('Добавить веб-страницу в боковую панель'),
 			size: 'lg',
 			actions: [
 				{
-					label: 'Add',
+					label: 'Добавить',
 					variant: 'solid',
 					onClick: (close) => {
 						addWebPage(close)
@@ -20,12 +20,12 @@
 			<Link
 				v-model="page.webpage"
 				doctype="Web Page"
-				:label="__('Web Page')"
+				:label="__('Веб-страница')"
 				:filters="{
 					published: 1,
 				}"
 			/>
-			<IconPicker v-model="page.icon" :label="__('Icon')" class="mt-4" />
+			<IconPicker v-model="page.icon" :label="__('Иконка')" class="mt-4" />
 		</template>
 	</Dialog>
 </template>
@@ -68,7 +68,7 @@ watch(
 			page.webpage = newPage.web_page
 		}
 	},
-	{ immediate: true }
+	{ immediate: true },
 )
 
 const addWebPage = (close) => {
@@ -84,7 +84,7 @@ const addWebPage = (close) => {
 				showToast('Error', err.message[0] || err, 'x')
 				close()
 			},
-		}
+		},
 	)
 }
 </script>

@@ -2,11 +2,11 @@
 	<Dialog
 		v-model="show"
 		:options="{
-			title: __('Create a Live Class'),
+			title: __('Создать живой класс'),
 			size: 'xl',
 			actions: [
 				{
-					label: 'Submit',
+					label: 'Отправить',
 					variant: 'solid',
 					onClick: (close) => submitLiveClass(close),
 				},
@@ -20,21 +20,21 @@
 						<FormControl
 							type="text"
 							v-model="liveClass.title"
-							:label="__('Title')"
+							:label="__('Название')"
 							class="mb-4"
 							:required="true"
 						/>
 						<Tooltip
 							:text="
 								__(
-									'Time must be in 24 hour format (HH:mm). Example 11:30 or 22:00'
+									'Время должно быть в 24-часовом формате (ЧЧ:мм). Пример 11:30 или 22:00',
 								)
 							"
 						>
 							<FormControl
 								v-model="liveClass.time"
 								type="time"
-								:label="__('Time')"
+								:label="__('Время')"
 								class="mb-4"
 								:required="true"
 							/>
@@ -43,7 +43,7 @@
 							v-model="liveClass.timezone"
 							type="select"
 							:options="getTimezoneOptions()"
-							:label="__('Timezone')"
+							:label="__('Часовой пояс')"
 							:required="true"
 						/>
 					</div>
@@ -52,14 +52,14 @@
 							v-model="liveClass.date"
 							type="date"
 							class="mb-4"
-							:label="__('Date')"
+							:label="__('Дата')"
 							:required="true"
 						/>
-						<Tooltip :text="__('Duration of the live class in minutes')">
+						<Tooltip :text="__('Продолжительность живого класса в минутах')">
 							<FormControl
 								type="number"
 								v-model="liveClass.duration"
-								:label="__('Duration')"
+								:label="__('Продолжительность')"
 								class="mb-4"
 								:required="true"
 							/>
@@ -68,14 +68,14 @@
 							v-model="liveClass.auto_recording"
 							type="select"
 							:options="getRecordingOptions()"
-							:label="__('Auto Recording')"
+							:label="__('Автоматическая запись')"
 						/>
 					</div>
 				</div>
 				<FormControl
 					v-model="liveClass.description"
 					type="textarea"
-					:label="__('Description')"
+					:label="__('Описание')"
 				/>
 			</div>
 		</template>
@@ -177,12 +177,12 @@ const submitLiveClass = (close) => {
 			}
 			const liveClassDateTime = dayjs(`${liveClass.date}T${liveClass.time}`).tz(
 				liveClass.timezone,
-				true
+				true,
 			)
 			if (
 				liveClassDateTime.isSameOrBefore(
 					dayjs().tz(liveClass.timezone, false),
-					'minute'
+					'minute',
 				)
 			) {
 				return __('Please select a future date and time.')

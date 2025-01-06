@@ -2,11 +2,11 @@
 	<Dialog
 		v-model="show"
 		:options="{
-			title: __('Schedule Evaluation'),
+			title: __('Запланировать оценку'),
 			size: 'xl',
 			actions: [
 				{
-					label: __('Submit'),
+					label: __('Отправить'),
 					variant: 'solid',
 					onClick: (close) => submitEvaluation(close),
 				},
@@ -17,24 +17,24 @@
 			<div class="flex flex-col gap-4">
 				<div>
 					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Course') }}
+						{{ __('Курс') }}
 					</div>
 					<Select v-model="evaluation.course" :options="getCourses()" />
 				</div>
 				<div>
 					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Date') }}
+						{{ __('Дата') }}
 					</div>
 					<FormControl type="date" v-model="evaluation.date" />
 				</div>
 				<div v-if="slots.data?.length">
 					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Select a slot') }}
+						{{ __('Выберите слот') }}
 					</div>
 					<div class="grid grid-cols-2 gap-2">
 						<div v-for="slot in slots.data">
 							<div
-								class="text-base text-center border rounded-md bg-gray-200 p-2 cursor-pointer"
+								class="p-2 text-base text-center bg-gray-200 border rounded-md cursor-pointer"
 								@click="saveSlot(slot)"
 								:class="{
 									'border-gray-900': evaluation.start_time == slot.start_time,
@@ -50,7 +50,7 @@
 					v-else-if="evaluation.course && evaluation.date"
 					class="text-sm italic text-red-600"
 				>
-					{{ __('No slots available for this date.') }}
+					{{ __('Нет доступных слотов на эту дату.') }}
 				</div>
 			</div>
 		</template>
@@ -121,7 +121,7 @@ function submitEvaluation(close) {
 			}
 			if (dayjs(evaluation.date).isAfter(dayjs(props.endDate), 'day')) {
 				return `Please select a date before the end date ${dayjs(
-					props.endDate
+					props.endDate,
 				).format('DD MMMM YYYY')}.`
 			}
 		},
@@ -182,7 +182,7 @@ watch(
 		if (date && evaluation.course) {
 			slots.submit(evaluation)
 		}
-	}
+	},
 )
 
 watch(
@@ -191,7 +191,7 @@ watch(
 		evaluation.date = ''
 		evaluation.start_time = ''
 		slots.reset()
-	}
+	},
 )
 
 const saveSlot = (slot) => {

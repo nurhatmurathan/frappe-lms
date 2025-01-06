@@ -4,7 +4,7 @@
 			<div class="space-y-4">
 				<div
 					v-if="!editMode"
-					class="flex items-center text-xs text-gray-700 space-x-5"
+					class="flex items-center space-x-5 text-xs text-gray-700"
 				>
 					<div class="flex items-center space-x-2">
 						<input
@@ -15,7 +15,7 @@
 							class="w-3 h-3 cursor-pointer"
 						/>
 						<label for="existing" class="cursor-pointer">
-							{{ __('Add an existing question') }}
+							{{ __('Добавить существующий вопрос') }}
 						</label>
 					</div>
 
@@ -28,14 +28,14 @@
 							class="w-3 h-3 cursor-pointer"
 						/>
 						<label for="new" class="cursor-pointer">
-							{{ __('Create a new question') }}
+							{{ __('Создать новый вопрос') }}
 						</label>
 					</div>
 				</div>
 				<div v-if="questionType == 'new' || editMode" class="space-y-2">
 					<div>
-						<label class="block text-xs text-gray-600 mb-1">
-							{{ __('Question') }}
+						<label class="block mb-1 text-xs text-gray-600">
+							{{ __('Вопрос') }}
 						</label>
 						<TextEditor
 							:content="question.question"
@@ -47,42 +47,42 @@
 					</div>
 					<FormControl
 						v-model="question.marks"
-						:label="__('Marks')"
+						:label="__('Баллы')"
 						type="number"
 					/>
 					<FormControl
-						:label="__('Type')"
+						:label="__('Тип')"
 						v-model="question.type"
 						type="select"
-						:options="['Choices', 'User Input', 'Open Ended']"
+						:options="['Выбор', 'Ввод пользователя', 'Открытый вопрос']"
 						class="pb-2"
 						:required="true"
 					/>
-					<div v-if="question.type == 'Choices'" class="divide-y border-t">
-						<div v-for="n in 4" class="space-y-4 py-2">
+					<div v-if="question.type == 'Выбор'" class="border-t divide-y">
+						<div v-for="n in 4" class="py-2 space-y-4">
 							<FormControl
-								:label="__('Option') + ' ' + n"
+								:label="__('Вариант') + ' ' + n"
 								v-model="question[`option_${n}`]"
 								:required="n <= 2 ? true : false"
 							/>
 							<FormControl
-								:label="__('Explanation')"
+								:label="__('Объяснение')"
 								v-model="question[`explanation_${n}`]"
 							/>
 							<FormControl
-								:label="__('Correct Answer')"
+								:label="__('Правильный ответ')"
 								v-model="question[`is_correct_${n}`]"
 								type="checkbox"
 							/>
 						</div>
 					</div>
 					<div
-						v-else-if="question.type == 'User Input'"
+						v-else-if="question.type == 'Ввод пользователя'"
 						v-for="n in 4"
 						class="space-y-2"
 					>
 						<FormControl
-							:label="__('Possibility') + ' ' + n"
+							:label="__('Возможность') + ' ' + n"
 							v-model="question[`possibility_${n}`]"
 							:required="n == 1 ? true : false"
 						/>
@@ -91,12 +91,12 @@
 				<div v-else-if="questionType == 'existing'" class="space-y-2">
 					<Link
 						v-model="existingQuestion.question"
-						:label="__('Select a question')"
+						:label="__('Выбрать вопрос')"
 						doctype="LMS Question"
 					/>
 					<FormControl
 						v-model="existingQuestion.marks"
-						:label="__('Marks')"
+						:label="__('Баллы')"
 						type="number"
 					/>
 				</div>
@@ -230,7 +230,7 @@ const addQuestion = (close) => {
 				question: existingQuestion.question,
 				marks: existingQuestion.marks,
 			},
-			close
+			close,
 		)
 	} else {
 		questionCreation.submit(
@@ -242,13 +242,13 @@ const addQuestion = (close) => {
 							question: data.name,
 							marks: question.marks,
 						},
-						close
+						close,
 					)
 				},
 				onError(err) {
 					showToast(__('Error'), __(err.messages?.[0] || err), 'x')
 				},
-			}
+			},
 		)
 	}
 }
@@ -269,7 +269,7 @@ const addQuestionRow = (question, close) => {
 				showToast(__('Error'), __(err.messages?.[0] || err), 'x')
 				close()
 			},
-		}
+		},
 	)
 }
 
@@ -314,18 +314,18 @@ const updateQuestion = (close) => {
 							showToast(
 								__('Success'),
 								__('Question updated successfully'),
-								'check'
+								'check',
 							)
 							quiz.value.reload()
 							close()
 						},
-					}
+					},
 				)
 			},
 			onError(err) {
 				showToast(__('Error'), __(err.messages?.[0] || err), 'x')
 			},
-		}
+		},
 	)
 }
 

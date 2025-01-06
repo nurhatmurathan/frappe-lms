@@ -2,11 +2,11 @@
 	<Dialog
 		v-model="show"
 		:options="{
-			title: __('Add a course'),
+			title: __('Добавить курс'),
 			size: 'sm',
 			actions: [
 				{
-					label: __('Submit'),
+					label: __('Отправить'),
 					variant: 'solid',
 					onClick: (close) => addCourse(close),
 				},
@@ -17,13 +17,13 @@
 			<Link
 				doctype="LMS Course"
 				v-model="course"
-				:label="__('Course')"
+				:label="__('Курс')"
 				:required="true"
 			/>
 			<Link
 				doctype="Course Evaluator"
 				v-model="evaluator"
-				:label="__('Evaluator')"
+				:label="__('Оценщик')"
 				class="mt-4"
 			/>
 		</template>
@@ -76,7 +76,7 @@ const addCourse = (close) => {
 			onError(err) {
 				showToast('Error', err.message[0] || err, 'x')
 			},
-		}
+		},
 	)
 }
 </script>

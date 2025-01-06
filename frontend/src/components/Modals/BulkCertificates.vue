@@ -2,11 +2,11 @@
 	<Dialog
 		v-model="show"
 		:options="{
-			title: __('Generate Certificates'),
+			title: __('Создать сертификаты'),
 			size: 'lg',
 			actions: [
 				{
-					label: 'Create',
+					label: 'Создать',
 					variant: 'solid',
 					onClick: ({ close }) => {
 						generateCertificates(close)
@@ -20,27 +20,27 @@
 				<FormControl
 					type="select"
 					v-model="details.course"
-					:label="__('Course')"
+					:label="__('Курс')"
 					:options="getCourses()"
 				/>
 				<Link
 					v-model="details.evaluator"
-					:label="__('Evaluator')"
+					:label="__('Оценщик')"
 					doctype="Course Evaluator"
 				/>
 				<FormControl
 					type="date"
 					v-model="details.issue_date"
-					:label="__('Issue Date')"
+					:label="__('Дата выдачи')"
 				/>
 				<FormControl
 					type="date"
 					v-model="details.expiry_date"
-					:label="__('Expiry Date')"
+					:label="__('Дата истечения')"
 				/>
 				<Link
 					v-model="details.template"
-					:label="__('Template')"
+					:label="__('Шаблон')"
 					doctype="Print Format"
 					:filters="{
 						doc_type: 'LMS Certificate',
@@ -48,10 +48,10 @@
 				/>
 				<Switch
 					size="sm"
-					:label="__('Published')"
+					:label="__('Опубликовано')"
 					:description="
 						__(
-							'Enabling this will publish the certificate on the certified participants page.'
+							'Включение этого параметра опубликует сертификат на странице сертифицированных участников.',
 						)
 					"
 					v-model="details.published"
@@ -114,7 +114,7 @@ const generateCertificates = (close) => {
 				onError(err) {
 					showToast(__('Error'), err.messages?.[0] || err, 'x')
 				},
-			}
+			},
 		)
 	})
 	close()

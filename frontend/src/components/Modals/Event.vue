@@ -8,7 +8,7 @@
 		<template #body>
 			<div class="flex text-base">
 				<div class="flex flex-col w-1/2 p-5">
-					<div class="text-lg font-semibold mb-4">
+					<div class="mb-4 text-lg font-semibold">
 						{{ event.title }}
 					</div>
 
@@ -21,7 +21,7 @@
 								</span>
 							</div>
 						</Tooltip>
-						<Tooltip :text="__('Course')">
+						<Tooltip :text="__('Курс')">
 							<div class="flex items-center space-x-2 w-fit">
 								<BookOpen class="h-4 w-4 stroke-1.5" />
 								<span>
@@ -29,7 +29,7 @@
 								</span>
 							</div>
 						</Tooltip>
-						<Tooltip v-if="event.batch_title" :text="__('Batch')">
+						<Tooltip v-if="event.batch_title" :text="__('Группа')">
 							<div class="flex items-center space-x-2 w-fit">
 								<Users class="h-4 w-4 stroke-1.5" />
 								<span>
@@ -37,7 +37,7 @@
 								</span>
 							</div>
 						</Tooltip>
-						<Tooltip :text="__('Date')">
+						<Tooltip :text="__('Дата')">
 							<div class="flex items-center space-x-2 w-fit">
 								<Calendar class="h-4 w-4 stroke-1.5" />
 								<span>
@@ -45,7 +45,7 @@
 								</span>
 							</div>
 						</Tooltip>
-						<Tooltip :text="__('Time')">
+						<Tooltip :text="__('Время')">
 							<div class="flex items-center space-x-2 w-fit">
 								<Clock class="h-4 w-4 stroke-1.5" />
 								<span>
@@ -55,7 +55,7 @@
 							</div>
 						</Tooltip>
 					</div>
-					<div class="flex items-center space-x-2 mt-auto">
+					<div class="flex items-center mt-auto space-x-2">
 						<Button
 							v-if="certificate.name"
 							@click="openCertificate(certificate)"
@@ -64,52 +64,52 @@
 							<template #prefix>
 								<FileText class="h-4 w-4 stroke-1.5" />
 							</template>
-							{{ __('View Certificate') }}
+							{{ __('Просмотреть сертификат') }}
 						</Button>
 						<Button v-else @click="openCallLink(event.venue)" class="w-full">
 							<template #prefix>
 								<Video class="h-4 w-4 stroke-1.5" />
 							</template>
 							<span>
-								{{ __('Join Meeting') }}
+								{{ __('Присоединиться к встрече') }}
 							</span>
 						</Button>
 					</div>
 				</div>
-				<Tabs :tabs="tabs" v-model="tabIndex" class="border-l w-1/2">
+				<Tabs :tabs="tabs" v-model="tabIndex" class="w-1/2 border-l">
 					<template #default="{ tab }">
 						<div
 							v-if="tab.label == 'Evaluation'"
-							class="flex flex-col space-y-4 p-5"
+							class="flex flex-col p-5 space-y-4"
 						>
 							<div class="flex items-center justify-between">
-								<Rating v-model="evaluation.rating" :label="__('Rating')" />
+								<Rating v-model="evaluation.rating" :label="__('Рейтинг')" />
 								<FormControl
 									type="select"
 									:options="statusOptions"
 									v-model="evaluation.status"
-									:label="__('Status')"
+									:label="__('Статус')"
 									class="w-1/2"
 								/>
 							</div>
 							<Textarea
 								v-model="evaluation.summary"
-								:label="__('Summary')"
+								:label="__('Резюме')"
 								:rows="7"
 							/>
 							<Button variant="solid" @click="saveEvaluation()">
-								{{ __('Save') }}
+								{{ __('Сохранить') }}
 							</Button>
 						</div>
-						<div v-else class="flex flex-col space-y-4 p-5">
+						<div v-else class="flex flex-col p-5 space-y-4">
 							<FormControl
 								type="checkbox"
 								v-model="certificate.published"
-								:label="__('Published')"
+								:label="__('Опубликовано')"
 							/>
 							<Link
 								v-model="certificate.template"
-								:label="__('Template')"
+								:label="__('Шаблон')"
 								doctype="Print Format"
 								:filters="{
 									doc_type: 'LMS Certificate',
@@ -118,15 +118,15 @@
 							<FormControl
 								type="date"
 								v-model="certificate.issue_date"
-								:label="__('Issue Date')"
+								:label="__('Дата выдачи')"
 							/>
 							<FormControl
 								type="date"
 								v-model="certificate.expiry_date"
-								:label="__('Expiry Date')"
+								:label="__('Дата истечения')"
 							/>
 							<Button variant="solid" @click="saveCertificate()">
-								{{ __('Save') }}
+								{{ __('Сохранить') }}
 							</Button>
 						</div>
 					</template>
@@ -254,7 +254,7 @@ const saveEvaluation = () => {
 				}
 				showToast(__('Success'), __('Evaluation saved successfully'), 'check')
 			},
-		}
+		},
 	)
 }
 
@@ -309,7 +309,7 @@ const saveCertificate = () => {
 			onSuccess: () => {
 				showToast(__('Success'), __('Certificate saved successfully'), 'check')
 			},
-		}
+		},
 	)
 }
 
@@ -333,7 +333,7 @@ const openCertificate = (certificate) => {
 	window.open(
 		`/api/method/frappe.utils.print_format.download_pdf?doctype=LMS+Certificate&name=${
 			certificate.name
-		}&format=${encodeURIComponent(certificate.template)}`
+		}&format=${encodeURIComponent(certificate.template)}`,
 	)
 }
 

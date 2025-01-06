@@ -2,9 +2,9 @@
 	<Dialog v-model="show" :options="{ size: '4xl' }">
 		<template #body>
 			<div class="flex h-[calc(100vh_-_8rem)]">
-				<div class="flex w-52 shrink-0 flex-col bg-gray-50 p-2">
-					<h1 class="mb-3 px-2 pt-2 text-lg font-semibold">
-						{{ __('Settings') }}
+				<div class="flex flex-col p-2 w-52 shrink-0 bg-gray-50">
+					<h1 class="px-2 pt-2 mb-3 text-lg font-semibold">
+						{{ __('Настройки') }}
 					</h1>
 					<div v-for="tab in tabs" :key="tab.label">
 						<div
@@ -32,7 +32,7 @@
 				<div
 					v-if="activeTab && data.doc"
 					:key="activeTab.label"
-					class="flex flex-1 flex-col px-10 py-8"
+					class="flex flex-col flex-1 px-10 py-8"
 				>
 					<Members
 						v-if="activeTab.label === 'Members'"

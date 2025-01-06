@@ -5,15 +5,15 @@
 		</template>
 		<template #body>
 			<div
-				class="absolute left-1/2 mt-3 w-96 max-w-lg -translate-x-1/2 transform rounded-lg bg-white px-4 sm:px-0 lg:max-w-3xl"
+				class="absolute max-w-lg px-4 mt-3 transform -translate-x-1/2 bg-white rounded-lg left-1/2 w-96 sm:px-0 lg:max-w-3xl"
 			>
 				<div
-					class="overflow-hidden rounded-lg p-3 shadow-2xl ring-1 ring-black ring-opacity-5"
+					class="p-3 overflow-hidden rounded-lg shadow-2xl ring-1 ring-black ring-opacity-5"
 				>
 					<div class="flex items-center justify-center space-x-2">
 						<TextInput
 							type="text"
-							placeholder="search by keyword"
+							placeholder="поиск по ключевому слову"
 							v-model="search"
 							:debounce="300"
 							class="flex-1"
@@ -28,7 +28,11 @@
 							>
 								<div class="">
 									<Button @click="openFileSelector" :loading="uploading">
-										{{ uploading ? `Uploading ${progress}%` : 'Upload Image' }}
+										{{
+											uploading
+												? `Загрузка ${progress}%`
+												: 'Загрузить изображение'
+										}}
 									</Button>
 								</div>
 							</template>
@@ -53,9 +57,9 @@
 					</div>
 					<div
 						v-if="images.data"
-						class="mt-2 text-center text-sm text-gray-500"
+						class="mt-2 text-sm text-center text-gray-500"
 					>
-						{{ __('Image search powered by') }}
+						{{ __('Поиск изображений предоставлен') }}
 						<a class="underline" target="_blank" href="https://unsplash.com">
 							{{ __('Unsplash') }}
 						</a>
@@ -67,11 +71,11 @@
 </template>
 <script setup>
 import {
-	Popover,
-	TextInput,
-	FileUploader,
 	Button,
 	createResource,
+	FileUploader,
+	Popover,
+	TextInput,
 } from 'frappe-ui'
 import { ref, watch } from 'vue'
 
@@ -93,7 +97,7 @@ watch(
 	() => search.value,
 	() => {
 		images.reload()
-	}
+	},
 )
 
 const saveImage = (file) => {

@@ -2,11 +2,11 @@
 	<Dialog
 		v-model="show"
 		:options="{
-			title: chapterDetail ? __('Edit Chapter') : __('Add Chapter'),
+			title: chapterDetail ? __('Редактировать главу') : __('Добавить главу'),
 			size: 'lg',
 			actions: [
 				{
-					label: chapterDetail ? __('Edit') : __('Create'),
+					label: chapterDetail ? __('Редактировать') : __('Создать'),
 					variant: 'solid',
 					onClick: (close) =>
 						chapterDetail ? editChapter(close) : addChapter(close),
@@ -16,13 +16,17 @@
 	>
 		<template #body-content>
 			<div class="space-y-4 text-base">
-				<FormControl label="Title" v-model="chapter.title" :required="true" />
+				<FormControl
+					label="Название"
+					v-model="chapter.title"
+					:required="true"
+				/>
 				<Switch
 					size="sm"
-					:label="__('SCORM Package')"
+					:label="__('SCORM пакет')"
 					:description="
 						__(
-							'Enable this only if you want to upload a SCORM package as a chapter.'
+							'Включите это, только если хотите загрузить SCORM пакет в качестве главы.',
 						)
 					"
 					v-model="chapter.is_scorm_package"
@@ -38,7 +42,7 @@
 							<div class="mb-4">
 								<Button @click="openFileSelector" :loading="uploading">
 									{{
-										uploading ? `Uploading ${progress}%` : 'Upload an zip file'
+										uploading ? `Загрузка ${progress}%` : 'Загрузить zip файл'
 									}}
 								</Button>
 							</div>
@@ -46,14 +50,14 @@
 					</FileUploader>
 					<div v-else class="">
 						<div class="flex items-center">
-							<div class="border rounded-md p-2 mr-2">
+							<div class="p-2 mr-2 border rounded-md">
 								<FileText class="h-5 w-5 stroke-1.5 text-gray-700" />
 							</div>
 							<div class="flex flex-col">
 								<span>
 									{{ chapter.scorm_package.file_name }}
 								</span>
-								<span class="text-sm text-gray-500 mt-1">
+								<span class="mt-1 text-sm text-gray-500">
 									{{ getFileSize(chapter.scorm_package.file_size) }}
 								</span>
 							</div>
@@ -152,20 +156,20 @@ const addChapter = async (close) => {
 							showToast(
 								__('Success'),
 								__('Chapter added successfully'),
-								'check'
+								'check',
 							)
 						},
 						onError(err) {
 							showToast(__('Error'), err.messages?.[0] || err, 'x')
 						},
-					}
+					},
 				)
 				close()
 			},
 			onError(err) {
 				showToast(__('Error'), err.messages?.[0] || err, 'x')
 			},
-		}
+		},
 	)
 }
 
@@ -201,7 +205,7 @@ const editChapter = (close) => {
 			onError(err) {
 				showToast(__('Error'), err.messages?.[0] || err, 'x')
 			},
-		}
+		},
 	)
 }
 
@@ -211,7 +215,7 @@ watch(
 		chapter.title = newChapter?.title
 		chapter.is_scorm_package = newChapter?.is_scorm_package
 		chapter.scorm_package = newChapter?.scorm_package
-	}
+	},
 )
 
 const validateFile = (file) => {
