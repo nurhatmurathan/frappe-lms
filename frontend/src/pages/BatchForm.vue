@@ -8,9 +8,9 @@
 				{{ __('Save') }}
 			</Button>
 		</header>
-		<div class="w-1/2 py-5 mx-auto">
+		<div class="w-1/2 mx-auto py-5">
 			<div class="">
-				<div class="mb-4 text-lg font-semibold">
+				<div class="text-lg font-semibold mb-4">
 					{{ __('Details') }}
 				</div>
 				<div class="grid grid-cols-2 gap-10 mb-4 space-y-2">
@@ -36,7 +36,7 @@
 				</div>
 			</div>
 			<div class="mb-4">
-				<div class="mb-2 text-xs text-gray-600">
+				<div class="text-xs text-gray-600 mb-2">
 					{{ __('Meta Image') }}
 				</div>
 				<FileUploader
@@ -47,17 +47,17 @@
 				>
 					<template v-slot="{ file, progress, uploading, openFileSelector }">
 						<div class="flex items-center">
-							<div class="px-20 py-5 border rounded-md w-fit">
-								<Image class="text-gray-700 stroke-1 size-5" />
+							<div class="border rounded-md w-fit py-5 px-20">
+								<Image class="size-5 stroke-1 text-gray-700" />
 							</div>
 							<div class="ml-4">
 								<Button @click="openFileSelector">
 									{{ __('Upload') }}
 								</Button>
-								<div class="mt-2 text-sm text-gray-600">
+								<div class="mt-2 text-gray-600 text-sm">
 									{{
 										__(
-											'Appears when the batch URL is shared on any online platform',
+											'Appears when the batch URL is shared on any online platform'
 										)
 									}}
 								</div>
@@ -67,15 +67,15 @@
 				</FileUploader>
 				<div v-else class="mb-4">
 					<div class="flex items-center">
-						<img :src="batch.image.file_url" class="w-40 border rounded-md" />
+						<img :src="batch.image.file_url" class="border rounded-md w-40" />
 						<div class="ml-4">
 							<Button @click="removeImage()">
 								{{ __('Remove') }}
 							</Button>
-							<div class="mt-2 text-sm text-gray-600">
+							<div class="mt-2 text-gray-600 text-sm">
 								{{
 									__(
-										'Appears when the batch URL is shared on any online platform',
+										'Appears when the batch URL is shared on any online platform'
 									)
 								}}
 							</div>
@@ -100,7 +100,7 @@
 					:required="true"
 				/>
 				<div>
-					<label class="block mb-1 text-sm text-gray-600">
+					<label class="block text-sm text-gray-600 mb-1">
 						{{ __('Batch Details') }}
 						<span class="text-red-500">*</span>
 					</label>
@@ -114,7 +114,7 @@
 				</div>
 			</div>
 			<div class="mb-4">
-				<div class="mb-4 text-lg font-semibold">
+				<div class="text-lg font-semibold mb-4">
 					{{ __('Date and Time') }}
 				</div>
 				<div class="grid grid-cols-2 gap-10">
@@ -161,7 +161,7 @@
 				</div>
 			</div>
 			<div class="mb-4">
-				<div class="mb-4 text-lg font-semibold">
+				<div class="text-lg font-semibold mb-4">
 					{{ __('Settings') }}
 				</div>
 				<div class="grid grid-cols-2 gap-10">
@@ -207,7 +207,7 @@
 			</div>
 
 			<div class="">
-				<div class="mb-4 text-lg font-semibold">
+				<div class="text-lg font-semibold mb-4">
 					{{ __('Payment') }}
 				</div>
 				<div>
@@ -234,28 +234,28 @@
 	</div>
 </template>
 <script setup>
-import Link from '@/components/Controls/Link.vue'
-import MultiSelect from '@/components/Controls/MultiSelect.vue'
-import { capture } from '@/telemetry'
-import { showToast } from '@/utils'
+import {
+	computed,
+	onMounted,
+	inject,
+	reactive,
+	onBeforeUnmount,
+	ref,
+} from 'vue'
 import {
 	Breadcrumbs,
-	Button,
-	FileUploader,
 	FormControl,
+	FileUploader,
+	Button,
 	TextEditor,
 	createResource,
 } from 'frappe-ui'
-import { Image } from 'lucide-vue-next'
-import {
-	computed,
-	inject,
-	onBeforeUnmount,
-	onMounted,
-	reactive,
-	ref,
-} from 'vue'
+import Link from '@/components/Controls/Link.vue'
 import { useRouter } from 'vue-router'
+import { showToast } from '@/utils'
+import { Image } from 'lucide-vue-next'
+import { capture } from '@/telemetry'
+import MultiSelect from '@/components/Controls/MultiSelect.vue'
 
 const router = useRouter()
 const user = inject('$user')
@@ -414,7 +414,7 @@ const createNewBatch = () => {
 			onError(err) {
 				showToast('Error', err.messages?.[0] || err, 'x')
 			},
-		},
+		}
 	)
 }
 
@@ -433,7 +433,7 @@ const editBatchDetails = () => {
 			onError(err) {
 				showToast('Error', err.messages?.[0] || err, 'x')
 			},
-		},
+		}
 	)
 }
 

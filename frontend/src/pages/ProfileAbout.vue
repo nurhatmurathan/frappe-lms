@@ -1,5 +1,5 @@
 <template>
-	<div class="mb-10 mt-7">
+	<div class="mt-7 mb-10">
 		<h2 class="mb-3 text-lg font-semibold text-gray-900">
 			{{ __('About') }}
 		</h2>
@@ -8,15 +8,15 @@
 			v-html="profile.data.bio"
 			class="ProseMirror prose prose-table:table-fixed prose-td:p-2 prose-th:p-2 prose-td:border prose-th:border prose-td:border-gray-300 prose-th:border-gray-300 prose-td:relative prose-th:relative prose-th:bg-gray-100 prose-sm max-w-none !whitespace-normal"
 		></div>
-		<div v-else class="text-sm italic text-gray-700">
+		<div v-else class="text-gray-700 text-sm italic">
 			{{ __('No introduction') }}
 		</div>
 	</div>
-	<div class="mb-10 mt-7" v-if="badges.data?.length">
+	<div class="mt-7 mb-10" v-if="badges.data?.length">
 		<h2 class="mb-3 text-lg font-semibold text-gray-900">
 			{{ __('Achievements') }}
 		</h2>
-		<div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
+		<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
 			<div v-for="badge in badges.data">
 				<Popover trigger="hover" :leaveDelay="Number(0.01)">
 					<template #target>
@@ -28,7 +28,7 @@
 							/>
 							<div
 								v-if="badge.count > 1"
-								class="absolute bottom-0 right-0 flex items-end p-2 text-xs font-semibold bg-gray-100 rounded-full"
+								class="flex items-end bg-gray-100 p-2 text-xs font-semibold rounded-full absolute right-0 bottom-0"
 							>
 								<span>
 									<X class="w-3 h-3" />
@@ -45,20 +45,20 @@
 								class="bg-gray-100 rounded-t-md h-[200px] mx-auto"
 							/>
 							<div class="p-5">
-								<div class="mb-2 text-2xl font-semibold">
+								<div class="text-2xl font-semibold mb-2">
 									{{ badge.badge }}
 								</div>
-								<div class="mb-4 leading-5">
+								<div class="leading-5 mb-4">
 									{{ badge.badge_description }}
 								</div>
 								<div class="flex flex-col mb-4">
-									<span class="mb-1 text-xs font-medium text-gray-700">
+									<span class="text-xs text-gray-700 font-medium mb-1">
 										{{ __('Issued on') }}:
 									</span>
 									{{ dayjs(badge.issued_on).format('DD MMM YYYY') }}
 								</div>
 								<div class="flex flex-col">
-									<span class="mb-1 text-xs font-medium text-gray-700">
+									<span class="text-xs text-gray-700 font-medium mb-1">
 										{{ __('Share on') }}:
 									</span>
 									<div class="flex items-center space-x-2">
@@ -68,7 +68,7 @@
 											@click="shareOnSocial(badge, 'LinkedIn')"
 										>
 											<template #prefix>
-												<LinkedinIcon class="w-3 h-3 text-gray-700" />
+												<LinkedinIcon class="h-3 w-3 text-gray-700" />
 											</template>
 											<span class="text-xs">
 												{{ __('LinkedIn') }}
@@ -80,7 +80,7 @@
 											@click="shareOnSocial(badge, 'Twitter')"
 										>
 											<template #prefix>
-												<Twitter class="w-3 h-3 text-gray-700" />
+												<Twitter class="h-3 w-3 text-gray-700" />
 											</template>
 											<span class="text-xs">
 												{{ __('Twitter') }}
@@ -97,10 +97,10 @@
 	</div>
 </template>
 <script setup>
-import { sessionStore } from '@/stores/session'
-import { Button, createResource, Popover } from 'frappe-ui'
-import { LinkedinIcon, Twitter, X } from 'lucide-vue-next'
 import { inject } from 'vue'
+import { createResource, Popover, Button } from 'frappe-ui'
+import { X, LinkedinIcon, Twitter } from 'lucide-vue-next'
+import { sessionStore } from '@/stores/session'
 
 const dayjs = inject('$dayjs')
 const { branding } = sessionStore()
@@ -137,7 +137,7 @@ const badges = createResource({
 const shareOnSocial = (badge, medium) => {
 	let shareUrl
 	const url = encodeURIComponent(
-		`${window.location.origin}/lms/badges/${badge.badge}/${props.profile.data?.email}`,
+		`${window.location.origin}/lms/badges/${badge.badge}/${props.profile.data?.email}`
 	)
 	const summary = `I am happy to announce that I earned the ${
 		badge.badge

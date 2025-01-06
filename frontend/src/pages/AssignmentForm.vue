@@ -14,35 +14,35 @@
 				}"
 			>
 				<Button>
-					{{ __('Список отправок') }}
+					{{ __('Submission List') }}
 				</Button>
 			</router-link>
 			<Button variant="solid" @click="saveAssignment()">
-				{{ __('Сохранить') }}
+				{{ __('Save') }}
 			</Button>
 		</div>
 	</header>
-	<div class="w-3/4 py-5 mx-auto">
-		<div class="mb-4 font-semibold">
-			{{ __('Детали') }}
+	<div class="w-3/4 mx-auto py-5">
+		<div class="font-semibold mb-4">
+			{{ __('Details') }}
 		</div>
 		<div class="grid grid-cols-2 gap-5 mt-4 mb-8">
 			<FormControl
 				v-model="model.title"
-				:label="__('Название')"
+				:label="__('Title')"
 				:required="true"
 			/>
 			<FormControl
 				v-model="model.type"
 				type="select"
 				:options="assignmentOptions"
-				:label="__('Тип')"
+				:label="__('Type')"
 				:required="true"
 			/>
 		</div>
 		<div>
-			<div class="mb-2 text-xs text-gray-600">
-				{{ __('Вопрос') }}
+			<div class="text-xs text-gray-600 mb-2">
+				{{ __('Question') }}
 				<span class="text-ink-red-3">*</span>
 			</div>
 			<TextEditor
@@ -56,7 +56,6 @@
 	</div>
 </template>
 <script setup>
-import { showToast } from '@/utils'
 import {
 	Breadcrumbs,
 	Button,
@@ -68,11 +67,12 @@ import {
 import {
 	computed,
 	inject,
-	onBeforeUnmount,
 	onMounted,
+	onBeforeUnmount,
 	reactive,
 	watch,
 } from 'vue'
+import { showToast } from '@/utils'
 import { useRouter } from 'vue-router'
 
 const user = inject('$user')
@@ -136,7 +136,7 @@ const newAssignment = createResource({
 		router.push({ name: 'AssignmentForm', params: { assignmentID: data.name } })
 	},
 	onError(err) {
-		showToast(__('Ошибка'), __(err.messages?.[0] || err), 'x')
+		showToast(__('Error'), __(err.messages?.[0] || err), 'x')
 	},
 })
 
@@ -152,13 +152,13 @@ const saveAssignment = () => {
 			},
 			{
 				onSuccess(data) {
-					showToast(__('Успех'), __('Задание успешно сохранено'), 'check')
+					showToast(__('Success'), __('Assignment saved successfully'), 'check')
 					assignment.reload()
 				},
 				onError(err) {
-					showToast(__('Ошибка'), __(err.messages?.[0] || err), 'x')
+					showToast(__('Error'), __(err.messages?.[0] || err), 'x')
 				},
-			},
+			}
 		)
 	}
 }
@@ -171,20 +171,20 @@ watch(assignment, () => {
 
 const breadcrumbs = computed(() => [
 	{
-		label: __('Задания'),
+		label: __('Assignments'),
 		route: { name: 'Assignments' },
 	},
 	{
-		label: assignment.doc ? assignment.doc.title : __('Новое задание'),
+		label: assignment.doc ? assignment.doc.title : __('New Assignment'),
 	},
 ])
 
 const assignmentOptions = computed(() => {
 	return [
 		{ label: 'PDF', value: 'PDF' },
-		{ label: 'Изображение', value: 'Image' },
-		{ label: 'Документ', value: 'Document' },
-		{ label: 'Текст', value: 'Text' },
+		{ label: 'Image', value: 'Image' },
+		{ label: 'Document', value: 'Document' },
+		{ label: 'Text', value: 'Text' },
 		{ label: 'URL', value: 'URL' },
 	]
 })

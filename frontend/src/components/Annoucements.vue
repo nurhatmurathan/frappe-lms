@@ -21,12 +21,12 @@
 		</div>
 	</div>
 	<div v-else class="text-sm italic text-gray-600">
-		{{ __('Нет объявлений') }}
+		{{ __('No announcements') }}
 	</div>
 </template>
 <script setup>
+import { createResource, Avatar } from 'frappe-ui'
 import { timeAgo } from '@/utils'
-import { Avatar, createResource } from 'frappe-ui'
 
 const props = defineProps({
 	batch: {

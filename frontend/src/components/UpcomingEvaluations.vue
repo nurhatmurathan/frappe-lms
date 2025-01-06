@@ -1,16 +1,16 @@
 <template>
 	<div class="mb-10">
 		<Button v-if="isStudent" @click="openEvalModal" class="float-right">
-			{{ __('Запланировать оценку') }}
+			{{ __('Schedule Evaluation') }}
 		</Button>
-		<div class="mb-4 text-lg font-semibold">
-			{{ __('Предстоящие оценки') }}
+		<div class="text-lg font-semibold mb-4">
+			{{ __('Upcoming Evaluations') }}
 		</div>
 		<div v-if="upcoming_evals.data?.length">
 			<div class="grid grid-cols-2 gap-4">
 				<div v-for="evl in upcoming_evals.data">
-					<div class="p-3 border rounded-md">
-						<div class="mb-3 font-semibold">
+					<div class="border rounded-md p-3">
+						<div class="font-semibold mb-3">
 							{{ evl.course_title }}
 						</div>
 						<div class="flex items-center mb-2">
@@ -36,7 +36,7 @@
 			</div>
 		</div>
 		<div v-else class="text-sm italic text-gray-600">
-			{{ __('Нет предстоящих оценок.') }}
+			{{ __('No upcoming evaluations.') }}
 		</div>
 	</div>
 	<EvaluationModal
@@ -48,11 +48,11 @@
 	/>
 </template>
 <script setup>
-import EvaluationModal from '@/components/Modals/EvaluationModal.vue'
-import { Button, createResource } from 'frappe-ui'
 import { Calendar, Clock, UserCog2 } from 'lucide-vue-next'
 import { inject, ref } from 'vue'
 import { formatTime } from '../utils'
+import { Button, createResource } from 'frappe-ui'
+import EvaluationModal from '@/components/Modals/EvaluationModal.vue'
 
 const dayjs = inject('$dayjs')
 const user = inject('$user')

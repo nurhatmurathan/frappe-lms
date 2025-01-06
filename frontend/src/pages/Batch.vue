@@ -55,7 +55,7 @@
 						</div>
 					</template>
 					<template #default="{ tab }">
-						<div class="px-5 pt-5 pb-10">
+						<div class="pt-5 px-5 pb-10">
 							<div v-if="tab.label == 'Courses'">
 								<BatchCourses :batch="batch.data.name" />
 							</div>
@@ -89,12 +89,12 @@
 				</Tabs>
 			</div>
 			<div class="p-5">
-				<div class="mb-2 text-xl font-semibold">
+				<div class="text-xl font-semibold mb-2">
 					{{ batch.data.title }}
 				</div>
-				<div v-html="batch.data.description" class="mb-2 leading-5"></div>
+				<div v-html="batch.data.description" class="leading-5 mb-2"></div>
 
-				<div class="flex items-center mb-5 avatar-group overlap">
+				<div class="flex items-center avatar-group overlap mb-5">
 					<div
 						class="h-6 mr-1"
 						:class="{
@@ -135,8 +135,8 @@
 		</div>
 	</div>
 	<div v-else-if="!user.data?.name" class="">
-		<div class="w-1/3 mx-auto my-32 text-base border rounded-md">
-			<div class="px-5 py-3 font-medium border-b">
+		<div class="text-base border rounded-md w-1/3 mx-auto my-32">
+			<div class="border-b px-5 py-3 font-medium">
 				<span
 					class="inline-flex items-center before:bg-red-600 before:w-2 before:h-2 before:rounded-md before:mr-2"
 				></span>
@@ -146,7 +146,7 @@
 				<div v-if="user.data" class="mb-4 leading-6">
 					{{
 						__(
-							'You are not a member of this batch. Please checkout our upcoming batches.',
+							'You are not a member of this batch. Please checkout our upcoming batches.'
 						)
 					}}
 				</div>
@@ -180,32 +180,34 @@
 	<BulkCertificates v-model="openCertificateDialog" :batch="batch.data" />
 </template>
 <script setup>
-import Announcements from '@/components/Annoucements.vue'
-import Assessments from '@/components/Assessments.vue'
-import BatchCourses from '@/components/BatchCourses.vue'
-import BatchDashboard from '@/components/BatchDashboard.vue'
-import BatchStudents from '@/components/BatchStudents.vue'
-import DateRange from '@/components/Common/DateRange.vue'
-import CourseInstructors from '@/components/CourseInstructors.vue'
-import Discussions from '@/components/Discussions.vue'
-import LiveClass from '@/components/LiveClass.vue'
-import AnnouncementModal from '@/components/Modals/AnnouncementModal.vue'
-import BulkCertificates from '@/components/Modals/BulkCertificates.vue'
-import UserAvatar from '@/components/UserAvatar.vue'
-import { formatTime, updateDocumentTitle } from '@/utils'
-import { Badge, Breadcrumbs, Button, createResource, Tabs } from 'frappe-ui'
-import {
-	BookOpen,
-	BookOpenCheck,
-	Clock,
-	Globe,
-	Laptop,
-	LayoutDashboard,
-	Mail,
-	MessageCircle,
-	SendIcon,
-} from 'lucide-vue-next'
+import { Breadcrumbs, Button, createResource, Tabs, Badge } from 'frappe-ui'
 import { computed, inject, ref } from 'vue'
+import CourseInstructors from '@/components/CourseInstructors.vue'
+import UserAvatar from '@/components/UserAvatar.vue'
+import {
+	Clock,
+	LayoutDashboard,
+	BookOpen,
+	Laptop,
+	BookOpenCheck,
+	Contact2,
+	Mail,
+	SendIcon,
+	MessageCircle,
+	Globe,
+	ShieldCheck,
+} from 'lucide-vue-next'
+import { formatTime, updateDocumentTitle } from '@/utils'
+import BatchDashboard from '@/components/BatchDashboard.vue'
+import BatchCourses from '@/components/BatchCourses.vue'
+import LiveClass from '@/components/LiveClass.vue'
+import BatchStudents from '@/components/BatchStudents.vue'
+import Assessments from '@/components/Assessments.vue'
+import Announcements from '@/components/Annoucements.vue'
+import AnnouncementModal from '@/components/Modals/AnnouncementModal.vue'
+import Discussions from '@/components/Discussions.vue'
+import DateRange from '@/components/Common/DateRange.vue'
+import BulkCertificates from '@/components/Modals/BulkCertificates.vue'
 
 const user = inject('$user')
 const showAnnouncementModal = ref(false)

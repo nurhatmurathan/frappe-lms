@@ -8,7 +8,7 @@
 		<template #body>
 			<div class="flex text-base">
 				<div class="flex flex-col w-1/2 p-5">
-					<div class="mb-4 text-lg font-semibold">
+					<div class="text-lg font-semibold mb-4">
 						{{ event.title }}
 					</div>
 
@@ -55,7 +55,7 @@
 							</div>
 						</Tooltip>
 					</div>
-					<div class="flex items-center mt-auto space-x-2">
+					<div class="flex items-center space-x-2 mt-auto">
 						<Button
 							v-if="certificate.name"
 							@click="openCertificate(certificate)"
@@ -76,11 +76,11 @@
 						</Button>
 					</div>
 				</div>
-				<Tabs :tabs="tabs" v-model="tabIndex" class="w-1/2 border-l">
+				<Tabs :tabs="tabs" v-model="tabIndex" class="border-l w-1/2">
 					<template #default="{ tab }">
 						<div
 							v-if="tab.label == 'Evaluation'"
-							class="flex flex-col p-5 space-y-4"
+							class="flex flex-col space-y-4 p-5"
 						>
 							<div class="flex items-center justify-between">
 								<Rating v-model="evaluation.rating" :label="__('Rating')" />
@@ -101,7 +101,7 @@
 								{{ __('Save') }}
 							</Button>
 						</div>
-						<div v-else class="flex flex-col p-5 space-y-4">
+						<div v-else class="flex flex-col space-y-4 p-5">
 							<FormControl
 								type="checkbox"
 								v-model="certificate.published"
@@ -254,7 +254,7 @@ const saveEvaluation = () => {
 				}
 				showToast(__('Success'), __('Evaluation saved successfully'), 'check')
 			},
-		},
+		}
 	)
 }
 
@@ -309,7 +309,7 @@ const saveCertificate = () => {
 			onSuccess: () => {
 				showToast(__('Success'), __('Certificate saved successfully'), 'check')
 			},
-		},
+		}
 	)
 }
 
@@ -333,7 +333,7 @@ const openCertificate = (certificate) => {
 	window.open(
 		`/api/method/frappe.utils.print_format.download_pdf?doctype=LMS+Certificate&name=${
 			certificate.name
-		}&format=${encodeURIComponent(certificate.template)}`,
+		}&format=${encodeURIComponent(certificate.template)}`
 	)
 }
 

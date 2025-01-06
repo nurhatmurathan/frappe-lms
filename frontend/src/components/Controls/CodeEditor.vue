@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="flex flex-col gap-1 editor"
+		class="editor flex flex-col gap-1"
 		:style="{
 			height: height,
 		}"
@@ -22,7 +22,7 @@
 			@click="emit('save', aceEditor?.getValue())"
 			class="mt-3"
 		>
-			{{ 'Сохранить' }}
+			{{ __('Save') }}
 		</Button>
 	</div>
 </template>
@@ -32,8 +32,8 @@ import ace from 'ace-builds'
 import 'ace-builds/src-min-noconflict/ext-searchbox'
 import 'ace-builds/src-min-noconflict/theme-chrome'
 import 'ace-builds/src-min-noconflict/theme-twilight'
-import { Button } from 'frappe-ui'
 import { PropType, onMounted, ref, watch } from 'vue'
+import { Button } from 'frappe-ui'
 
 const isDark = useDark({
 	attribute: 'data-theme',
@@ -163,14 +163,14 @@ watch(
 	() => props.type,
 	() => {
 		setupEditor()
-	},
+	}
 )
 
 watch(
 	() => props.modelValue,
 	() => {
 		resetEditor(props.modelValue as string)
-	},
+	}
 )
 
 defineExpose({ resetEditor })

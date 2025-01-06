@@ -15,11 +15,11 @@
 				<template #prefix>
 					<Plus class="w-4 h-4" />
 				</template>
-				{{ __('Новый тест') }}
+				{{ __('New Quiz') }}
 			</Button>
 		</router-link>
 	</header>
-	<div v-if="quizzes.data?.length" class="py-5 mx-5 md:w-3/4 md:mx-auto">
+	<div v-if="quizzes.data?.length" class="md:w-3/4 md:mx-auto py-5 mx-5">
 		<ListView
 			:columns="quizColumns"
 			:rows="quizzes.data"
@@ -27,7 +27,7 @@
 			:options="{ showTooltip: false, selectable: false }"
 		>
 			<ListHeader
-				class="grid items-center p-2 mb-2 space-x-4 bg-gray-100 rounded"
+				class="mb-2 grid items-center space-x-4 rounded bg-gray-100 p-2"
 			>
 				<ListHeaderItem :item="item" v-for="item in quizColumns">
 				</ListHeaderItem>
@@ -48,42 +48,42 @@
 		</ListView>
 		<div class="flex justify-center my-5">
 			<Button v-if="quizzes.hasNextPage" @click="quizzes.next()">
-				{{ __('Загрузить еще') }}
+				{{ __('Load More') }}
 			</Button>
 		</div>
 	</div>
 	<div
 		v-else
-		class="w-3/4 p-5 mx-auto space-y-2 text-center text-gray-600 mt-52 md:w-1/2"
+		class="text-center p-5 text-gray-600 mt-52 w-3/4 md:w-1/2 mx-auto space-y-2"
 	>
-		<BookOpen class="mx-auto text-gray-500 stroke-1 size-10" />
+		<BookOpen class="size-10 mx-auto stroke-1 text-gray-500" />
 		<div class="text-xl font-medium">
-			{{ __('Тесты не найдены') }}
+			{{ __('No quizzes found') }}
 		</div>
 		<div class="leading-5">
 			{{
 				__(
-					'Вы еще не создали ни одного теста. Чтобы создать новый тест, нажмите кнопку "Новый тест" выше.',
+					'You have not created any quizzes yet. To create a new quiz, click on the "New Quiz" button above.'
 				)
 			}}
 		</div>
 	</div>
 </template>
 <script setup>
-import { updateDocumentTitle } from '@/utils'
 import {
 	Breadcrumbs,
 	Button,
 	createListResource,
+	ListView,
+	ListRows,
+	ListRow,
 	ListHeader,
 	ListHeaderItem,
-	ListRow,
-	ListRows,
-	ListView,
 } from 'frappe-ui'
-import { BookOpen, Plus } from 'lucide-vue-next'
-import { computed, inject, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { computed, inject, onMounted } from 'vue'
+import { BookOpen, Plus } from 'lucide-vue-next'
+import { updateDocumentTitle } from '@/utils'
 
 const user = inject('$user')
 const router = useRouter()
@@ -113,18 +113,18 @@ const quizzes = createListResource({
 const quizColumns = computed(() => {
 	return [
 		{
-			label: __('Название'),
+			label: __('Title'),
 			key: 'title',
 			width: 2,
 		},
 		{
-			label: __('Общая оценка'),
+			label: __('Total Marks'),
 			key: 'total_marks',
 			width: 1,
 			align: 'center',
 		},
 		{
-			label: __('Проходной процент'),
+			label: __('Passing Percentage'),
 			key: 'passing_percentage',
 			width: 1,
 			align: 'center',
@@ -135,7 +135,7 @@ const quizColumns = computed(() => {
 const breadcrumbs = computed(() => {
 	return [
 		{
-			label: __('Тесты'),
+			label: __('Quizzes'),
 			route: {
 				name: 'Quizzes',
 			},
@@ -145,8 +145,8 @@ const breadcrumbs = computed(() => {
 
 const pageMeta = computed(() => {
 	return {
-		title: __('Тесты'),
-		description: __('Список тестов'),
+		title: __('Quizzes'),
+		description: __('List of quizzes'),
 	}
 })
 

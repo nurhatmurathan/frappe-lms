@@ -5,15 +5,15 @@
 		</template>
 		<template #body>
 			<div
-				class="absolute max-w-lg px-4 mt-3 transform -translate-x-1/2 bg-white rounded-lg left-1/2 w-96 sm:px-0 lg:max-w-3xl"
+				class="absolute left-1/2 mt-3 w-96 max-w-lg -translate-x-1/2 transform rounded-lg bg-white px-4 sm:px-0 lg:max-w-3xl"
 			>
 				<div
-					class="p-3 overflow-hidden rounded-lg shadow-2xl ring-1 ring-black ring-opacity-5"
+					class="overflow-hidden rounded-lg p-3 shadow-2xl ring-1 ring-black ring-opacity-5"
 				>
 					<div class="flex items-center justify-center space-x-2">
 						<TextInput
 							type="text"
-							placeholder="поиск по ключевому слову"
+							placeholder="search by keyword"
 							v-model="search"
 							:debounce="300"
 							class="flex-1"
@@ -28,11 +28,7 @@
 							>
 								<div class="">
 									<Button @click="openFileSelector" :loading="uploading">
-										{{
-											uploading
-												? `Загрузка ${progress}%`
-												: 'Загрузить изображение'
-										}}
+										{{ uploading ? `Uploading ${progress}%` : 'Upload Image' }}
 									</Button>
 								</div>
 							</template>
@@ -57,9 +53,9 @@
 					</div>
 					<div
 						v-if="images.data"
-						class="mt-2 text-sm text-center text-gray-500"
+						class="mt-2 text-center text-sm text-gray-500"
 					>
-						{{ __('Поиск изображений предоставлен') }}
+						{{ __('Image search powered by') }}
 						<a class="underline" target="_blank" href="https://unsplash.com">
 							{{ __('Unsplash') }}
 						</a>
@@ -71,11 +67,11 @@
 </template>
 <script setup>
 import {
-	Button,
-	createResource,
-	FileUploader,
 	Popover,
 	TextInput,
+	FileUploader,
+	Button,
+	createResource,
 } from 'frappe-ui'
 import { ref, watch } from 'vue'
 
@@ -97,7 +93,7 @@ watch(
 	() => search.value,
 	() => {
 		images.reload()
-	},
+	}
 )
 
 const saveImage = (file) => {
@@ -107,7 +103,7 @@ const saveImage = (file) => {
 const validateFile = (file) => {
 	let extension = file.name.split('.').pop().toLowerCase()
 	if (!['jpg', 'jpeg', 'png'].includes(extension)) {
-		return 'Разрешены только файлы изображений.'
+		return 'Only image file is allowed.'
 	}
 }
 </script>

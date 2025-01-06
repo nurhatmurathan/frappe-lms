@@ -1,12 +1,12 @@
 <template>
-	<div class="mb-20 mt-7">
+	<div class="mt-7 mb-20">
 		<h2 class="mb-4 text-lg font-semibold text-gray-900">
 			{{ __('My availability') }}
 		</h2>
 
 		<div class="">
 			<div
-				class="grid grid-cols-3 gap-4 mb-4 text-sm text-gray-700 md:grid-cols-4"
+				class="grid grid-cols-3 md:grid-cols-4 gap-4 text-sm text-gray-700 mb-4"
 			>
 				<div>
 					{{ __('Day') }}
@@ -22,7 +22,7 @@
 			<div
 				v-if="evaluator.data"
 				v-for="slot in evaluator.data.slots.schedule"
-				class="grid grid-cols-3 gap-4 mb-4 md:grid-cols-4 group"
+				class="grid grid-cols-3 md:grid-cols-4 gap-4 mb-4 group"
 			>
 				<FormControl
 					type="select"
@@ -47,7 +47,7 @@
 			</div>
 
 			<div
-				class="grid grid-cols-3 gap-4 mb-4 md:grid-cols-4"
+				class="grid grid-cols-3 md:grid-cols-4 gap-4 mb-4"
 				v-show="showSlotsTemplate"
 			>
 				<FormControl
@@ -79,7 +79,7 @@
 			<h2 class="mb-4 text-lg font-semibold text-gray-900">
 				{{ __('I am unavailable') }}
 			</h2>
-			<div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+			<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
 				<FormControl
 					type="date"
 					:label="__('From')"
@@ -114,7 +114,7 @@
 			</h2>
 			<div
 				v-if="evaluator.data?.calendar && evaluator.data?.is_authorized"
-				class="flex items-center p-1 mb-4 text-sm text-green-900 bg-green-100 rounded-md w-fit"
+				class="flex items-center bg-green-100 text-green-900 text-sm p-1 rounded-md mb-4 w-fit"
 			>
 				<Check class="h-4 w-4 stroke-1.5 mr-2" />
 				{{ __('Your calendar is set.') }}
@@ -126,10 +126,10 @@
 	</div>
 </template>
 <script setup>
-import { convertToTitleCase, showToast } from '@/utils'
-import { Button, createResource, FormControl } from 'frappe-ui'
-import { Check, Plus, X } from 'lucide-vue-next'
-import { computed, inject, onMounted, reactive, ref } from 'vue'
+import { createResource, FormControl, Button } from 'frappe-ui'
+import { computed, reactive, ref, onMounted, inject } from 'vue'
+import { showToast, convertToTitleCase } from '@/utils'
+import { Plus, X, Check } from 'lucide-vue-next'
 
 const user = inject('$user')
 
@@ -260,7 +260,7 @@ const update = (name, field, value) => {
 					return `Please enter a value for ${convertToTitleCase(field)}`
 				}
 			},
-		},
+		}
 	)
 }
 

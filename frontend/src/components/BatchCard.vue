@@ -1,9 +1,9 @@
 <template>
 	<div
-		class="flex flex-col h-full p-4 rounded-md shadow hover:bg-gray-100"
+		class="flex flex-col shadow hover:bg-gray-100 rounded-md p-4 h-full"
 		style="min-height: 150px"
 	>
-		<div class="mb-2 text-lg font-semibold leading-5">
+		<div class="text-lg leading-5 font-semibold mb-2">
 			{{ batch.title }}
 		</div>
 		<Badge
@@ -12,23 +12,23 @@
 			class="self-start mb-2"
 		>
 			{{ batch.seats_left }}
-			<span v-if="batch.seats_left > 1">{{ __('Осталось мест') }}</span
-			><span v-else-if="batch.seats_left == 1">{{ __('Осталось место') }}</span>
+			<span v-if="batch.seats_left > 1">{{ __('Seats Left') }}</span
+			><span v-else-if="batch.seats_left == 1">{{ __('Seat Left') }}</span>
 		</Badge>
 		<Badge
 			v-else-if="batch.seat_count && batch.seats_left <= 0"
 			theme="red"
 			class="self-start mb-2"
 		>
-			{{ __('Продано') }}
+			{{ __('Sold Out') }}
 		</Badge>
-		<div class="text-sm text-gray-700 short-introduction">
+		<div class="short-introduction text-sm text-gray-700">
 			{{ batch.description }}
 		</div>
-		<div v-if="batch.amount" class="mb-4 font-semibold">
+		<div v-if="batch.amount" class="font-semibold mb-4">
 			{{ batch.price }}
 		</div>
-		<div class="flex flex-col mt-auto space-y-2">
+		<div class="flex flex-col space-y-2 mt-auto">
 			<DateRange
 				:startDate="batch.start_date"
 				:endDate="batch.end_date"
@@ -52,7 +52,7 @@
 		</div>
 		<div
 			v-if="batch.instructors?.length"
-			class="flex mt-4 avatar-group overlap"
+			class="flex avatar-group overlap mt-4"
 		>
 			<div
 				class="h-6 mr-1"
@@ -68,12 +68,12 @@
 	</div>
 </template>
 <script setup>
+import { Badge } from 'frappe-ui'
+import { formatTime } from '../utils'
+import { Clock, BookOpen, Globe } from 'lucide-vue-next'
 import DateRange from '@/components/Common/DateRange.vue'
 import CourseInstructors from '@/components/CourseInstructors.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
-import { Badge } from 'frappe-ui'
-import { Clock, Globe } from 'lucide-vue-next'
-import { formatTime } from '../utils'
 
 const props = defineProps({
 	batch: {

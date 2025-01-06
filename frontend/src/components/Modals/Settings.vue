@@ -2,9 +2,9 @@
 	<Dialog v-model="show" :options="{ size: '4xl' }">
 		<template #body>
 			<div class="flex h-[calc(100vh_-_8rem)]">
-				<div class="flex flex-col p-2 w-52 shrink-0 bg-gray-50">
-					<h1 class="px-2 pt-2 mb-3 text-lg font-semibold">
-						{{ __('Настройки') }}
+				<div class="flex w-52 shrink-0 flex-col bg-gray-50 p-2">
+					<h1 class="mb-3 px-2 pt-2 text-lg font-semibold">
+						{{ __('Settings') }}
 					</h1>
 					<div v-for="tab in tabs" :key="tab.label">
 						<div
@@ -32,28 +32,28 @@
 				<div
 					v-if="activeTab && data.doc"
 					:key="activeTab.label"
-					class="flex flex-col flex-1 px-10 py-8"
+					class="flex flex-1 flex-col px-10 py-8"
 				>
 					<Members
-						v-if="activeTab.label === 'Участники'"
+						v-if="activeTab.label === 'Members'"
 						:label="activeTab.label"
 						:description="activeTab.description"
 						v-model:show="show"
 					/>
 					<Categories
-						v-else-if="activeTab.label === 'Категории'"
+						v-else-if="activeTab.label === 'Categories'"
 						:label="activeTab.label"
 						:description="activeTab.description"
 					/>
 					<PaymentSettings
-						v-else-if="activeTab.label === 'Платежный шлюз'"
+						v-else-if="activeTab.label === 'Payment Gateway'"
 						:label="activeTab.label"
 						:description="activeTab.description"
 						:data="data"
 						:fields="activeTab.fields"
 					/>
 					<BrandSettings
-						v-else-if="activeTab.label === 'Брендинг'"
+						v-else-if="activeTab.label === 'Branding'"
 						:label="activeTab.label"
 						:description="activeTab.description"
 						:fields="activeTab.fields"
@@ -104,32 +104,32 @@ const branding = createResource({
 const tabsStructure = computed(() => {
 	return [
 		{
-			label: 'Настройки',
+			label: 'Settings',
 			hideLabel: true,
 			items: [
 				{
-					label: 'Общие',
+					label: 'General',
 					icon: 'Wrench',
 					fields: [
 						{
-							label: 'Включить учебные пути',
+							label: 'Enable Learning Paths',
 							name: 'enable_learning_paths',
 							description:
-								'Это заставит студентов проходить назначенные им программы в правильном порядке.',
+								'This will enforce students to go through programs assigned to them in the correct order.',
 							type: 'checkbox',
 						},
 						{
-							label: 'Отправлять приглашение в календарь для оценок',
+							label: 'Send calendar invite for evaluations',
 							name: 'send_calendar_invite_for_evaluations',
 							description:
-								'Если включено, отправляет приглашение в Google Календарь студенту для оценок.',
+								'If enabled, it sends google calendar invite to the student for evaluations.',
 							type: 'checkbox',
 						},
 						{
-							label: 'Ключ доступа Unsplash',
+							label: 'Unsplash Access Key',
 							name: 'unsplash_access_key',
 							description:
-								'Необязательно. Если это установлено, студенты могут выбрать обложку из библиотеки Unsplash для своей страницы профиля. https://unsplash.com/documentation#getting-started.',
+								'Optional. If this is set, students can pick a cover image from the unsplash library for their profile page. https://unsplash.com/documentation#getting-started.',
 							type: 'text',
 						},
 					],
@@ -137,39 +137,39 @@ const tabsStructure = computed(() => {
 			],
 		},
 		{
-			label: 'Настройки',
+			label: 'Settings',
 			hideLabel: true,
 			items: [
 				{
-					label: 'Платежный шлюз',
+					label: 'Payment Gateway',
 					icon: 'DollarSign',
 					description:
-						'Настройте платежный шлюз и другие параметры, связанные с платежами',
+						'Configure the payment gateway and other payment related settings',
 					fields: [
 						{
-							label: 'Платежный шлюз',
+							label: 'Payment Gateway',
 							name: 'payment_gateway',
 							type: 'Link',
 							doctype: 'Payment Gateway',
 						},
 						{
-							label: 'Валюта по умолчанию',
+							label: 'Default Currency',
 							name: 'default_currency',
 							type: 'Link',
 							doctype: 'Currency',
 						},
 						{
-							label: 'Применить НДС для Индии',
+							label: 'Apply GST for India',
 							name: 'apply_gst',
 							type: 'checkbox',
 						},
 						{
-							label: 'Показать эквивалентную сумму в долларах США',
+							label: 'Show USD equivalent amount',
 							name: 'show_usd_equivalent',
 							type: 'checkbox',
 						},
 						{
-							label: 'Применить округление на эквивалент',
+							label: 'Apply rounding on equivalent',
 							name: 'apply_rounding',
 							type: 'checkbox',
 						},
@@ -178,86 +178,85 @@ const tabsStructure = computed(() => {
 			],
 		},
 		{
-			label: 'Списки',
+			label: 'Lists',
 			hideLabel: false,
 			items: [
 				{
-					label: 'Участники',
-					description: 'Управление участниками вашей системы обучения',
+					label: 'Members',
+					description: 'Manage the members of your learning system',
 					icon: 'UserRoundPlus',
 				},
 				{
-					label: 'Категории',
-					description: 'Управление категориями вашей системы обучения',
+					label: 'Categories',
+					description: 'Manage the members of your learning system',
 					icon: 'Network',
 				},
 			],
 		},
 		{
-			label: 'Настроить',
+			label: 'Customise',
 			hideLabel: false,
 			items: [
 				{
-					label: 'Брендинг',
+					label: 'Branding',
 					icon: 'Blocks',
 					fields: [
 						{
-							label: 'Название бренда',
+							label: 'Brand Name',
 							name: 'app_name',
 							type: 'text',
 						},
 						{
-							label: 'Логотип',
+							label: 'Logo',
 							name: 'banner_image',
 							type: 'Upload',
 						},
 						{
-							label: 'Фавикон',
+							label: 'Favicon',
 							name: 'favicon',
 							type: 'Upload',
 						},
 						{
-							label: 'Логотип в подвале',
+							label: 'Footer Logo',
 							name: 'footer_logo',
 							type: 'Upload',
 						},
 						{
-							label: 'Адрес',
+							label: 'Address',
 							name: 'address',
 							type: 'textarea',
 							rows: 2,
 						},
 						{
-							label: 'Подвал "Powered By"',
+							label: 'Footer "Powered By"',
 							name: 'footer_powered',
 							type: 'textarea',
 							rows: 4,
 						},
 						{
-							label: 'Авторские права',
+							label: 'Copyright',
 							name: 'copyright',
 							type: 'text',
 						},
 					],
 				},
 				{
-					label: 'Боковая панель',
+					label: 'Sidebar',
 					icon: 'PanelLeftIcon',
-					description:
-						'Выберите элементы, которые вы хотите показать на боковой панели',
+					description: 'Choose the items you want to show in the sidebar',
 					fields: [
 						{
-							label: 'Курсы',
+							label: 'Courses',
 							name: 'courses',
 							type: 'checkbox',
 						},
 						{
-							label: 'Партии',
+							label: 'Batches',
 							name: 'batches',
 							type: 'checkbox',
 						},
 						{
-							label: 'Сертифицированные участники',
+							label: 'Certified Participants',
 							name: 'certified_participants',
 							type: 'checkbox',
 						},
@@ -265,40 +264,40 @@ const tabsStructure = computed(() => {
 							type: 'Column Break',
 						},
 						{
-							label: 'Работы',
+							label: 'Jobs',
 							name: 'jobs',
 							type: 'checkbox',
 						},
 						{
-							label: 'Статистика',
+							label: 'Statistics',
 							name: 'statistics',
 							type: 'checkbox',
 						},
 						{
-							label: 'Уведомления',
+							label: 'Notifications',
 							name: 'notifications',
 							type: 'checkbox',
 						},
 					],
 				},
 				{
-					label: 'Шаблоны электронной почты',
+					label: 'Email Templates',
 					icon: 'MailPlus',
 					fields: [
 						{
-							label: 'Шаблон подтверждения партии',
+							label: 'Batch Confirmation Template',
 							name: 'batch_confirmation_template',
 							doctype: 'Email Template',
 							type: 'Link',
 						},
 						{
-							label: 'Шаблон сертификации',
+							label: 'Certification Template',
 							name: 'certification_template',
 							doctype: 'Email Template',
 							type: 'Link',
 						},
 						{
-							label: 'Шаблон отправки задания',
+							label: 'Assignment Submission Template',
 							name: 'assignment_submission_template',
 							doctype: 'Email Template',
 							type: 'Link',
@@ -306,22 +305,22 @@ const tabsStructure = computed(() => {
 					],
 				},
 				{
-					label: 'Регистрация',
+					label: 'Signup',
 					icon: 'LogIn',
 					fields: [
 						{
-							label: 'Пользовательский контент',
+							label: 'Custom Content',
 							name: 'custom_signup_content',
 							type: 'Code',
 							mode: 'htmlmixed',
 							rows: 10,
 						},
 						{
-							label: 'Спросить о профессии',
+							label: 'Ask for Occupation',
 							name: 'user_category',
 							type: 'checkbox',
 							description:
-								'Включите эту опцию, чтобы попросить пользователей выбрать свою профессию во время процесса регистрации.',
+								'Enable this option to ask users to select their occupation during the signup process.',
 						},
 					],
 				},

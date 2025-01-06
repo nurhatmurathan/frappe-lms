@@ -2,11 +2,11 @@
 	<Dialog
 		v-model="show"
 		:options="{
-			title: __('Запланировать оценку'),
+			title: __('Schedule Evaluation'),
 			size: 'xl',
 			actions: [
 				{
-					label: __('Отправить'),
+					label: __('Submit'),
 					variant: 'solid',
 					onClick: (close) => submitEvaluation(close),
 				},
@@ -17,24 +17,24 @@
 			<div class="flex flex-col gap-4">
 				<div>
 					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Курс') }}
+						{{ __('Course') }}
 					</div>
 					<Select v-model="evaluation.course" :options="getCourses()" />
 				</div>
 				<div>
 					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Дата') }}
+						{{ __('Date') }}
 					</div>
 					<FormControl type="date" v-model="evaluation.date" />
 				</div>
 				<div v-if="slots.data?.length">
 					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Выберите слот') }}
+						{{ __('Select a slot') }}
 					</div>
 					<div class="grid grid-cols-2 gap-2">
 						<div v-for="slot in slots.data">
 							<div
-								class="p-2 text-base text-center bg-gray-200 border rounded-md cursor-pointer"
+								class="text-base text-center border rounded-md bg-gray-200 p-2 cursor-pointer"
 								@click="saveSlot(slot)"
 								:class="{
 									'border-gray-900': evaluation.start_time == slot.start_time,
@@ -50,7 +50,7 @@
 					v-else-if="evaluation.course && evaluation.date"
 					class="text-sm italic text-red-600"
 				>
-					{{ __('Нет доступных слотов на эту дату.') }}
+					{{ __('No slots available for this date.') }}
 				</div>
 			</div>
 		</template>
@@ -108,20 +108,20 @@ function submitEvaluation(close) {
 	createEvaluation.submit(evaluation, {
 		validate() {
 			if (!evaluation.course) {
-				return 'Пожалуйста, выберите курс.'
+				return 'Please select a course.'
 			}
 			if (!evaluation.date) {
-				return 'Пожалуйста, выберите дату.'
+				return 'Please select a date.'
 			}
 			if (!evaluation.start_time) {
-				return 'Пожалуйста, выберите слот.'
+				return 'Please select a slot.'
 			}
 			if (dayjs(evaluation.date).isBefore(dayjs(), 'day')) {
-				return 'Пожалуйста, выберите будущую дату.'
+				return 'Please select a future date.'
 			}
 			if (dayjs(evaluation.date).isAfter(dayjs(props.endDate), 'day')) {
-				return `Пожалуйста, выберите дату до даты окончания ${dayjs(
-					props.endDate,
+				return `Please select a date before the end date ${dayjs(
+					props.endDate
 				).format('DD MMMM YYYY')}.`
 			}
 		},
@@ -140,7 +140,7 @@ function submitEvaluation(close) {
 			}
 
 			createToast({
-				title: unavailabilityMessage ? __('Оценщик недоступен') : '',
+				title: unavailabilityMessage ? __('Evaluator is Unavailable') : '',
 				text: message,
 				icon: unavailabilityMessage ? 'alert-circle' : 'x',
 				iconClasses: 'bg-yellow-600 text-white rounded-md p-px',
@@ -182,7 +182,7 @@ watch(
 		if (date && evaluation.course) {
 			slots.submit(evaluation)
 		}
-	},
+	}
 )
 
 watch(
@@ -191,7 +191,7 @@ watch(
 		evaluation.date = ''
 		evaluation.start_time = ''
 		slots.reset()
-	},
+	}
 )
 
 const saveSlot = (slot) => {

@@ -2,11 +2,11 @@
 	<Dialog
 		v-model="show"
 		:options="{
-			title: __('Написать отзыв'),
+			title: __('Write a Review'),
 			size: 'xl',
 			actions: [
 				{
-					label: 'Отправить',
+					label: 'Submit',
 					variant: 'solid',
 					onClick: (close) => submitReview(close),
 				},
@@ -17,13 +17,13 @@
 			<div class="flex flex-col gap-4">
 				<div>
 					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Рейтинг') }}
+						{{ __('Rating') }}
 					</div>
 					<Rating v-model="review.rating" />
 				</div>
 				<div>
 					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Отзыв') }}
+						{{ __('Review') }}
 					</div>
 					<Textarea type="text" size="md" rows="5" v-model="review.review" />
 				</div>
@@ -70,7 +70,7 @@ function submitReview(close) {
 	createReview.submit(review, {
 		validate() {
 			if (!review.rating) {
-				return 'Пожалуйста, введите рейтинг.'
+				return 'Please enter a rating.'
 			}
 		},
 		onSuccess() {

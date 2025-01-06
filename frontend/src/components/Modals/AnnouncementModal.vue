@@ -2,11 +2,11 @@
 	<Dialog
 		v-model="show"
 		:options="{
-			title: __('Сделать объявление'),
+			title: __('Make an Announcement'),
 			size: 'xl',
 			actions: [
 				{
-					label: 'Отправить',
+					label: 'Submit',
 					variant: 'solid',
 					onClick: (close) => makeAnnouncement(close),
 				},
@@ -17,20 +17,20 @@
 			<div class="flex flex-col gap-4">
 				<div class="">
 					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Тема') }}
+						{{ __('Subject') }}
 						<span class="text-red-500">*</span>
 					</div>
 					<Input type="text" v-model="announcement.subject" />
 				</div>
 				<div class="">
 					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Ответить на') }}
+						{{ __('Reply To') }}
 					</div>
 					<Input type="text" v-model="announcement.replyTo" />
 				</div>
 				<div class="mb-4">
 					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Объявление') }}
+						{{ __('Announcement') }}
 					</div>
 					<TextEditor
 						:bubbleMenu="true"
@@ -87,20 +87,24 @@ const makeAnnouncement = (close) => {
 		{
 			validate() {
 				if (!props.students.length) {
-					return 'В этой группе нет студентов'
+					return 'No students in this batch'
 				}
 				if (!announcement.subject) {
-					return 'Тема обязательна'
+					return 'Subject is required'
 				}
 			},
 			onSuccess() {
 				close()
-				showToast(__('Успех'), __('Объявление успешно отправлено'), 'check')
+				showToast(
+					__('Success'),
+					__('Announcement has been sent successfully'),
+					'check'
+				)
 			},
 			onError(err) {
-				showToast(__('Ошибка'), __(err.messages?.[0] || err), 'check')
+				showToast(__('Error'), __(err.messages?.[0] || err), 'check')
 			},
-		},
+		}
 	)
 }
 </script>

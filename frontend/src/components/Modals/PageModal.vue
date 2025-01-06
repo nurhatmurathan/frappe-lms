@@ -68,7 +68,7 @@ watch(
 			page.webpage = newPage.web_page
 		}
 	},
-	{ immediate: true },
+	{ immediate: true }
 )
 
 const addWebPage = (close) => {
@@ -84,7 +84,7 @@ const addWebPage = (close) => {
 				showToast('Error', err.message[0] || err, 'x')
 				close()
 			},
-		},
+		}
 	)
 }
 </script>

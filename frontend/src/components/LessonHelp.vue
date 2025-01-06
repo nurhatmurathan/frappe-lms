@@ -1,15 +1,15 @@
 <template>
 	<div class="space-y-5">
 		<div class="space-y-2">
-			<div class="flex items-center space-x-2 text-sm font-medium">
+			<div class="flex items-center text-sm font-medium space-x-2">
 				<span>
-					{{ __('Что означает включение в предварительный просмотр?') }}
+					{{ __('What does include in preview mean?') }}
 				</span>
 			</div>
-			<div class="mb-1 text-xs leading-5 text-gray-600">
+			<div class="text-xs text-gray-600 mb-1 leading-5">
 				{{
 					__(
-						'Если для урока включена опция "Включить в предварительный просмотр", то урок будет доступен и для незарегистрированных пользователей.',
+						'If Include in Preview is enabled for a lesson then the lesson will also be accessible to non logged in users.'
 					)
 				}}
 			</div>
@@ -17,18 +17,18 @@
 
 		<div class="space-y-2">
 			<div
-				class="flex items-center space-x-2 text-sm font-medium cursor-pointer"
+				class="flex items-center text-sm font-medium space-x-2 cursor-pointer"
 				@click="openHelpDialog('quiz')"
 			>
 				<span>
-					{{ __('Как добавить викторину?') }}
+					{{ __('How to add a Quiz?') }}
 				</span>
 				<Info class="w-3 h-3 text-gray-700" />
 			</div>
-			<div class="mb-1 text-xs leading-5 text-gray-600">
+			<div class="text-xs text-gray-600 mb-1 leading-5">
 				{{
 					__(
-						'Нажмите на значок добавления в редакторе и выберите "Викторина" из меню. Откроется диалоговое окно, где вы можете выбрать викторину из списка или создать новую. При выборе опции "Создать новую" вы будете перенаправлены на страницу создания викторины.',
+						'Click on the add icon in the editor and select Quiz from the menu. It opens up a dialog, where you can either select a quiz from the list or create a new quiz. When you select the Create New option it redirects you to the quiz creation page.'
 					)
 				}}
 			</div>
@@ -36,7 +36,7 @@
 
 		<div class="space-y-2">
 			<div
-				class="flex space-x-2 text-sm font-medium cursor-pointer"
+				class="flex text-sm font-medium space-x-2 cursor-pointer"
 				@click="openHelpDialog('upload')"
 			>
 				<span class="leading-5">
@@ -44,10 +44,10 @@
 				</span>
 				<Info class="w-3 h-3 text-gray-700" />
 			</div>
-			<div class="mb-1 text-xs leading-5 text-gray-600">
+			<div class="text-xs text-gray-600 mb-1 leading-5">
 				{{
 					__(
-						'Чтобы загрузить изображение, видео, аудио или PDF с вашего компьютера, нажмите на значок добавления и выберите "Загрузить" из меню. Затем выберите файл, который хотите добавить к уроку, и он будет добавлен.',
+						'To upload Image, Video, Audio or PDF from your system, click on the add icon and select upload from the menu. Then choose the file you want to add to the lesson and it gets added to your lesson.'
 					)
 				}}
 			</div>
@@ -55,7 +55,7 @@
 
 		<div class="space-y-2">
 			<div
-				class="flex items-center space-x-2 text-sm font-medium cursor-pointer"
+				class="flex items-center text-sm font-medium space-x-2 cursor-pointer"
 				@click="openHelpDialog('youtube')"
 			>
 				<span>
@@ -63,25 +63,29 @@
 				</span>
 				<Info class="w-3 h-3 text-gray-700" />
 			</div>
-			<div class="mb-1 text-xs leading-5 text-gray-600">
-				{{ __('Скопируйте URL видео с YouTube и вставьте его в редактор.') }}
+			<div class="text-xs text-gray-600 mb-1 leading-5">
+				{{
+					__(
+						'Copy the URL of the video from YouTube and paste it in the editor.'
+					)
+				}}
 			</div>
 		</div>
 	</div>
 	<ExplanationVideos v-model="showExplanation" :title="title" :type="type" />
 </template>
 <script setup>
-import ExplanationVideos from '@/components/Modals/ExplanationVideos.vue'
 import { Info } from 'lucide-vue-next'
 import { ref } from 'vue'
+import ExplanationVideos from '@/components/Modals/ExplanationVideos.vue'
 
 const showExplanation = ref(false)
 const type = ref(null)
 const title = ref(null)
 const contentMap = {
-	quiz: 'Как добавить викторину?',
-	upload: 'Как загрузить контент с вашего компьютера?',
-	youtube: 'Как добавить видео с YouTube?',
+	quiz: 'How to add a Quiz?',
+	upload: 'How to upload content from your system?',
+	youtube: 'How to add a YouTube Video?',
 }
 
 const openHelpDialog = (contentType) => {

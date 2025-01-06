@@ -5,16 +5,16 @@
 		:class="{ 'border rounded-lg': !showTitle }"
 	>
 		<div class="border-r p-5 overflow-y-auto h-[calc(100vh-3.2rem)]">
-			<div v-if="showTitle" class="mb-5 text-lg font-semibold">
+			<div v-if="showTitle" class="text-lg font-semibold mb-5">
 				<div v-if="submissionName === 'new'">
-					{{ __('Отправлено') }} {{ user.data?.full_name }}
+					{{ __('Submission by') }} {{ user.data?.full_name }}
 				</div>
 				<div v-else>
-					{{ __('Отправлено') }} {{ submissionResource.doc?.member_name }}
+					{{ __('Submission by') }} {{ submissionResource.doc?.member_name }}
 				</div>
 			</div>
-			<div class="mb-2 text-sm font-medium text-gray-600">
-				{{ __('Вопрос') }}:
+			<div class="text-sm text-gray-600 font-medium mb-2">
+				{{ __('Question') }}:
 			</div>
 			<div
 				v-html="assignment.data.question"
@@ -26,11 +26,11 @@
 			<div class="p-5">
 				<div class="flex items-center justify-between mb-4">
 					<div class="font-semibold">
-						{{ __('Отправка') }}
+						{{ __('Submission') }}
 					</div>
 					<div class="flex items-center space-x-2">
 						<Badge v-if="isDirty" theme="orange">
-							{{ __('Не сохранено') }}
+							{{ __('Not Saved') }}
 						</Badge>
 						<Badge
 							v-else-if="submissionResource.doc?.status"
@@ -40,7 +40,7 @@
 							{{ submissionResource.doc?.status }}
 						</Badge>
 						<Button variant="solid" @click="submitAssignment()">
-							{{ __('Сохранить') }}
+							{{ __('Save') }}
 						</Button>
 					</div>
 				</div>
@@ -50,25 +50,19 @@
 						!['Pass', 'Fail'].includes(submissionResource.doc?.status) &&
 						submissionResource.doc?.owner == user.data?.name
 					"
-					class="p-3 mb-4 text-sm leading-5 bg-blue-100 rounded-md"
+					class="bg-blue-100 p-3 rounded-md leading-5 text-sm mb-4"
 				>
-					{{ __('Вы успешно отправили задание.') }}
+					{{ __("You've successfully submitted the assignment.") }}
 					{{
 						__(
-							'После того, как модератор оценит вашу отправку, вы найдете детали здесь.',
+							"Once the moderator grades your submission, you'll find the details here."
 						)
 					}}
-					{{
-						__(
-							'Вы можете внести изменения в свою отправку, если это необходимо.',
-						)
-					}}
+					{{ __('Feel free to make edits to your submission if needed.') }}
 				</div>
 				<div v-if="showUploader()">
-					<div class="mt-1 mb-2 text-xs text-gray-600">
-						{{
-							__('Добавьте свое задание как {0}').format(assignment.data.type)
-						}}
+					<div class="text-xs text-gray-600 mt-1 mb-2">
+						{{ __('Add your assignment as {0}').format(assignment.data.type) }}
 					</div>
 					<FileUploader
 						v-if="!submissionFile"
@@ -80,15 +74,15 @@
 							<Button @click="openFileSelector" :loading="uploading">
 								{{
 									uploading
-										? __('Загрузка {0}%').format(progress)
-										: __('Загрузить файл')
+										? __('Uploading {0}%').format(progress)
+										: __('Upload File')
 								}}
 							</Button>
 						</template>
 					</FileUploader>
 					<div v-else>
 						<div class="flex items-center">
-							<div class="p-2 mr-2 border rounded-md">
+							<div class="border rounded-md p-2 mr-2">
 								<FileText class="h-5 w-5 stroke-1.5 text-gray-700" />
 							</div>
 							<a
@@ -99,7 +93,7 @@
 								<span>
 									{{ submissionFile.file_name }}
 								</span>
-								<span class="mt-1 text-sm text-gray-500">
+								<span class="text-sm text-gray-500 mt-1">
 									{{ getFileSize(submissionFile.file_size) }}
 								</span>
 							</a>
@@ -112,8 +106,8 @@
 					</div>
 				</div>
 				<div v-else-if="assignment.data.type == 'URL'">
-					<div class="mb-1 text-xs text-gray-600">
-						{{ __('Введите URL') }}
+					<div class="text-xs text-gray-600 mb-1">
+						{{ __('Enter a URL') }}
 					</div>
 					<FormControl
 						v-model="answer"
@@ -122,8 +116,8 @@
 					/>
 				</div>
 				<div v-else>
-					<div class="mb-4 text-sm">
-						{{ __('Напишите свой ответ здесь') }}
+					<div class="text-sm mb-4">
+						{{ __('Write your answer here') }}
 					</div>
 					<TextEditor
 						:content="answer"
@@ -139,10 +133,10 @@
 						user.data?.name == submissionResource.doc?.owner &&
 						submissionResource.doc?.comments
 					"
-					class="p-3 mt-8 bg-blue-100 rounded-md"
+					class="mt-8 p-3 bg-blue-100 rounded-md"
 				>
-					<div class="mb-2 text-sm font-medium text-gray-600">
-						{{ __('Комментарии оценщика') }}:
+					<div class="text-sm text-gray-600 font-medium mb-2">
+						{{ __('Comments by Evaluator') }}:
 					</div>
 					<div class="leading-5">
 						{{ submissionResource.doc.comments }}
@@ -151,20 +145,20 @@
 
 				<!-- Grading -->
 				<div v-if="canGradeSubmission" class="mt-8 space-y-4">
-					<div class="mb-2 font-semibold">
-						{{ __('Оценка') }}
+					<div class="font-semibold mb-2">
+						{{ __('Grading') }}
 					</div>
 					<FormControl
 						v-if="submissionResource.doc"
 						v-model="submissionResource.doc.status"
-						:label="__('Оценка')"
+						:label="__('Grade')"
 						type="select"
 						:options="submissionStatusOptions"
 					/>
 					<FormControl
 						v-if="submissionResource.doc"
 						v-model="submissionResource.doc.comments"
-						:label="__('Комментарии')"
+						:label="__('Comments')"
 						type="textarea"
 					/>
 				</div>
@@ -173,19 +167,19 @@
 	</div>
 </template>
 <script setup>
-import { getFileSize, showToast } from '@/utils'
 import {
 	Badge,
 	Button,
 	call,
-	createDocumentResource,
 	createResource,
+	createDocumentResource,
 	FileUploader,
 	FormControl,
 	TextEditor,
 } from 'frappe-ui'
+import { computed, inject, onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import { FileText, X } from 'lucide-vue-next'
-import { computed, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { showToast, getFileSize } from '@/utils'
 import { useRouter } from 'vue-router'
 
 const submissionFile = ref(null)
@@ -271,7 +265,7 @@ const submissionResource = createDocumentResource({
 	doctype: 'LMS Assignment Submission',
 	name: props.submissionName,
 	onError(err) {
-		showToast(__('Ошибка'), __(err.messages?.[0] || err), 'x')
+		showToast(__('Error'), __(err.messages?.[0] || err), 'x')
 	},
 	auto: false,
 	cache: [user.data?.name, props.assignmentID],
@@ -319,9 +313,9 @@ const submitAssignment = () => {
 			},
 			{
 				onSuccess(data) {
-					showToast(__('Успех'), __('Изменения успешно сохранены'), 'check')
+					showToast(__('Success'), __('Changes saved successfully'), 'check')
 				},
-			},
+			}
 		)
 	} else {
 		addNewSubmission()
@@ -333,7 +327,7 @@ const addNewSubmission = () => {
 		{},
 		{
 			onSuccess(data) {
-				showToast('Успех', 'Задание успешно отправлено.', 'check')
+				showToast('Success', 'Assignment submitted successfully.', 'check')
 				if (router.currentRoute.value.name == 'AssignmentSubmission') {
 					router.push({
 						name: 'AssignmentSubmission',
@@ -350,9 +344,9 @@ const addNewSubmission = () => {
 				submissionResource.reload()
 			},
 			onError(err) {
-				showToast('Ошибка', err.messages?.[0] || err, 'x')
+				showToast('Error', err.messages?.[0] || err, 'x')
 			},
-		},
+		}
 	)
 }
 
@@ -395,14 +389,14 @@ const validateFile = (file) => {
 	let type = assignment.data?.type
 	let extension = file.name.split('.').pop().toLowerCase()
 	if (type == 'Image' && !['jpg', 'jpeg', 'png'].includes(extension)) {
-		return 'Разрешены только файлы изображений.'
+		return 'Only image file is allowed.'
 	} else if (
 		type == 'Document' &&
 		!['doc', 'docx', 'xml'].includes(extension)
 	) {
-		return 'Разрешены только файлы документов.'
+		return 'Only document file is allowed.'
 	} else if (type == 'PDF' && !['pdf'].includes(extension)) {
-		return 'Разрешены только файлы PDF.'
+		return 'Only PDF file is allowed.'
 	}
 }
 
@@ -430,9 +424,9 @@ const canModifyAssignment = computed(() => {
 
 const submissionStatusOptions = computed(() => {
 	return [
-		{ label: 'Не оценено', value: 'Not Graded' },
-		{ label: 'Пройдено', value: 'Pass' },
-		{ label: 'Не пройдено', value: 'Fail' },
+		{ label: 'Not Graded', value: 'Not Graded' },
+		{ label: 'Pass', value: 'Pass' },
+		{ label: 'Fail', value: 'Fail' },
 	]
 })
 

@@ -71,7 +71,7 @@
 				<template #default="{ tab }">
 					<div
 						v-if="tab.batches && tab.batches.value.length"
-						class="grid grid-cols-1 gap-5 m-5 md:grid-cols-2 lg:grid-cols-4"
+						class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 m-5"
 					>
 						<router-link
 							v-for="batch in tab.batches.value"
@@ -101,15 +101,15 @@
 						},
 					}"
 				>
-					<div class="px-5 py-32 rounded-md bg-gray-50">
-						<div class="flex flex-col items-center space-y-2 text-center">
+					<div class="bg-gray-50 py-32 px-5 rounded-md">
+						<div class="flex flex-col items-center text-center space-y-2">
 							<Plus
-								class="p-1 text-gray-800 bg-white border rounded-full stroke-1 size-10"
+								class="size-10 stroke-1 text-gray-800 p-1 rounded-full border bg-white"
 							/>
 							<div class="font-medium">
 								{{ __('Create a Batch') }}
 							</div>
-							<span class="text-sm leading-4 text-gray-700">
+							<span class="text-gray-700 text-sm leading-4">
 								{{ __('You can link courses and assessments to it.') }}
 							</span>
 						</div>
@@ -118,16 +118,16 @@
 			</div>
 			<div
 				v-else-if="!batches.loading && !hasBatches"
-				class="w-3/4 p-5 mx-auto space-y-2 text-center text-gray-600 mt-52 md:w-1/2"
+				class="text-center p-5 text-gray-600 mt-52 w-3/4 md:w-1/2 mx-auto space-y-2"
 			>
-				<BookOpen class="mx-auto text-gray-500 stroke-1 size-10" />
+				<BookOpen class="size-10 mx-auto stroke-1 text-gray-500" />
 				<div class="text-xl font-medium">
 					{{ __('No batches found') }}
 				</div>
 				<div>
 					{{
 						__(
-							'There are no batches available at the moment. Keep an eye out, fresh learning experiences are on the way soon!',
+							'There are no batches available at the moment. Keep an eye out, fresh learning experiences are on the way soon!'
 						)
 					}}
 				</div>
@@ -136,18 +136,18 @@
 	</div>
 </template>
 <script setup>
-import BatchCard from '@/components/BatchCard.vue'
-import { updateDocumentTitle } from '@/utils'
 import {
-	Badge,
+	createResource,
 	Breadcrumbs,
 	Button,
-	createResource,
-	Select,
 	Tabs,
+	Badge,
+	Select,
 } from 'frappe-ui'
 import { BookOpen, Plus } from 'lucide-vue-next'
-import { computed, inject, onMounted, ref, watch } from 'vue'
+import BatchCard from '@/components/BatchCard.vue'
+import { inject, ref, computed, onMounted, watch } from 'vue'
+import { updateDocumentTitle } from '@/utils'
 
 const user = inject('$user')
 const currentCategory = ref(null)
@@ -209,7 +209,7 @@ const makeTabs = computed(() => {
 const getBatches = (type) => {
 	if (currentCategory.value && currentCategory.value != '') {
 		return batches.data[type].filter(
-			(batch) => batch.category == currentCategory.value,
+			(batch) => batch.category == currentCategory.value
 		)
 	}
 	return batches.data[type]
@@ -242,7 +242,7 @@ watch(
 			queries.delete('category')
 		}
 		history.pushState(null, '', `${location.pathname}?${queries.toString()}`)
-	},
+	}
 )
 
 const pageMeta = computed(() => {

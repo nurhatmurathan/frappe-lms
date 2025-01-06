@@ -4,8 +4,8 @@
 	>
 		<Breadcrumbs :items="breadcrumbs" />
 	</header>
-	<div v-if="submissions.data?.length" class="py-5 mx-5 md:w-3/4 md:mx-auto">
-		<div class="mb-5 text-xl font-semibold">
+	<div v-if="submissions.data?.length" class="md:w-3/4 md:mx-auto py-5 mx-5">
+		<div class="text-xl font-semibold mb-5">
 			{{ submissions.data[0].quiz_title }}
 		</div>
 		<ListView
@@ -15,7 +15,7 @@
 			:options="{ showTooltip: false, selectable: false }"
 		>
 			<ListHeader
-				class="grid items-center p-2 mb-2 space-x-4 bg-gray-100 rounded"
+				class="mb-2 grid items-center space-x-4 rounded bg-gray-100 p-2"
 			>
 				<ListHeaderItem :item="item" v-for="item in quizColumns">
 				</ListHeaderItem>
@@ -36,23 +36,23 @@
 		</ListView>
 		<div class="flex justify-center my-5">
 			<Button v-if="submissions.hasNextPage" @click="submissions.next()">
-				{{ __('Загрузить еще') }}
+				{{ __('Load More') }}
 			</Button>
 		</div>
 	</div>
 </template>
 <script setup>
 import {
+	createListResource,
 	Breadcrumbs,
 	Button,
-	createListResource,
-	ListHeader,
-	ListHeaderItem,
+	ListView,
 	ListRow,
 	ListRows,
-	ListView,
+	ListHeader,
+	ListHeaderItem,
 } from 'frappe-ui'
-import { computed, inject, onMounted } from 'vue'
+import { computed, onMounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -83,18 +83,18 @@ const submissions = createListResource({
 const quizColumns = computed(() => {
 	return [
 		{
-			label: __('Участник'),
+			label: __('Member'),
 			key: 'member_name',
 			width: 1,
 		},
 		{
-			label: __('Оценка'),
+			label: __('Score'),
 			key: 'score',
 			width: 1,
 			align: 'center',
 		},
 		{
-			label: __('Процент'),
+			label: __('Percentage'),
 			key: 'percentage',
 			width: 1,
 			align: 'center',
@@ -103,6 +103,6 @@ const quizColumns = computed(() => {
 })
 
 const breadcrumbs = computed(() => {
-	return [{ label: __('Результаты викторины') }]
+	return [{ label: __('Quiz Submissions') }]
 })
 </script>

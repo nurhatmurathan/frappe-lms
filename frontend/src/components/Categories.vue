@@ -1,7 +1,7 @@
 <template>
 	<div class="flex flex-col min-h-0">
 		<div class="flex items-center justify-between">
-			<div class="mb-1 text-xl font-semibold">
+			<div class="text-xl font-semibold mb-1">
 				{{ label }}
 			</div>
 			<Button @click="() => showCategoryForm()">
@@ -19,11 +19,11 @@
 			<FormControl
 				ref="categoryInput"
 				v-model="category"
-				:placeholder="__('Название категории')"
+				:placeholder="__('Category Name')"
 				class="flex-1"
 			/>
 			<Button @click="addCategory()" variant="subtle">
-				{{ __('Добавить') }}
+				{{ __('Add') }}
 			</Button>
 		</div>
 
@@ -46,6 +46,7 @@ import {
 	FormControl,
 	createListResource,
 	createResource,
+	debounce,
 } from 'frappe-ui'
 import { Plus, X } from 'lucide-vue-next'
 import { ref } from 'vue'
@@ -91,7 +92,7 @@ const addCategory = () => {
 				categories.reload()
 				category.value = null
 			},
-		},
+		}
 	)
 }
 
@@ -123,7 +124,7 @@ const update = (name, value) => {
 			onSuccess() {
 				categories.reload()
 			},
-		},
+		}
 	)
 }
 </script>

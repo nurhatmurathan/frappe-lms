@@ -1,56 +1,56 @@
 <template>
 	<div class="">
-		<div class="flex items-center justify-between w-full pb-4">
+		<div class="w-full flex items-center justify-between pb-4">
 			<div class="font-medium text-gray-600">
-				{{ __('Статистика') }}
+				{{ __('Statistics') }}
 			</div>
 		</div>
 		<div class="grid grid-cols-3 gap-5 mb-8">
-			<div class="flex items-center px-3 py-2 rounded-md shadow">
-				<div class="p-2 mr-3 bg-gray-100 rounded-md">
+			<div class="flex items-center shadow py-2 px-3 rounded-md">
+				<div class="p-2 rounded-md bg-gray-100 mr-3">
 					<User class="w-18 h-18 stroke-1.5 text-gray-700" />
 				</div>
 				<div class="flex flex-col">
-					<span class="mb-1 text-xl font-semibold">
+					<span class="text-xl font-semibold mb-1">
 						{{ students.data?.length }}
 					</span>
 					<span class="text-gray-700">
-						{{ __('Студенты') }}
+						{{ __('Students') }}
 					</span>
 				</div>
 			</div>
 
-			<div class="flex items-center px-3 py-2 rounded-md shadow">
-				<div class="p-2 mr-3 bg-gray-100 rounded-md">
+			<div class="flex items-center shadow py-2 px-3 rounded-md">
+				<div class="p-2 rounded-md bg-gray-100 mr-3">
 					<BookOpen class="w-18 h-18 stroke-1.5 text-gray-700" />
 				</div>
 				<div class="flex flex-col">
-					<span class="mb-1 text-xl font-semibold">
+					<span class="text-xl font-semibold mb-1">
 						{{ batch.courses?.length }}
 					</span>
 					<span class="text-gray-700">
-						{{ __('Курсы') }}
+						{{ __('Courses') }}
 					</span>
 				</div>
 			</div>
 
-			<div class="flex items-center px-3 py-2 rounded-md shadow">
-				<div class="p-2 mr-3 bg-gray-100 rounded-md">
+			<div class="flex items-center shadow py-2 px-3 rounded-md">
+				<div class="p-2 rounded-md bg-gray-100 mr-3">
 					<ShieldCheck class="w-18 h-18 stroke-1.5 text-gray-700" />
 				</div>
 				<div class="flex flex-col">
-					<span class="mb-1 text-xl font-semibold">
+					<span class="text-xl font-semibold mb-1">
 						{{ assessmentCount }}
 					</span>
 					<span class="text-gray-700">
-						{{ __('Оценки') }}
+						{{ __('Assessments') }}
 					</span>
 				</div>
 			</div>
 		</div>
 		<div class="mb-8">
-			<div class="font-medium text-gray-600">
-				{{ __('Прогресс') }}
+			<div class="text-gray-600 font-medium">
+				{{ __('Progress') }}
 			</div>
 			<ApexChart
 				v-if="showProgressChart"
@@ -60,18 +60,18 @@
 				height="350"
 			/>
 			<div
-				class="flex items-center justify-center space-x-4 text-sm text-gray-700"
+				class="flex items-center justify-center text-sm text-gray-700 space-x-4"
 			>
 				<div class="flex items-center space-x-2">
 					<div class="w-3 h-3" style="background-color: #0f736b"></div>
 					<div>
-						{{ __('Курсы') }}
+						{{ __('Courses') }}
 					</div>
 				</div>
 				<div class="flex items-center space-x-2">
 					<div class="w-3 h-3" style="background-color: #0070cc"></div>
 					<div>
-						{{ __('Оценки') }}
+						{{ __('Assessments') }}
 					</div>
 				</div>
 			</div>
@@ -80,14 +80,14 @@
 
 	<div>
 		<div class="flex items-center justify-between mb-4">
-			<div class="font-medium text-gray-600">
-				{{ __('Студенты') }}
+			<div class="text-gray-600 font-medium">
+				{{ __('Students') }}
 			</div>
 			<Button @click="openStudentModal()">
 				<template #prefix>
-					<Plus class="w-4 h-4" />
+					<Plus class="h-4 w-4" />
 				</template>
-				{{ __('Добавить') }}
+				{{ __('Add') }}
 			</Button>
 		</div>
 
@@ -101,7 +101,7 @@
 				}"
 			>
 				<ListHeader
-					class="grid items-center p-2 mb-2 space-x-4 bg-gray-100 rounded"
+					class="mb-2 grid items-center space-x-4 rounded bg-gray-100 p-2"
 				>
 					<ListHeaderItem
 						:item="item"
@@ -121,7 +121,7 @@
 					<ListRow
 						:row="row"
 						v-for="row in students.data"
-						class="cursor-pointer group"
+						class="group cursor-pointer"
 						@click="openStudentProgressModal(row)"
 					>
 						<template #default="{ column, item }">
@@ -138,7 +138,7 @@
 								</template>
 								<div
 									v-if="column.key == 'progress'"
-									class="flex items-center w-full space-x-4"
+									class="flex items-center space-x-4 w-full"
 								>
 									<ProgressBar :progress="row[column.key]" size="sm" />
 								</div>
@@ -174,7 +174,7 @@
 			</ListView>
 		</div>
 		<div v-else class="text-sm italic text-gray-600">
-			{{ __('В этой группе нет студентов.') }}
+			{{ __('There are no students in this batch.') }}
 		</div>
 	</div>
 
@@ -189,10 +189,6 @@
 	/>
 </template>
 <script setup>
-import BatchStudentProgress from '@/components/Modals/BatchStudentProgress.vue'
-import StudentModal from '@/components/Modals/StudentModal.vue'
-import ProgressBar from '@/components/ProgressBar.vue'
-import { showToast } from '@/utils'
 import {
 	Avatar,
 	Button,
@@ -200,11 +196,11 @@ import {
 	FeatherIcon,
 	ListHeader,
 	ListHeaderItem,
-	ListRow,
-	ListRowItem,
-	ListRows,
 	ListSelectBanner,
+	ListRow,
+	ListRows,
 	ListView,
+	ListRowItem,
 } from 'frappe-ui'
 import {
 	BookOpen,
@@ -215,6 +211,10 @@ import {
 	User,
 } from 'lucide-vue-next'
 import { ref, watch } from 'vue'
+import StudentModal from '@/components/Modals/StudentModal.vue'
+import { showToast } from '@/utils'
+import ProgressBar from '@/components/ProgressBar.vue'
+import BatchStudentProgress from '@/components/Modals/BatchStudentProgress.vue'
 import ApexChart from 'vue3-apexcharts'
 
 const showStudentModal = ref(false)
@@ -248,19 +248,19 @@ const students = createResource({
 const getStudentColumns = () => {
 	let columns = [
 		{
-			label: 'Полное имя',
+			label: 'Full Name',
 			key: 'full_name',
 			width: '20rem',
 			icon: 'user',
 		},
 		{
-			label: 'Прогресс',
+			label: 'Progress',
 			key: 'progress',
 			width: '10rem',
 			icon: 'activity',
 		},
 		{
-			label: 'Последняя активность',
+			label: 'Last Active',
 			key: 'last_active',
 			width: '15rem',
 			align: 'center',
@@ -302,10 +302,10 @@ const removeStudents = (selections, unselectAll) => {
 		{
 			onSuccess(data) {
 				students.reload()
-				showToast(__('Успех'), __('Студенты успешно удалены'), 'check')
+				showToast(__('Success'), __('Students deleted successfully'), 'check')
 				unselectAll()
 			},
-		},
+		}
 	)
 }
 
@@ -345,7 +345,7 @@ const getChartData = () => {
 	chartOptions.value = getChartOptions(categories)
 	return [
 		{
-			name: __('Завершено студентами'),
+			name: __('Completed by Students'),
 			data: Object.values(categories).map((item) => item.value),
 		},
 	]
@@ -376,7 +376,7 @@ const getChartOptions = (categories) => {
 			},
 		},
 		colors: Object.values(categories).map((item) =>
-			item.type === 'course' ? courseColor : assessmentColor,
+			item.type === 'course' ? courseColor : assessmentColor
 		),
 		xaxis: {
 			categories: Object.values(categories).map((item) => item.label),
@@ -401,11 +401,7 @@ const getChartOptions = (categories) => {
 
 const copyEmail = (row) => {
 	navigator.clipboard.writeText(row.email)
-	showToast(
-		__('Успех'),
-		__('Электронная почта скопирована в буфер обмена'),
-		'check',
-	)
+	showToast(__('Success'), __('Email copied to clipboard'), 'check')
 }
 
 watch(students, () => {

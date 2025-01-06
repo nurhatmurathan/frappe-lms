@@ -2,13 +2,13 @@
 	<div>
 		<div class="flex items-center justify-between mb-4">
 			<div class="text-lg font-semibold">
-				{{ __('Курсы') }}
+				{{ __('Courses') }}
 			</div>
 			<Button v-if="canSeeAddButton()" @click="openCourseModal()">
 				<template #prefix>
-					<Plus class="w-4 h-4" />
+					<Plus class="h-4 w-4" />
 				</template>
-				{{ __('Добавить') }}
+				{{ __('Add') }}
 			</Button>
 		</div>
 		<div v-if="courses.data?.length">
@@ -25,7 +25,7 @@
 				}"
 			>
 				<ListHeader
-					class="grid items-center p-2 mb-2 space-x-4 bg-gray-100 rounded"
+					class="mb-2 grid items-center space-x-4 rounded bg-gray-100 p-2"
 				>
 					<ListHeaderItem :item="item" v-for="item in getCoursesColumns()">
 						<template #prefix="{ item }">
@@ -70,21 +70,21 @@
 	</div>
 </template>
 <script setup>
+import { ref, inject } from 'vue'
 import BatchCourseModal from '@/components/Modals/BatchCourseModal.vue'
-import { showToast } from '@/utils'
 import {
-	Button,
 	createResource,
+	Button,
 	ListHeader,
 	ListHeaderItem,
-	ListRow,
-	ListRowItem,
-	ListRows,
 	ListSelectBanner,
+	ListRow,
+	ListRows,
 	ListView,
+	ListRowItem,
 } from 'frappe-ui'
 import { Plus, Trash2 } from 'lucide-vue-next'
-import { inject, ref } from 'vue'
+import { showToast } from '@/utils'
 
 const showCourseModal = ref(false)
 const user = inject('$user')
@@ -112,17 +112,17 @@ const openCourseModal = () => {
 const getCoursesColumns = () => {
 	return [
 		{
-			label: 'Название',
+			label: 'Title',
 			key: 'title',
 			width: 2,
 		},
 		{
-			label: 'Уроки',
+			label: 'Lessons',
 			key: 'lessons',
 			align: 'right',
 		},
 		{
-			label: 'Записи',
+			label: 'Enrollments',
 			align: 'right',
 			key: 'enrollments',
 		},
@@ -147,10 +147,10 @@ const removeCourses = (selections, unselectAll) => {
 		{
 			onSuccess(data) {
 				courses.reload()
-				showToast(__('Успех'), __('Курсы успешно удалены'), 'check')
+				showToast(__('Success'), __('Courses deleted successfully'), 'check')
 				unselectAll()
 			},
-		},
+		}
 	)
 }
 

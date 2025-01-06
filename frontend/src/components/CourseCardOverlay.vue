@@ -1,12 +1,12 @@
 <template>
-	<div class="rounded-md shadow min-w-80">
+	<div class="shadow rounded-md min-w-80">
 		<iframe
 			v-if="course.data.video_link"
 			:src="video_link"
-			class="w-full rounded-t-md min-h-56"
+			class="rounded-t-md min-h-56 w-full"
 		/>
 		<div class="p-5">
-			<div v-if="course.data.price" class="mb-3 text-2xl font-semibold">
+			<div v-if="course.data.price" class="text-2xl font-semibold mb-3">
 				{{ course.data.price }}
 			</div>
 			<router-link
@@ -26,7 +26,7 @@
 			>
 				<Button variant="solid" size="md" class="w-full">
 					<span>
-						{{ __('Продолжить обучение') }}
+						{{ __('Continue Learning') }}
 					</span>
 				</Button>
 			</router-link>
@@ -42,15 +42,15 @@
 			>
 				<Button variant="solid" size="md" class="w-full">
 					<span>
-						{{ __('Купить этот курс') }}
+						{{ __('Buy this course') }}
 					</span>
 				</Button>
 			</router-link>
 			<div
 				v-else-if="course.data.disable_self_learning"
-				class="px-3 py-1 text-sm text-blue-900 bg-blue-100 rounded-md"
+				class="bg-blue-100 text-blue-900 text-sm rounded-md py-1 px-3"
 			>
-				{{ __('Свяжитесь с администратором, чтобы записаться на этот курс.') }}
+				{{ __('Contact the Administrator to enroll for this course.') }}
 			</div>
 			<Button
 				v-else
@@ -60,7 +60,7 @@
 				size="md"
 			>
 				<span>
-					{{ __('Начать обучение') }}
+					{{ __('Start Learning') }}
 				</span>
 			</Button>
 			<Button
@@ -70,7 +70,7 @@
 				class="w-full mt-2"
 				size="md"
 			>
-				{{ __('Получить сертификат') }}
+				{{ __('Get Certificate') }}
 			</Button>
 			<router-link
 				v-if="user?.data?.is_moderator || is_instructor()"
@@ -83,31 +83,31 @@
 			>
 				<Button variant="subtle" class="w-full mt-2" size="md">
 					<span>
-						{{ __('Редактировать') }}
+						{{ __('Edit') }}
 					</span>
 				</Button>
 			</router-link>
 			<div class="space-y-4">
 				<div class="mt-8 font-medium">
-					{{ __('Этот курс включает:') }}
+					{{ __('This course has:') }}
 				</div>
 				<div class="flex items-center">
 					<BookOpen class="h-4 w-4 stroke-1.5 text-gray-600" />
 					<span class="ml-2">
-						{{ course.data.lessons }} {{ __('Уроки') }}
+						{{ course.data.lessons }} {{ __('Lessons') }}
 					</span>
 				</div>
 				<div class="flex items-center">
 					<Users class="h-4 w-4 stroke-1.5 text-gray-600" />
 					<span class="ml-2">
 						{{ formatAmount(course.data.enrollments) }}
-						{{ __('Записанные студенты') }}
+						{{ __('Enrolled Students') }}
 					</span>
 				</div>
 				<div v-if="parseInt(course.data.rating) > 0" class="flex items-center">
 					<Star class="h-4 w-4 stroke-1.5 fill-orange-500 text-gray-50" />
 					<span class="ml-2">
-						{{ course.data.rating }} {{ __('Рейтинг') }}
+						{{ course.data.rating }} {{ __('Rating') }}
 					</span>
 				</div>
 			</div>
@@ -115,11 +115,11 @@
 	</div>
 </template>
 <script setup>
-import { capture } from '@/telemetry'
-import { formatAmount, showToast } from '@/utils/'
-import { Button, createResource } from 'frappe-ui'
-import { BookOpen, Star, Users } from 'lucide-vue-next'
+import { BookOpen, Users, Star } from 'lucide-vue-next'
 import { computed, inject } from 'vue'
+import { Button, createResource } from 'frappe-ui'
+import { showToast, formatAmount } from '@/utils/'
+import { capture } from '@/telemetry'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -142,9 +142,9 @@ const video_link = computed(() => {
 function enrollStudent() {
 	if (!user.data) {
 		showToast(
-			__('Пожалуйста, войдите в систему'),
-			__('Вам нужно войти в систему, чтобы записаться на этот курс'),
-			'alert-circle',
+			__('Please Login'),
+			__('You need to login first to enroll for this course'),
+			'alert-circle'
 		)
 		setTimeout(() => {
 			window.location.href = `/login?redirect-to=${window.location.pathname}`
@@ -161,7 +161,11 @@ function enrollStudent() {
 				capture('enrolled_in_course', {
 					course: props.course.data.name,
 				})
-				showToast(__('Успех'), __('Вы записаны на этот курс'), 'check')
+				showToast(
+					__('Success'),
+					__('You have been enrolled in this course'),
+					'check'
+				)
 				setTimeout(() => {
 					router.push({
 						name: 'Lesson',
@@ -208,7 +212,7 @@ const certificate = createResource({
 			`/api/method/frappe.utils.print_format.download_pdf?doctype=LMS+Certificate&name=${
 				data.name
 			}&format=${encodeURIComponent(data.template)}`,
-			'_blank',
+			'_blank'
 		)
 	},
 })

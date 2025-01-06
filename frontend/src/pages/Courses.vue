@@ -5,22 +5,22 @@
 		>
 			<Breadcrumbs
 				class="h-7"
-				:items="[{ label: __('Курсы'), route: { name: 'Courses' } }]"
+				:items="[{ label: __('Courses'), route: { name: 'Courses' } }]"
 			/>
-			<div class="flex justify-end space-x-2">
+			<div class="flex space-x-2 justify-end">
 				<div class="w-40 md:w-44">
 					<FormControl
 						v-if="categories.data?.length"
 						type="select"
 						v-model="currentCategory"
 						:options="categories.data"
-						:placeholder="__('Категория')"
+						:placeholder="__('Category')"
 					/>
 				</div>
 				<div class="w-28 md:w-36">
 					<FormControl
 						type="text"
-						placeholder="Поиск"
+						placeholder="Search"
 						v-model="searchQuery"
 						@input="courses.reload()"
 					>
@@ -40,9 +40,9 @@
 				>
 					<Button variant="solid">
 						<template #prefix>
-							<Plus class="w-4 h-4" />
+							<Plus class="h-4 w-4" />
 						</template>
-						{{ __('Новый') }}
+						{{ __('New') }}
 					</Button>
 				</router-link>
 			</div>
@@ -71,7 +71,7 @@
 				<template #default="{ tab }">
 					<div
 						v-if="tab.courses && tab.courses.value.length"
-						class="grid grid-cols-1 gap-5 mx-5 my-5 md:grid-cols-2 lg:grid-cols-3"
+						class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-5 mx-5"
 					>
 						<router-link
 							v-for="course in tab.courses.value"
@@ -84,27 +84,27 @@
 												chapterNumber: course.current_lesson.split('-')[0],
 												lessonNumber: course.current_lesson.split('-')[1],
 											},
-										}
+									  }
 									: course.membership
-										? {
-												name: 'Lesson',
-												params: {
-													courseName: course.name,
-													chapterNumber: 1,
-													lessonNumber: 1,
-												},
-											}
-										: {
-												name: 'CourseDetail',
-												params: { courseName: course.name },
-											}
+									? {
+											name: 'Lesson',
+											params: {
+												courseName: course.name,
+												chapterNumber: 1,
+												lessonNumber: 1,
+											},
+									  }
+									: {
+											name: 'CourseDetail',
+											params: { courseName: course.name },
+									  }
 							"
 						>
 							<CourseCard :course="course" />
 						</router-link>
 					</div>
 					<div v-else class="p-5 italic text-gray-500">
-						{{ __('Нет курсов {0}').format(tab.label.toLowerCase()) }}
+						{{ __('No {0} courses').format(tab.label.toLowerCase()) }}
 					</div>
 				</template>
 			</Tabs>
@@ -123,16 +123,16 @@
 						},
 					}"
 				>
-					<div class="px-5 py-32 rounded-md bg-gray-50">
-						<div class="flex flex-col items-center space-y-2 text-center">
+					<div class="bg-gray-50 py-32 px-5 rounded-md">
+						<div class="flex flex-col items-center text-center space-y-2">
 							<Plus
-								class="p-1 text-gray-800 bg-white border rounded-full stroke-1 size-10"
+								class="size-10 stroke-1 text-gray-800 p-1 rounded-full border bg-white"
 							/>
 							<div class="font-medium">
-								{{ __('Создать курс') }}
+								{{ __('Create a Course') }}
 							</div>
-							<span class="text-sm leading-4 text-gray-700">
-								{{ __('Вы можете добавить главы и уроки.') }}
+							<span class="text-gray-700 text-sm leading-4">
+								{{ __('You can add chapters and lessons to it.') }}
 							</span>
 						</div>
 					</div>
@@ -140,16 +140,16 @@
 			</div>
 			<div
 				v-else-if="!courses.loading && !hasCourses"
-				class="w-3/4 p-5 mx-auto space-y-2 text-center text-gray-600 mt-52 md:w-1/2"
+				class="text-center p-5 text-gray-600 mt-52 w-3/4 md:w-1/2 mx-auto space-y-2"
 			>
-				<BookOpen class="mx-auto text-gray-500 stroke-1 size-10" />
+				<BookOpen class="size-10 mx-auto stroke-1 text-gray-500" />
 				<div class="text-xl font-medium">
-					{{ __('Курсы не найдены') }}
+					{{ __('No courses found') }}
 				</div>
 				<div class="leading-5">
 					{{
 						__(
-							'В данный момент курсы недоступны. Следите за обновлениями, скоро появятся новые возможности для обучения!',
+							'There are no courses available at the moment. Keep an eye out, fresh learning experiences are on the way soon!'
 						)
 					}}
 				</div>
@@ -159,20 +159,21 @@
 </template>
 
 <script setup>
-import CourseCard from '@/components/CourseCard.vue'
-import { useSettings } from '@/stores/settings'
-import { updateDocumentTitle } from '@/utils'
 import {
 	Badge,
 	Breadcrumbs,
 	Button,
+	call,
 	createResource,
 	FormControl,
 	Tabs,
 } from 'frappe-ui'
+import CourseCard from '@/components/CourseCard.vue'
 import { BookOpen, Plus, Search } from 'lucide-vue-next'
-import { computed, inject, onMounted, ref, watch } from 'vue'
+import { ref, computed, inject, onMounted, watch } from 'vue'
+import { updateDocumentTitle } from '@/utils'
 import { useRouter } from 'vue-router'
+import { useSettings } from '@/stores/settings'
 
 const user = inject('$user')
 const searchQuery = ref('')
@@ -209,23 +210,23 @@ let tabs
 
 const makeTabs = computed(() => {
 	tabs = []
-	addToTabs('Прямой эфир')
-	addToTabs('Новые')
-	addToTabs('Предстоящие')
+	addToTabs('Live')
+	addToTabs('New')
+	addToTabs('Upcoming')
 
 	if (user.data) {
-		addToTabs('Записанные')
+		addToTabs('Enrolled')
 
 		if (
 			user.data.is_moderator ||
 			user.data.is_instructor ||
 			courses.data?.created?.length
 		) {
-			addToTabs('Созданные')
+			addToTabs('Created')
 		}
 
 		if (user.data.is_moderator) {
-			addToTabs('На рассмотрении')
+			addToTabs('Under Review')
 		}
 	}
 	return tabs
@@ -248,12 +249,12 @@ const getCourses = (type) => {
 			(course) =>
 				course.title.toLowerCase().includes(query) ||
 				course.short_introduction.toLowerCase().includes(query) ||
-				course.tags.filter((tag) => tag.toLowerCase().includes(query)).length,
+				course.tags.filter((tag) => tag.toLowerCase().includes(query)).length
 		)
 	}
 	if (currentCategory.value && currentCategory.value != '') {
 		courseList = courseList.filter(
-			(course) => course.category == currentCategory.value,
+			(course) => course.category == currentCategory.value
 		)
 	}
 	return courseList
@@ -299,13 +300,13 @@ watch(
 			queries.delete('category')
 		}
 		history.pushState(null, '', `${location.pathname}?${queries.toString()}`)
-	},
+	}
 )
 
 const pageMeta = computed(() => {
 	return {
-		title: 'Курсы',
-		description: 'Все курсы, разделенные по категориям',
+		title: 'Courses',
+		description: 'All Courses divided by categories',
 	}
 })
 

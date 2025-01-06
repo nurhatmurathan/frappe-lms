@@ -7,7 +7,7 @@
 				class="h-7"
 				:items="[
 					{
-						label: __('Вакансии'),
+						label: __('Jobs'),
 						route: { name: 'Jobs' },
 					},
 					{
@@ -28,7 +28,7 @@
 						<template #prefix>
 							<Pencil class="h-4 w-4 stroke-1.5" />
 						</template>
-						{{ __('Редактировать') }}
+						{{ __('Edit') }}
 					</Button>
 				</router-link>
 				<Button
@@ -37,29 +37,29 @@
 					@click="openApplicationModal()"
 				>
 					<template #prefix>
-						<SendHorizonal class="w-4 h-4" />
+						<SendHorizonal class="h-4 w-4" />
 					</template>
-					{{ __('Подать заявку') }}
+					{{ __('Apply') }}
 				</Button>
 			</div>
 			<div v-else>
 				<Button @click="redirectToLogin(job.data?.name)">
 					<span>
-						{{ __('Войти, чтобы подать заявку') }}
+						{{ __('Login to apply') }}
 					</span>
 				</Button>
 			</div>
 		</header>
 		<div v-if="job.data" class="max-w-3xl mx-auto">
 			<div class="p-4">
-				<div class="mb-10 space-y-5">
+				<div class="space-y-5 mb-10">
 					<div class="flex items-center">
 						<img
 							:src="job.data.company_logo"
-							class="object-contain w-16 h-16 mr-4 rounded-lg"
+							class="w-16 h-16 rounded-lg object-contain mr-4"
 							:alt="job.data.company_name"
 						/>
-						<div class="mb-4 text-2xl font-semibold">
+						<div class="text-2xl font-semibold mb-4">
 							{{ job.data.job_title }}
 						</div>
 					</div>
@@ -68,12 +68,12 @@
 							class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-5 md:gap-y-5"
 						>
 							<div class="flex items-center space-x-2">
-								<span class="p-4 rounded-full bg-green-50">
-									<Building2 class="w-4 h-4 text-green-500" />
+								<span class="p-4 bg-green-50 rounded-full">
+									<Building2 class="h-4 w-4 text-green-500" />
 								</span>
 								<div class="flex flex-col space-y-2">
-									<span class="text-xs font-medium text-gray-600 uppercase">
-										{{ __('Организация') }}
+									<span class="text-xs text-gray-600 font-medium uppercase">
+										{{ __('Organisation') }}
 									</span>
 									<span class="text-sm font-semibold">
 										{{ job.data.company_name }}
@@ -81,12 +81,12 @@
 								</div>
 							</div>
 							<div class="flex items-center space-x-2">
-								<span class="p-4 rounded-full bg-red-50">
-									<MapPin class="w-4 h-4 text-red-500" />
+								<span class="p-4 bg-red-50 rounded-full">
+									<MapPin class="h-4 w-4 text-red-500" />
 								</span>
 								<div class="flex flex-col space-y-2">
-									<span class="text-xs font-medium text-gray-600 uppercase">
-										{{ __('Местоположение') }}
+									<span class="text-xs text-gray-600 font-medium uppercase">
+										{{ __('Location') }}
 									</span>
 									<span class="text-sm font-semibold">
 										{{ job.data.location }}
@@ -94,12 +94,12 @@
 								</div>
 							</div>
 							<div class="flex items-center space-x-2">
-								<span class="p-4 rounded-full bg-yellow-50">
-									<ClipboardType class="w-4 h-4 text-yellow-500" />
+								<span class="p-4 bg-yellow-50 rounded-full">
+									<ClipboardType class="h-4 w-4 text-yellow-500" />
 								</span>
 								<div class="flex flex-col space-y-2">
 									<span class="text-xs font-medium text-gray-600 uppercase">
-										{{ __('Категория') }}
+										{{ __('Category') }}
 									</span>
 									<span class="text-sm font-semibold">
 										{{ job.data.type }}
@@ -107,12 +107,12 @@
 								</div>
 							</div>
 							<div class="flex items-center space-x-2">
-								<span class="p-4 rounded-full bg-blue-50">
-									<CalendarDays class="w-4 h-4 text-blue-500" />
+								<span class="p-4 bg-blue-50 rounded-full">
+									<CalendarDays class="h-4 w-4 text-blue-500" />
 								</span>
 								<div class="flex flex-col space-y-2">
-									<span class="text-xs font-medium text-gray-600 uppercase">
-										{{ __('Опубликовано') }}
+									<span class="text-xs text-gray-600 font-medium uppercase">
+										{{ __('Posted on') }}
 									</span>
 									<span class="text-sm font-semibold">
 										{{ dayjs(job.data.creation).format('DD MMM YYYY') }}
@@ -123,12 +123,12 @@
 								v-if="applicationCount.data"
 								class="flex items-center space-x-2"
 							>
-								<span class="p-4 rounded-full bg-purple-50">
-									<SquareUserRound class="w-4 h-4 text-purple-500" />
+								<span class="p-4 bg-purple-50 rounded-full">
+									<SquareUserRound class="h-4 w-4 text-purple-500" />
 								</span>
 								<div class="flex flex-col space-y-2">
-									<span class="text-xs font-medium text-gray-600 uppercase">
-										{{ __('Получено заявок') }}
+									<span class="text-xs text-gray-600 font-medium uppercase">
+										{{ __('Applications Received') }}
 									</span>
 									<span class="text-sm font-semibold">
 										{{ applicationCount.data }}
@@ -152,19 +152,19 @@
 	</div>
 </template>
 <script setup>
-import JobApplicationModal from '@/components/Modals/JobApplicationModal.vue'
+import { Button, Breadcrumbs, createResource } from 'frappe-ui'
+import { inject, ref, computed } from 'vue'
 import { updateDocumentTitle } from '@/utils'
-import { Breadcrumbs, Button, createResource } from 'frappe-ui'
+import JobApplicationModal from '@/components/Modals/JobApplicationModal.vue'
 import {
+	MapPin,
+	SendHorizonal,
+	Pencil,
 	Building2,
 	CalendarDays,
 	ClipboardType,
-	MapPin,
-	Pencil,
-	SendHorizonal,
 	SquareUserRound,
 } from 'lucide-vue-next'
-import { computed, inject, ref } from 'vue'
 
 const user = inject('$user')
 const dayjs = inject('$dayjs')

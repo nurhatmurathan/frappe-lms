@@ -4,7 +4,7 @@
 			<div class="space-y-4">
 				<div
 					v-if="!editMode"
-					class="flex items-center space-x-5 text-xs text-gray-700"
+					class="flex items-center text-xs text-gray-700 space-x-5"
 				>
 					<div class="flex items-center space-x-2">
 						<input
@@ -15,7 +15,7 @@
 							class="w-3 h-3 cursor-pointer"
 						/>
 						<label for="existing" class="cursor-pointer">
-							{{ __('Добавить существующий вопрос') }}
+							{{ __('Add an existing question') }}
 						</label>
 					</div>
 
@@ -28,14 +28,14 @@
 							class="w-3 h-3 cursor-pointer"
 						/>
 						<label for="new" class="cursor-pointer">
-							{{ __('Создать новый вопрос') }}
+							{{ __('Create a new question') }}
 						</label>
 					</div>
 				</div>
 				<div v-if="questionType == 'new' || editMode" class="space-y-2">
 					<div>
-						<label class="block mb-1 text-xs text-gray-600">
-							{{ __('Вопрос') }}
+						<label class="block text-xs text-gray-600 mb-1">
+							{{ __('Question') }}
 						</label>
 						<TextEditor
 							:content="question.question"
@@ -47,30 +47,30 @@
 					</div>
 					<FormControl
 						v-model="question.marks"
-						:label="__('Баллы')"
+						:label="__('Marks')"
 						type="number"
 					/>
 					<FormControl
-						:label="__('Тип')"
+						:label="__('Type')"
 						v-model="question.type"
 						type="select"
-						:options="['Выбор', 'Ввод пользователя', 'Открытый вопрос']"
+						:options="['Choices', 'User Input', 'Open Ended']"
 						class="pb-2"
 						:required="true"
 					/>
-					<div v-if="question.type == 'Choices'" class="border-t divide-y">
-						<div v-for="n in 4" class="py-2 space-y-4">
+					<div v-if="question.type == 'Choices'" class="divide-y border-t">
+						<div v-for="n in 4" class="space-y-4 py-2">
 							<FormControl
-								:label="__('Вариант') + ' ' + n"
+								:label="__('Option') + ' ' + n"
 								v-model="question[`option_${n}`]"
 								:required="n <= 2 ? true : false"
 							/>
 							<FormControl
-								:label="__('Объяснение')"
+								:label="__('Explanation')"
 								v-model="question[`explanation_${n}`]"
 							/>
 							<FormControl
-								:label="__('Правильный ответ')"
+								:label="__('Correct Answer')"
 								v-model="question[`is_correct_${n}`]"
 								type="checkbox"
 							/>
@@ -82,7 +82,7 @@
 						class="space-y-2"
 					>
 						<FormControl
-							:label="__('Возможность') + ' ' + n"
+							:label="__('Possibility') + ' ' + n"
 							v-model="question[`possibility_${n}`]"
 							:required="n == 1 ? true : false"
 						/>
@@ -91,12 +91,12 @@
 				<div v-else-if="questionType == 'existing'" class="space-y-2">
 					<Link
 						v-model="existingQuestion.question"
-						:label="__('Выберите вопрос')"
+						:label="__('Select a question')"
 						doctype="LMS Question"
 					/>
 					<FormControl
 						v-model="existingQuestion.marks"
-						:label="__('Баллы')"
+						:label="__('Marks')"
 						type="number"
 					/>
 				</div>
@@ -230,7 +230,7 @@ const addQuestion = (close) => {
 				question: existingQuestion.question,
 				marks: existingQuestion.marks,
 			},
-			close,
+			close
 		)
 	} else {
 		questionCreation.submit(
@@ -242,13 +242,13 @@ const addQuestion = (close) => {
 							question: data.name,
 							marks: question.marks,
 						},
-						close,
+						close
 					)
 				},
 				onError(err) {
-					showToast('Ошибка', err.messages?.[0] || err, 'x')
+					showToast(__('Error'), __(err.messages?.[0] || err), 'x')
 				},
-			},
+			}
 		)
 	}
 }
@@ -261,15 +261,15 @@ const addQuestionRow = (question, close) => {
 		{
 			onSuccess() {
 				show.value = false
-				showToast('Успех', 'Вопрос успешно добавлен', 'check')
+				showToast(__('Success'), __('Question added successfully'), 'check')
 				quiz.value.reload()
 				close()
 			},
 			onError(err) {
-				showToast('Ошибка', err.messages?.[0] || err, 'x')
+				showToast(__('Error'), __(err.messages?.[0] || err), 'x')
 				close()
 			},
-		},
+		}
 	)
 }
 
@@ -311,27 +311,31 @@ const updateQuestion = (close) => {
 					{
 						onSuccess() {
 							show.value = false
-							showToast('Успех', 'Вопрос успешно обновлен', 'check')
+							showToast(
+								__('Success'),
+								__('Question updated successfully'),
+								'check'
+							)
 							quiz.value.reload()
 							close()
 						},
-					},
+					}
 				)
 			},
 			onError(err) {
-				showToast('Ошибка', err.messages?.[0] || err, 'x')
+				showToast(__('Error'), __(err.messages?.[0] || err), 'x')
 			},
-		},
+		}
 	)
 }
 
 const dialogOptions = computed(() => {
 	return {
-		title: props.title,
+		title: __(props.title),
 		size: 'xl',
 		actions: [
 			{
-				label: 'Отправить',
+				label: __('Submit'),
 				variant: 'solid',
 				onClick: (close) => {
 					submitQuestion(close)

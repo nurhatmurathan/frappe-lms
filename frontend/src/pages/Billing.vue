@@ -5,7 +5,7 @@
 		>
 			<Breadcrumbs
 				class="h-7"
-				:items="[{ label: __('Детали оплаты'), route: { name: 'Billing' } }]"
+				:items="[{ label: __('Billing Details'), route: { name: 'Billing' } }]"
 			/>
 		</header>
 		<div
@@ -14,16 +14,16 @@
 		>
 			<!-- <div class="mb-5">
 				<div class="text-lg font-semibold">
-					{{ __('Адрес') }}
+					{{ __('Address') }}
 				</div>
 			</div> -->
-			<div class="flex flex-col justify-between lg:flex-row">
+			<div class="flex flex-col lg:flex-row justify-between">
 				<div
-					class="p-5 mb-10 space-y-4 text-sm font-medium bg-gray-100 rounded-md h-fit lg:order-last lg:mt-10 lg:w-1/4"
+					class="h-fit bg-gray-100 rounded-md p-5 space-y-4 lg:order-last mb-10 lg:mt-10 text-sm font-medium lg:w-1/4"
 				>
 					<div class="flex items-center justify-between space-x-2">
 						<div class="text-gray-600">
-							{{ __('Заказанный товар') }}
+							{{ __('Ordered Item') }}
 						</div>
 						<div class="">
 							{{ orderSummary.data.title }}
@@ -34,7 +34,7 @@
 						class="flex items-center justify-between"
 					>
 						<div class="text-gray-600">
-							{{ __('Первоначальная сумма') }}
+							{{ __('Original Amount') }}
 						</div>
 						<div class="">
 							{{ orderSummary.data.original_amount_formatted }}
@@ -45,17 +45,17 @@
 						class="flex items-center justify-between mt-2"
 					>
 						<div class="text-gray-600">
-							{{ __('Сумма GST') }}
+							{{ __('GST Amount') }}
 						</div>
 						<div>
 							{{ orderSummary.data.gst_amount_formatted }}
 						</div>
 					</div>
 					<div
-						class="flex items-center justify-between pt-4 mt-2 border-t border-gray-400"
+						class="flex items-center justify-between border-t border-gray-400 pt-4 mt-2"
 					>
 						<div class="text-lg font-semibold">
-							{{ __('Итого') }}
+							{{ __('Total') }}
 						</div>
 						<div class="text-lg font-semibold">
 							{{ orderSummary.data.total_amount_formatted }}
@@ -66,69 +66,72 @@
 				<div class="flex-1 lg:mr-10">
 					<div class="mb-5">
 						<div class="text-lg font-semibold">
-							{{ __('Адрес') }}
+							{{ __('Address') }}
 						</div>
 					</div>
-					<div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 						<div class="space-y-4">
 							<FormControl
-								:label="__('Имя для выставления счета')"
+								:label="__('Billing Name')"
 								v-model="billingDetails.billing_name"
 							/>
 							<FormControl
-								:label="__('Адресная строка 1')"
+								:label="__('Address Line 1')"
 								v-model="billingDetails.address_line1"
 							/>
 							<FormControl
-								:label="__('Адресная строка 2')"
+								:label="__('Address Line 2')"
 								v-model="billingDetails.address_line2"
 							/>
-							<FormControl :label="__('Город')" v-model="billingDetails.city" />
-							<FormControl :label="__('Штат')" v-model="billingDetails.state" />
+							<FormControl :label="__('City')" v-model="billingDetails.city" />
+							<FormControl
+								:label="__('State')"
+								v-model="billingDetails.state"
+							/>
 						</div>
 						<div class="space-y-4">
 							<Link
 								doctype="Country"
 								:value="billingDetails.country"
 								@change="(option) => changeCurrency(option)"
-								:label="__('Страна')"
+								:label="__('Country')"
 							/>
 							<FormControl
-								:label="__('Почтовый индекс')"
+								:label="__('Postal Code')"
 								v-model="billingDetails.pincode"
 							/>
 							<FormControl
-								:label="__('Номер телефона')"
+								:label="__('Phone Number')"
 								v-model="billingDetails.phone"
 							/>
 							<Link
 								doctype="LMS Source"
 								:value="billingDetails.source"
 								@change="(option) => (billingDetails.source = option)"
-								:label="__('Откуда вы о нас узнали?')"
+								:label="__('Where did you hear about us?')"
 							/>
 							<FormControl
 								v-if="billingDetails.country == 'India'"
-								:label="__('Номер GST')"
+								:label="__('GST Number')"
 								v-model="billingDetails.gstin"
 							/>
 							<FormControl
 								v-if="billingDetails.country == 'India'"
-								:label="__('Номер PAN')"
+								:label="__('Pan Number')"
 								v-model="billingDetails.pan"
 							/>
 						</div>
 					</div>
-					<div class="flex items-center justify-between pt-4 mt-8 border-t">
+					<div class="flex items-center justify-between border-t pt-4 mt-8">
 						<p class="text-gray-600">
 							{{
 								__(
-									'Убедитесь, что вы ввели правильное имя для выставления счета, так как оно будет использоваться в вашем счете.',
+									'Make sure to enter the right billing name as the same will be used in your invoice.'
 								)
 							}}
 						</p>
 						<Button variant="solid" size="md" @click="generatePaymentLink()">
-							{{ __('Перейти к оплате') }}
+							{{ __('Proceed to Payment') }}
 						</Button>
 					</div>
 				</div>
@@ -138,25 +141,32 @@
 			<NotPermitted
 				:text="access.data.message"
 				:buttonLabel="
-					type == 'course' ? 'Просмотреть курсы' : 'Просмотреть группы'
+					type == 'course' ? 'Checkout Courses' : 'Checkout Batches'
 				"
 				:buttonLink="type == 'course' ? '/lms/courses' : '/lms/batches'"
 			/>
 		</div>
 		<div v-else-if="!user.data?.name">
 			<NotPermitted
-				text="Пожалуйста, войдите, чтобы получить доступ к этой странице."
+				text="Please login to access this page."
 				:buttonLink="`/login?redirect-to=/lms/billing/${type}/${name}`"
 			/>
 		</div>
 	</div>
 </template>
 <script setup>
+import {
+	Input,
+	Button,
+	createResource,
+	FormControl,
+	Breadcrumbs,
+	Tooltip,
+} from 'frappe-ui'
+import { reactive, inject, onMounted, ref } from 'vue'
 import Link from '@/components/Controls/Link.vue'
 import NotPermitted from '@/components/NotPermitted.vue'
 import { showToast } from '@/utils/'
-import { Breadcrumbs, Button, createResource, FormControl } from 'frappe-ui'
-import { inject, onMounted, reactive } from 'vue'
 
 const user = inject('$user')
 
@@ -243,7 +253,7 @@ const generatePaymentLink = () => {
 		{
 			validate() {
 				if (!billingDetails.source) {
-					return __('Пожалуйста, сообщите нам, откуда вы о нас узнали.')
+					return __('Please let us know where you heard about us from.')
 				}
 				return validateAddress()
 			},
@@ -251,9 +261,9 @@ const generatePaymentLink = () => {
 				window.location.href = data
 			},
 			onError(err) {
-				showToast(__('Ошибка'), err.messages?.[0] || err, 'x')
+				showToast(__('Error'), err.messages?.[0] || err, 'x')
 			},
-		},
+		}
 	)
 }
 
@@ -270,7 +280,7 @@ const validateAddress = () => {
 	for (let field of mandatoryFields) {
 		if (!billingDetails[field])
 			return (
-				'Пожалуйста, введите действительный ' +
+				'Please enter a valid ' +
 				field
 					.replaceAll('_', ' ')
 					.toLowerCase()
@@ -279,52 +289,52 @@ const validateAddress = () => {
 	}
 
 	if (billingDetails.gstin && !billingDetails.pan)
-		return 'Пожалуйста, введите действительный номер PAN.'
+		return 'Please enter a valid pan number.'
 
 	if (billingDetails.country == 'India' && !billingDetails.state)
-		return 'Пожалуйста, введите действительное название штата с правильным написанием и заглавной первой буквой.'
+		return 'Please enter a valid state with correct spelling and the first letter capitalized.'
 
 	const states = [
-		'Андхра-Прадеш',
-		'Аруначал-Прадеш',
-		'Ассам',
-		'Бихар',
-		'Чхаттисгарх',
-		'Дели',
-		'Гоа',
-		'Гуджарат',
-		'Харьяна',
-		'Химачал-Прадеш',
-		'Джаркханд',
-		'Карнатака',
-		'Керала',
-		'Мадхья-Прадеш',
-		'Махараштра',
-		'Манипур',
-		'Мегхалая',
-		'Мизорам',
-		'Нагаленд',
-		'Одиша',
-		'Пенджаб',
-		'Раджастхан',
-		'Сикким',
-		'Тамилнад',
-		'Телангана',
-		'Трипура',
-		'Уттар-Прадеш',
-		'Уттаракханд',
-		'Западная Бенгалия',
+		'Andhra Pradesh',
+		'Arunachal Pradesh',
+		'Assam',
+		'Bihar',
+		'Chhattisgarh',
+		'Delhi',
+		'Goa',
+		'Gujarat',
+		'Haryana',
+		'Himachal Pradesh',
+		'Jharkhand',
+		'Karnataka',
+		'Kerala',
+		'Madhya Pradesh',
+		'Maharashtra',
+		'Manipur',
+		'Meghalaya',
+		'Mizoram',
+		'Nagaland',
+		'Odisha',
+		'Punjab',
+		'Rajasthan',
+		'Sikkim',
+		'Tamil Nadu',
+		'Telangana',
+		'Tripura',
+		'Uttar Pradesh',
+		'Uttarakhand',
+		'West Bengal',
 	]
 	if (
 		billingDetails.country == 'India' &&
 		!states.includes(billingDetails.state)
 	)
-		return 'Пожалуйста, введите действительное название штата с правильным написанием и заглавной первой буквой.'
+		return 'Please enter a valid state with correct spelling and the first letter capitalized.'
 }
 
 const showError = (err) => {
 	createToast({
-		title: 'Ошибка',
+		title: 'Error',
 		text: err.messages?.[0] || err,
 		icon: 'x',
 		iconClasses: 'bg-red-600 text-white rounded-md p-px',

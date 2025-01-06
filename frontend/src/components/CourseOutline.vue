@@ -4,14 +4,14 @@
 			v-if="title && (outline.data?.length || allowEdit)"
 			class="grid grid-cols-[70%,30%] mb-4 px-2"
 		>
-			<div class="text-lg font-semibold leading-5">
+			<div class="font-semibold text-lg leading-5">
 				{{ __(title) }}
 			</div>
 			<Button size="sm" v-if="allowEdit" @click="openChapterModal()">
-				{{ __('Добавить главу') }}
+				{{ __('Add Chapter') }}
 			</Button>
 			<!-- <span class="font-medium cursor-pointer" @click="expandAllChapters()">
-				{{ expandAll ? __("Свернуть все главы") : __("Развернуть все главы") }}
+				{{ expandAll ? __("Collapse all chapters") : __("Expand all chapters") }}
 			</span> -->
 		</div>
 		<div
@@ -33,27 +33,27 @@
 							hidden: chapter.is_scorm_package,
 							open: index == 1,
 						}"
-						class="w-4 h-4 text-gray-900 stroke-1"
+						class="h-4 w-4 text-gray-900 stroke-1"
 					/>
 					<div
-						class="ml-2 text-base font-medium leading-5 text-left"
+						class="text-base text-left font-medium leading-5 ml-2"
 						@click="redirectToChapter(chapter)"
 					>
 						{{ chapter.title }}
 					</div>
 					<div class="flex ml-auto space-x-4">
-						<Tooltip :text="__('Редактировать главу')" placement="bottom">
+						<Tooltip :text="__('Edit Chapter')" placement="bottom">
 							<FilePenLine
 								v-if="allowEdit"
 								@click.prevent="openChapterModal(chapter)"
-								class="invisible w-4 h-4 text-gray-900 group-hover:visible"
+								class="h-4 w-4 text-gray-900 invisible group-hover:visible"
 							/>
 						</Tooltip>
-						<Tooltip :text="__('Удалить главу')" placement="bottom">
+						<Tooltip :text="__('Delete Chapter')" placement="bottom">
 							<Trash2
 								v-if="allowEdit"
 								@click.prevent="trashChapter(chapter.name)"
-								class="invisible w-4 h-4 text-red-500 group-hover:visible"
+								class="h-4 w-4 text-red-500 invisible group-hover:visible"
 							/>
 						</Tooltip>
 					</div>
@@ -69,7 +69,7 @@
 						:data-chapter="chapter.name"
 					>
 						<template #item="{ element: lesson }">
-							<div class="py-2 pl-8 pr-4 outline-lesson">
+							<div class="outline-lesson pl-8 py-2 pr-4">
 								<router-link
 									:to="{
 										name: allowEdit ? 'LessonForm' : 'Lesson',
@@ -83,32 +83,32 @@
 									<div class="flex items-center text-sm leading-5 group">
 										<MonitorPlay
 											v-if="lesson.icon === 'icon-youtube'"
-											class="w-4 h-4 mr-2 text-gray-900 stroke-1"
+											class="h-4 w-4 text-gray-900 stroke-1 mr-2"
 										/>
 										<HelpCircle
 											v-else-if="lesson.icon === 'icon-quiz'"
-											class="w-4 h-4 mr-2 text-gray-900 stroke-1"
+											class="h-4 w-4 text-gray-900 stroke-1 mr-2"
 										/>
 										<FileText
 											v-else-if="lesson.icon === 'icon-list'"
-											class="w-4 h-4 mr-2 text-gray-900 stroke-1"
+											class="h-4 w-4 text-gray-900 stroke-1 mr-2"
 										/>
 										{{ lesson.title }}
 										<Trash2
 											v-if="allowEdit"
 											@click.prevent="trashLesson(lesson.name, chapter.name)"
-											class="invisible w-4 h-4 ml-auto text-red-500 group-hover:visible"
+											class="h-4 w-4 text-red-500 ml-auto invisible group-hover:visible"
 										/>
 										<Check
 											v-if="lesson.is_complete"
-											class="w-4 h-4 ml-2 text-green-700"
+											class="h-4 w-4 text-green-700 ml-2"
 										/>
 									</div>
 								</router-link>
 							</div>
 						</template>
 					</Draggable>
-					<div v-if="allowEdit" class="flex pl-8 mt-2 mb-4">
+					<div v-if="allowEdit" class="flex mt-2 mb-4 pl-8">
 						<router-link
 							v-if="!chapter.is_scorm_package"
 							:to="{
@@ -121,7 +121,7 @@
 							}"
 						>
 							<Button>
-								{{ __('Добавить урок') }}
+								{{ __('Add Lesson') }}
 							</Button>
 						</router-link>
 					</div>
@@ -137,22 +137,22 @@
 	/>
 </template>
 <script setup>
-import ChapterModal from '@/components/Modals/ChapterModal.vue'
-import { showToast } from '@/utils'
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { Button, createResource, Tooltip } from 'frappe-ui'
+import { getCurrentInstance, inject, ref } from 'vue'
+import Draggable from 'vuedraggable'
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import {
 	Check,
 	ChevronRight,
-	FilePenLine,
 	FileText,
+	FilePenLine,
 	HelpCircle,
 	MonitorPlay,
 	Trash2,
 } from 'lucide-vue-next'
-import { getCurrentInstance, inject, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import Draggable from 'vuedraggable'
+import ChapterModal from '@/components/Modals/ChapterModal.vue'
+import { showToast } from '@/utils'
 
 const route = useRoute()
 const router = useRouter()
@@ -205,7 +205,7 @@ const deleteLesson = createResource({
 	},
 	onSuccess() {
 		outline.reload()
-		showToast('Успех', 'Урок успешно удален', 'check')
+		showToast('Success', 'Lesson deleted successfully', 'check')
 	},
 })
 
@@ -220,19 +220,19 @@ const updateLessonIndex = createResource({
 		}
 	},
 	onSuccess() {
-		showToast('Успех', 'Урок успешно перемещен', 'check')
+		showToast('Success', 'Lesson moved successfully', 'check')
 	},
 })
 
 const trashLesson = (lessonName, chapterName) => {
 	$dialog({
-		title: __('Удалить этот урок?'),
+		title: __('Delete this lesson?'),
 		message: __(
-			'Удаление этого урока навсегда удалит его из курса. Это действие нельзя отменить. Вы уверены, что хотите продолжить?',
+			'Deleting this lesson will permanently remove it from the course. This action cannot be undone. Are you sure you want to continue?'
 		),
 		actions: [
 			{
-				label: __('Удалить'),
+				label: __('Delete'),
 				theme: 'red',
 				variant: 'solid',
 				onClick(close) {
@@ -278,19 +278,19 @@ const deleteChapter = createResource({
 	},
 	onSuccess() {
 		outline.reload()
-		showToast('Успех', 'Глава успешно удалена', 'check')
+		showToast('Success', 'Chapter deleted successfully', 'check')
 	},
 })
 
 const trashChapter = (chapterName) => {
 	$dialog({
-		title: __('Удалить эту главу?'),
+		title: __('Delete this chapter?'),
 		message: __(
-			'Удаление этой главы также удалит все ее уроки и навсегда удалит ее из курса. Это действие нельзя отменить. Вы уверены, что хотите продолжить?',
+			'Deleting this chapter will also delete all its lessons and permanently remove it from the course. This action cannot be undone. Are you sure you want to continue?'
 		),
 		actions: [
 			{
-				label: __('Удалить'),
+				label: __('Delete'),
 				theme: 'red',
 				variant: 'solid',
 				onClick(close) {
@@ -308,9 +308,9 @@ const redirectToChapter = (chapter) => {
 	if (props.allowEdit) return
 	if (!user.data) {
 		showToast(
-			__('Вы не зачислены'),
-			__('Пожалуйста, запишитесь на этот курс, чтобы просмотреть этот урок'),
-			'alert-circle',
+			__('You are not enrolled'),
+			__('Please enroll for this course to view this lesson'),
+			'alert-circle'
 		)
 		return
 	}

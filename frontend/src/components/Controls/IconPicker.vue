@@ -24,16 +24,16 @@
 							{{ selectedIcon }}
 						</span>
 						<span v-else class="text-gray-600">
-							{{ __('Выберите иконку') }}
+							{{ __('Choose an icon') }}
 						</span>
 					</button>
 				</template>
 				<template #body-main="{ close, isOpen }" class="w-full">
-					<div class="w-full p-3 overflow-auto max-h-56">
+					<div class="p-3 max-h-56 overflow-auto w-full">
 						<FormControl
 							ref="search"
 							v-model="iconQuery"
-							:placeholder="__('Поиск иконки')"
+							:placeholder="__('Search for an icon')"
 							autocomplete="off"
 						/>
 						<div class="grid grid-cols-10 gap-4 mt-4">
@@ -54,7 +54,7 @@
 <script setup>
 import { FormControl, Popover } from 'frappe-ui'
 import * as icons from 'lucide-vue-next'
-import { computed, onMounted, ref } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
 
 const iconQuery = ref('')
 const selectedIcon = ref('')
@@ -68,13 +68,13 @@ const iconArray = ref(
 		.reduce((result, key) => {
 			result[key] = icons[key]
 			return result
-		}, {}),
+		}, {})
 )
 
 const props = defineProps({
 	label: {
 		type: String,
-		default: 'Иконка',
+		default: 'Icon',
 	},
 	modelValue: {
 		type: String,
@@ -100,7 +100,7 @@ const filteredIcons = computed(() => {
 
 	return Object.keys(icons)
 		.filter((icon) =>
-			icon.toLowerCase().includes(iconQuery.value.toLowerCase()),
+			icon.toLowerCase().includes(iconQuery.value.toLowerCase())
 		)
 		.reduce((result, key) => {
 			result[key] = icons[key]

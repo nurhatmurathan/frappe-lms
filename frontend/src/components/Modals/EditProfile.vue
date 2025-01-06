@@ -1,11 +1,11 @@
 <template>
 	<Dialog
 		:options="{
-			title: 'Редактировать профиль',
+			title: 'Edit your profile',
 			size: 'xl',
 			actions: [
 				{
-					label: 'Сохранить',
+					label: 'Save',
 					variant: 'solid',
 					onClick: (close) => saveProfile(close),
 				},
@@ -25,26 +25,26 @@
 							<Button @click="openFileSelector" :loading="uploading">
 								{{
 									uploading
-										? `Загрузка ${progress}%`
-										: 'Загрузить изображение профиля'
+										? `Uploading ${progress}%`
+										: 'Upload a profile image'
 								}}
 							</Button>
 						</div>
 					</template>
 				</FileUploader>
 				<div v-else class="mb-4">
-					<div class="mb-1 text-xs text-gray-600">
-						{{ __('Изображение профиля') }}
+					<div class="text-xs text-gray-600 mb-1">
+						{{ __('Profile Image') }}
 					</div>
 					<div class="flex items-center">
-						<div class="p-2 mr-2 border rounded-md">
+						<div class="border rounded-md p-2 mr-2">
 							<FileText class="h-5 w-5 stroke-1.5 text-gray-700" />
 						</div>
-						<div class="flex flex-col text-base">
+						<div class="text-base flex flex-col">
 							<span>
 								{{ profile.image.file_name }}
 							</span>
-							<span class="mt-1 text-sm text-gray-500">
+							<span class="text-sm text-gray-500 mt-1">
 								{{ getFileSize(profile.image.file_size) }}
 							</span>
 						</div>
@@ -56,23 +56,23 @@
 				</div>
 				<FormControl
 					v-model="profile.first_name"
-					:label="__('Имя')"
+					:label="__('First Name')"
 					class="mb-4"
 				/>
 				<FormControl
 					v-model="profile.last_name"
-					:label="__('Фамилия')"
+					:label="__('Last Name')"
 					class="mb-4"
 				/>
 				<FormControl
 					v-model="profile.headline"
-					:label="__('Заголовок')"
+					:label="__('Headline')"
 					class="mb-4"
 				/>
 
 				<div class="mb-4">
 					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Биография') }}
+						{{ __('Bio') }}
 					</div>
 					<TextEditor
 						:fixedMenu="true"
@@ -154,16 +154,16 @@ const saveProfile = (close) => {
 				reloadProfile.value.reload()
 			},
 			onError(err) {
-				showToast('Ошибка', err.messages?.[0] || err, 'x')
+				showToast('Error', err.messages?.[0] || err, 'x')
 			},
-		},
+		}
 	)
 }
 
 const validateFile = (file) => {
 	let extension = file.name.split('.').pop().toLowerCase()
 	if (!['jpg', 'jpeg', 'png'].includes(extension)) {
-		return 'Разрешены только файлы изображений.'
+		return 'Only image file is allowed.'
 	}
 }
 
@@ -185,6 +185,6 @@ watch(
 			profile.bio = newVal.bio
 			if (newVal.user_image) imageResource.submit({ image: newVal.user_image })
 		}
-	},
+	}
 )
 </script>

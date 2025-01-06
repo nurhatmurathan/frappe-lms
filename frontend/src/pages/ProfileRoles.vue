@@ -4,7 +4,7 @@
 			{{ __('Settings') }}
 		</h2>
 		<div
-			class="flex flex-col justify-between w-3/4 gap-4 mt-5 md:flex-row md:gap-0"
+			class="flex flex-col md:flex-row gap-4 md:gap-0 justify-between w-3/4 mt-5"
 		>
 			<FormControl
 				:label="__('Moderator')"
@@ -34,9 +34,9 @@
 	</div>
 </template>
 <script setup>
-import { convertToTitleCase, showToast } from '@/utils'
 import { FormControl, createResource } from 'frappe-ui'
 import { ref } from 'vue'
+import { showToast, convertToTitleCase } from '@/utils'
 
 const moderator = ref(false)
 const course_creator = ref(false)
@@ -92,7 +92,7 @@ const changeRole = (role) => {
 			onSuccess(data) {
 				showToast('Success', 'Role updated successfully', 'check')
 			},
-		},
+		}
 	)
 }
 </script>

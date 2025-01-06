@@ -14,7 +14,7 @@
 				}"
 			>
 				<Button>
-					{{ __('Открыть') }}
+					{{ __('Open') }}
 				</Button>
 			</router-link>
 			<router-link
@@ -27,26 +27,26 @@
 				}"
 			>
 				<Button>
-					{{ __('Список отправленных') }}
+					{{ __('Submission List') }}
 				</Button>
 			</router-link>
 			<Button variant="solid" @click="submitQuiz()">
-				{{ __('Сохранить') }}
+				{{ __('Save') }}
 			</Button>
 		</div>
 	</header>
-	<div class="w-3/4 py-5 mx-auto">
+	<div class="w-3/4 mx-auto py-5">
 		<!-- Details -->
 		<div class="mb-8">
-			<div class="mb-4 font-semibold">
-				{{ __('Детали') }}
+			<div class="font-semibold mb-4">
+				{{ __('Details') }}
 			</div>
 			<FormControl
 				v-model="quiz.title"
 				:label="
 					quizDetails.data?.name
-						? __('Название')
-						: __('Введите название и сохраните тест, чтобы продолжить')
+						? __('Title')
+						: __('Enter a title and save the quiz to proceed')
 				"
 				:required="true"
 			/>
@@ -55,57 +55,57 @@
 					<FormControl
 						type="number"
 						v-model="quiz.max_attempts"
-						:label="__('Максимум попыток')"
+						:label="__('Maximun Attempts')"
 					/>
 					<FormControl
 						type="number"
 						v-model="quiz.duration"
-						:label="__('Длительность (в минутах)')"
+						:label="__('Duration (in minutes)')"
 					/>
 					<FormControl
 						v-model="quiz.total_marks"
-						:label="__('Общий балл')"
+						:label="__('Total Marks')"
 						disabled
 					/>
 					<FormControl
 						v-model="quiz.passing_percentage"
-						:label="__('Проходной процент')"
+						:label="__('Passing Percentage')"
 					/>
 				</div>
 
 				<!-- Settings -->
 				<div class="mb-8">
-					<div class="mb-4 font-semibold">
-						{{ __('Настройки') }}
+					<div class="font-semibold mb-4">
+						{{ __('Settings') }}
 					</div>
 					<div class="grid grid-cols-3 gap-5 my-4">
 						<FormControl
 							v-model="quiz.show_answers"
 							type="checkbox"
-							:label="__('Показывать ответы')"
+							:label="__('Show Answers')"
 						/>
 						<FormControl
 							v-model="quiz.show_submission_history"
 							type="checkbox"
-							:label="__('Показывать историю отправок')"
+							:label="__('Show Submission History')"
 						/>
 					</div>
 				</div>
 
 				<div class="mb-8">
-					<div class="mb-4 font-semibold">
-						{{ __('Настройки перемешивания') }}
+					<div class="font-semibold mb-4">
+						{{ __('Shuffle Settings') }}
 					</div>
 					<div class="grid grid-cols-3">
 						<FormControl
 							v-model="quiz.shuffle_questions"
 							type="checkbox"
-							:label="__('Перемешивать вопросы')"
+							:label="__('Shuffle Questions')"
 						/>
 						<FormControl
 							v-if="quiz.shuffle_questions"
 							v-model="quiz.limit_questions_to"
-							:label="__('Ограничить количество вопросов')"
+							:label="__('Limit Questions To')"
 						/>
 					</div>
 				</div>
@@ -114,13 +114,13 @@
 				<div>
 					<div class="flex items-center justify-between mb-4">
 						<div class="font-semibold">
-							{{ __('Вопросы') }}
+							{{ __('Questions') }}
 						</div>
 						<Button @click="openQuestionModal()">
 							<template #prefix>
 								<Plus class="w-4 h-4" />
 							</template>
-							{{ __('Новый вопрос') }}
+							{{ __('New Question') }}
 						</Button>
 					</div>
 					<ListView
@@ -132,7 +132,7 @@
 						}"
 					>
 						<ListHeader
-							class="grid items-center p-2 mb-2 space-x-4 bg-gray-100 rounded"
+							class="mb-2 grid items-center space-x-4 rounded bg-gray-100 p-2"
 						>
 							<ListHeaderItem :item="item" v-for="item in questionColumns" />
 						</ListHeader>
@@ -147,7 +147,7 @@
 								<ListRowItem :item="item">
 									<div
 										v-if="column.key == 'question_detail'"
-										class="h-4 text-xs truncate"
+										class="text-xs truncate h-4"
 										v-html="item"
 									></div>
 									<div v-else class="text-xs">
@@ -179,37 +179,37 @@
 		v-model:quiz="quizDetails"
 		:title="
 			currentQuestion.question
-				? __('Редактировать вопрос')
-				: __('Добавить новый вопрос')
+				? __('Edit the question')
+				: __('Add a new question')
 		"
 	/>
 </template>
 <script setup>
-import Question from '@/components/Modals/Question.vue'
-import { showToast, updateDocumentTitle } from '@/utils'
 import {
 	Breadcrumbs,
-	Button,
 	createResource,
 	FormControl,
+	ListView,
 	ListHeader,
 	ListHeaderItem,
+	ListRows,
 	ListRow,
 	ListRowItem,
-	ListRows,
 	ListSelectBanner,
-	ListView,
+	Button,
 } from 'frappe-ui'
-import { Plus, Trash2 } from 'lucide-vue-next'
 import {
 	computed,
-	inject,
-	onBeforeUnmount,
-	onMounted,
 	reactive,
 	ref,
+	onMounted,
+	inject,
+	onBeforeUnmount,
 	watch,
 } from 'vue'
+import { Plus, Trash2 } from 'lucide-vue-next'
+import Question from '@/components/Modals/Question.vue'
+import { showToast, updateDocumentTitle } from '@/utils'
 import { useRouter } from 'vue-router'
 
 const showQuestionModal = ref(false)
@@ -272,7 +272,7 @@ watch(
 		if (newVal) {
 			quizDetails.reload()
 		}
-	},
+	}
 )
 
 const quizDetails = createResource({
@@ -325,6 +325,7 @@ const quizUpdate = createResource({
 		}
 	},
 })
+
 const submitQuiz = () => {
 	if (quizDetails.data?.name) updateQuiz()
 	else createQuiz()
@@ -335,16 +336,16 @@ const createQuiz = () => {
 		{},
 		{
 			onSuccess(data) {
-				showToast('Успех', 'Тест успешно создан', 'check')
+				showToast(__('Success'), __('Quiz created successfully'), 'check')
 				router.push({
 					name: 'QuizForm',
 					params: { quizID: data.name },
 				})
 			},
 			onError(err) {
-				showToast('Ошибка', err.messages?.[0] || err, 'x')
+				showToast(__('Error'), __(err.messages?.[0] || err), 'x')
 			},
-		},
+		}
 	)
 }
 
@@ -354,12 +355,12 @@ const updateQuiz = () => {
 		{
 			onSuccess(data) {
 				quiz.total_marks = data.total_marks
-				showToast('Успех', 'Тест успешно обновлен', 'check')
+				showToast(__('Success'), __('Quiz updated successfully'), 'check')
 			},
 			onError(err) {
-				showToast('Ошибка', err.messages?.[0] || err, 'x')
+				showToast(__('Error'), __(err.messages?.[0] || err), 'x')
 			},
-		},
+		}
 	)
 }
 
@@ -376,17 +377,17 @@ const calculateTotalMarks = () => {
 const questionColumns = computed(() => {
 	return [
 		{
-			label: 'ID',
+			label: __('ID'),
 			key: 'question',
 			width: '10rem',
 		},
 		{
-			label: 'Вопрос',
-			key: 'question_detail',
+			label: __('Question'),
+			key: __('question_detail'),
 			width: '40rem',
 		},
 		{
-			label: 'Баллы',
+			label: __('Marks'),
 			key: 'marks',
 			width: '5rem',
 		},
@@ -423,25 +424,30 @@ const deleteQuestions = (selections, unselectAll) => {
 		},
 		{
 			onSuccess() {
-				showToast('Успех', 'Вопросы успешно удалены', 'check')
+				showToast(__('Success'), __('Questions deleted successfully'), 'check')
 				quizDetails.reload()
 				unselectAll()
 			},
-		},
+		}
 	)
 }
 
 const breadcrumbs = computed(() => {
 	let crumbs = [
 		{
-			label: 'Тесты',
+			label: __('Quizzes'),
 			route: {
 				name: 'Quizzes',
 			},
 		},
 	]
+	/* if (quizDetails.data) {
+		crumbs.push({
+			label: quiz.title,
+		})
+	} */
 	crumbs.push({
-		label: props.quizID == 'new' ? 'Новый тест' : quizDetails.data?.title,
+		label: props.quizID == 'new' ? __('New Quiz') : quizDetails.data?.title,
 		route: { name: 'QuizForm', params: { quizID: props.quizID } },
 	})
 	return crumbs
@@ -449,9 +455,10 @@ const breadcrumbs = computed(() => {
 
 const pageMeta = computed(() => {
 	return {
-		title: props.quizID == 'new' ? 'Новый тест' : quizDetails.data?.title,
-		description: 'Форма для создания и редактирования тестов',
+		title: props.quizID == 'new' ? __('New Quiz') : quizDetails.data?.title,
+		description: __('Form to create and edit quizzes'),
 	}
 })
 
 updateDocumentTitle(pageMeta)
+</script>

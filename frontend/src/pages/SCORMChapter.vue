@@ -15,25 +15,23 @@
 		<iframe :src="chapter.doc.launch_file" class="w-full h-screen" />
 	</div>
 	<div v-else-if="!enrollment.data?.length">
-		<div class="px-5 pt-10 pb-10 text-center md:px-0">
+		<div class="text-center pt-10 px-5 md:px-0 pb-10">
 			<div class="text-center">
 				<div class="mb-4">
 					{{
 						__(
-							'Вы не записаны на этот курс. Пожалуйста, запишитесь, чтобы получить доступ к этому уроку.',
+							'You are not enrolled in this course. Please enroll to access this lesson.'
 						)
 					}}
 				</div>
 				<Button variant="solid" @click="enrollStudent()">
-					{{ __('Начать обучение') }}
+					{{ __('Start Learning') }}
 				</Button>
 			</div>
 		</div>
 	</div>
 </template>
 <script setup>
-import { useSidebar } from '@/stores/sidebar'
-import { updateDocumentTitle } from '@/utils'
 import {
 	Breadcrumbs,
 	Button,
@@ -43,6 +41,8 @@ import {
 	createResource,
 } from 'frappe-ui'
 import { computed, inject, onBeforeMount, ref } from 'vue'
+import { useSidebar } from '@/stores/sidebar'
+import { updateDocumentTitle } from '@/utils'
 
 const sidebarStore = useSidebar()
 const user = inject('$user')
@@ -137,7 +137,7 @@ const enrollStudent = () => {
 			onSuccess(data) {
 				window.location.reload()
 			},
-		},
+		}
 	)
 }
 
@@ -198,7 +198,9 @@ const breadcrumbs = computed(() => {
 const pageMeta = computed(() => {
 	return {
 		title: chapter?.doc?.title,
-		description: __('Это глава курса {0}').format(chapter?.doc?.course_title),
+		description: __('This is a chapter in the course {0}').format(
+			chapter?.doc?.course_title
+		),
 	}
 })
 

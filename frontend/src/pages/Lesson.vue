@@ -8,24 +8,24 @@
 		<div class="grid md:grid-cols-[70%,30%] h-screen">
 			<div
 				v-if="lesson.data.no_preview"
-				class="px-5 pt-10 pb-10 text-center border-r md:px-0"
+				class="border-r text-center pt-10 px-5 md:px-0 pb-10"
 			>
 				<p class="mb-4">
 					{{
 						__(
-							'Этот урок недоступен для предварительного просмотра. Пожалуйста, запишитесь на курс, чтобы получить доступ.',
+							'This lesson is not available for preview. Please enroll in the course to access it.'
 						)
 					}}
 				</p>
 				<Button v-if="user.data" @click="enrollStudent()" variant="solid">
-					{{ __('Начать обучение') }}
+					{{ __('Start Learning') }}
 				</Button>
 				<Button v-else @click="redirectToLogin()">
-					{{ __('Войти') }}
+					{{ __('Login') }}
 				</Button>
 			</div>
-			<div v-else class="container px-5 pt-5 pb-10 border-r">
-				<div class="flex flex-col justify-between md:flex-row md:items-center">
+			<div v-else class="border-r container pt-5 pb-10 px-5">
+				<div class="flex flex-col md:flex-row md:items-center justify-between">
 					<div class="text-3xl font-semibold">
 						{{ lesson.data.title }}
 					</div>
@@ -46,7 +46,7 @@
 									<ChevronLeft class="w-4 h-4 stroke-1" />
 								</template>
 								<span>
-									{{ __('Предыдущий') }}
+									{{ __('Previous') }}
 								</span>
 							</Button>
 						</router-link>
@@ -62,7 +62,7 @@
 							}"
 						>
 							<Button class="mr-2">
-								{{ __('Редактировать') }}
+								{{ __('Edit') }}
 							</Button>
 						</router-link>
 						<router-link
@@ -81,7 +81,7 @@
 									<ChevronRight class="w-4 h-4 stroke-1" />
 								</template>
 								<span>
-									{{ __('Следующий') }}
+									{{ __('Next') }}
 								</span>
 							</Button>
 						</router-link>
@@ -93,7 +93,7 @@
 							}"
 						>
 							<Button>
-								{{ __('Назад к курсу') }}
+								{{ __('Back to Course') }}
 							</Button>
 						</router-link>
 					</div>
@@ -122,10 +122,10 @@
 						JSON.parse(lesson.data.instructor_content)?.blocks?.length > 1 &&
 						allowInstructorContent()
 					"
-					class="p-3 mt-6 bg-gray-100 rounded-md"
+					class="bg-gray-100 p-3 rounded-md mt-6"
 				>
-					<div class="font-medium text-gray-600">
-						{{ __('Заметки инструктора') }}
+					<div class="text-gray-600 font-medium">
+						{{ __('Instructor Notes') }}
 					</div>
 					<div
 						id="instructor-content"
@@ -158,7 +158,7 @@
 				<div class="mt-20">
 					<Discussions
 						v-if="allowDiscussions"
-						:title="'Вопросы'"
+						:title="'Questions'"
 						:doctype="'Course Lesson'"
 						:docname="lesson.data.name"
 						:key="lesson.data.name"
@@ -166,12 +166,12 @@
 				</div>
 			</div>
 			<div class="sticky top-10">
-				<div class="px-2 py-5 border-b bg-gray-50">
+				<div class="bg-gray-50 py-5 px-2 border-b">
 					<div class="text-lg font-semibold">
 						{{ lesson.data.course_title }}
 					</div>
-					<div v-if="user && lesson.data.membership" class="mt-3 text-sm">
-						{{ Math.ceil(lessonProgress) }}% {{ __('завершено') }}
+					<div v-if="user && lesson.data.membership" class="text-sm mt-3">
+						{{ Math.ceil(lessonProgress) }}% {{ __('completed') }}
 					</div>
 
 					<ProgressBar
@@ -189,18 +189,18 @@
 	</div>
 </template>
 <script setup>
-import CourseInstructors from '@/components/CourseInstructors.vue'
+import { createResource, Breadcrumbs, Button } from 'frappe-ui'
+import { computed, watch, inject, ref, onMounted, onBeforeUnmount } from 'vue'
 import CourseOutline from '@/components/CourseOutline.vue'
-import Discussions from '@/components/Discussions.vue'
-import LessonContent from '@/components/LessonContent.vue'
-import ProgressBar from '@/components/ProgressBar.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
-import EditorJS from '@editorjs/editorjs'
-import { Breadcrumbs, Button, createResource } from 'frappe-ui'
+import { useRouter, useRoute } from 'vue-router'
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
-import { computed, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import Discussions from '@/components/Discussions.vue'
 import { getEditorTools, updateDocumentTitle } from '../utils'
+import EditorJS from '@editorjs/editorjs'
+import LessonContent from '@/components/LessonContent.vue'
+import CourseInstructors from '@/components/CourseInstructors.vue'
+import ProgressBar from '@/components/ProgressBar.vue'
 
 const user = inject('$user')
 const router = useRouter()
@@ -258,7 +258,7 @@ const lesson = createResource({
 		)
 			instructorEditor.value = renderEditor(
 				'instructor-content',
-				data.instructor_content,
+				data.instructor_content
 			)
 		editor.value?.isReady.then(() => {
 			checkIfDiscussionsAllowed()
@@ -305,7 +305,7 @@ const progress = createResource({
 })
 
 const breadcrumbs = computed(() => {
-	let items = [{ label: 'Курсы', route: { name: 'Courses' } }]
+	let items = [{ label: 'Courses', route: { name: 'Courses' } }]
 	items.push({
 		label: lesson?.data?.course_title,
 		route: { name: 'CourseDetail', params: { courseName: props.courseName } },
@@ -328,7 +328,7 @@ watch(
 	[() => route.params.chapterNumber, () => route.params.lessonNumber],
 	(
 		[newChapterNumber, newLessonNumber],
-		[oldChapterNumber, oldLessonNumber],
+		[oldChapterNumber, oldLessonNumber]
 	) => {
 		if (newChapterNumber || newLessonNumber) {
 			editor.value = null
@@ -342,7 +342,7 @@ watch(
 			timer.value = 0
 			startTimer()
 		}
-	},
+	}
 )
 
 const startTimer = () => {
@@ -406,7 +406,7 @@ const enrollStudent = () => {
 			onSuccess() {
 				window.location.reload()
 			},
-		},
+		}
 	)
 }
 

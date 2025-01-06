@@ -8,30 +8,30 @@
 		<template #body>
 			<div class="p-5 space-y-4">
 				<div v-if="type == 'quiz'" class="text-lg font-semibold">
-					{{ 'Добавьте викторину к вашему уроку' }}
+					{{ __('Add a quiz to your lesson') }}
 				</div>
 				<div v-else class="text-lg font-semibold">
-					{{ 'Добавьте задание к вашему уроку' }}
+					{{ __('Add an assignment to your lesson') }}
 				</div>
 				<div>
 					<Link
 						v-if="type == 'quiz'"
 						v-model="quiz"
 						doctype="LMS Quiz"
-						:label="'Выберите викторину'"
+						:label="__('Select a quiz')"
 						:onCreate="(value, close) => redirectToForm()"
 					/>
 					<Link
 						v-else
 						v-model="assignment"
 						doctype="LMS Assignment"
-						:label="'Выберите задание'"
+						:label="__('Select an assignment')"
 						:onCreate="(value, close) => redirectToForm()"
 					/>
 				</div>
 				<div class="flex justify-end space-x-2">
 					<Button variant="solid" @click="addAssessment()">
-						{{ 'Сохранить' }}
+						{{ __('Save') }}
 					</Button>
 				</div>
 			</div>
@@ -39,9 +39,9 @@
 	</Dialog>
 </template>
 <script setup>
+import { Dialog, Button } from 'frappe-ui'
+import { onMounted, ref, nextTick } from 'vue'
 import Link from '@/components/Controls/Link.vue'
-import { Button, Dialog } from 'frappe-ui'
-import { nextTick, onMounted, ref } from 'vue'
 
 const show = ref(false)
 const quiz = ref(null)

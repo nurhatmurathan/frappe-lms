@@ -12,33 +12,33 @@
 								<Trash2 class="w-4 h-4 stroke-1.5" />
 							</template>
 							<span>
-								{{ __('Удалить') }}
+								{{ __('Delete') }}
 							</span>
 						</Button>
 						<Button variant="solid" @click="submitCourse()" class="ml-2">
 							<span>
-								{{ __('Сохранить') }}
+								{{ __('Save') }}
 							</span>
 						</Button>
 					</div>
 				</header>
 				<div class="mt-5 mb-10">
 					<div class="container mb-5">
-						<div class="mb-4 text-lg font-semibold">
-							{{ __('Детали') }}
+						<div class="text-lg font-semibold mb-4">
+							{{ __('Details') }}
 						</div>
 						<FormControl
 							v-model="course.title"
-							:label="__('Название')"
+							:label="__('Title')"
 							class="mb-4"
 							:required="true"
 						/>
 						<FormControl
 							v-model="course.short_introduction"
-							:label="__('Краткое введение')"
+							:label="__('Short Introduction')"
 							:placeholder="
 								__(
-									'Однострочное введение в курс, которое появляется на карточке курса',
+									'A one line introduction to the course that appears on the course card'
 								)
 							"
 							class="mb-4"
@@ -46,7 +46,7 @@
 						/>
 						<div class="mb-4">
 							<div class="mb-1.5 text-sm text-gray-600">
-								{{ __('Описание курса') }}
+								{{ __('Course Description') }}
 								<span class="text-red-500">*</span>
 							</div>
 							<TextEditor
@@ -58,8 +58,8 @@
 							/>
 						</div>
 						<div class="mb-4">
-							<div class="mb-2 text-xs text-gray-600">
-								{{ __('Изображение курса') }}
+							<div class="text-xs text-gray-600 mb-2">
+								{{ __('Course Image') }}
 								<span class="text-red-500">*</span>
 							</div>
 							<FileUploader
@@ -72,15 +72,17 @@
 									v-slot="{ file, progress, uploading, openFileSelector }"
 								>
 									<div class="flex items-center">
-										<div class="px-20 py-5 border rounded-md w-fit">
-											<Image class="text-gray-700 stroke-1 size-5" />
+										<div class="border rounded-md w-fit py-5 px-20">
+											<Image class="size-5 stroke-1 text-gray-700" />
 										</div>
 										<div class="ml-4">
 											<Button @click="openFileSelector">
-												{{ __('Загрузить') }}
+												{{ __('Upload') }}
 											</Button>
-											<div class="mt-2 text-sm text-gray-600">
-												{{ __('Появляется на карточке курса в списке курсов') }}
+											<div class="mt-2 text-gray-600 text-sm">
+												{{
+													__('Appears on the course card in the course list')
+												}}
 											</div>
 										</div>
 									</div>
@@ -90,14 +92,14 @@
 								<div class="flex items-center">
 									<img
 										:src="course.course_image.file_url"
-										class="w-40 border rounded-md"
+										class="border rounded-md w-40"
 									/>
 									<div class="ml-4">
 										<Button @click="removeImage()">
-											{{ __('Удалить') }}
+											{{ __('Remove') }}
 										</Button>
-										<div class="mt-2 text-sm text-gray-600">
-											{{ __('Появляется на карточке курса в списке курсов') }}
+										<div class="mt-2 text-gray-600 text-sm">
+											{{ __('Appears on the course card in the course list') }}
 										</div>
 									</div>
 								</div>
@@ -105,21 +107,23 @@
 						</div>
 						<FormControl
 							v-model="course.video_link"
-							:label="__('Видео-превью')"
+							:label="__('Preview Video')"
 							:placeholder="
-								__('Вставьте ссылку на YouTube видео, представляющее курс')
+								__(
+									'Paste the youtube link of a short video introducing the course'
+								)
 							"
 							class="mb-4"
 						/>
 						<div class="mb-4">
 							<div class="mb-1.5 text-xs text-gray-600">
-								{{ __('Теги') }}
+								{{ __('Tags') }}
 							</div>
 							<div class="flex items-center">
 								<div
 									v-if="course.tags"
 									v-for="tag in course.tags?.split(', ')"
-									class="flex items-center p-2 mr-2 bg-gray-100 rounded-md"
+									class="flex items-center bg-gray-100 p-2 rounded-md mr-2"
 								>
 									{{ tag }}
 									<X
@@ -129,7 +133,7 @@
 								</div>
 								<FormControl
 									v-model="newTag"
-									:placeholder="__('Добавьте ключевое слово и нажмите Enter')"
+									:placeholder="__('Add a keyword and then press enter')"
 									class="w-72"
 									@keyup.enter="updateTags()"
 									id="tags"
@@ -140,21 +144,21 @@
 							<Link
 								doctype="LMS Category"
 								v-model="course.category"
-								:label="__('Категория')"
+								:label="__('Category')"
 								:onCreate="(value, close) => openSettings(close)"
 							/>
 						</div>
 						<MultiSelect
 							v-model="instructors"
 							doctype="User"
-							:label="__('Инструкторы')"
+							:label="__('Instructors')"
 							:filters="{ ignore_user_type: 1 }"
 							:required="true"
 						/>
 					</div>
 					<div class="container border-t">
-						<div class="mt-5 mb-4 text-lg font-semibold">
-							{{ __('Настройки') }}
+						<div class="text-lg font-semibold mt-5 mb-4">
+							{{ __('Settings') }}
 						</div>
 						<div class="grid grid-cols-3 gap-10 mb-4">
 							<div
@@ -164,11 +168,11 @@
 								<FormControl
 									type="checkbox"
 									v-model="course.published"
-									:label="__('Опубликовано')"
+									:label="__('Published')"
 								/>
 								<FormControl
 									v-model="course.published_on"
-									:label="__('Дата публикации')"
+									:label="__('Published On')"
 									type="date"
 									class="mb-5"
 								/>
@@ -177,54 +181,54 @@
 								<FormControl
 									type="checkbox"
 									v-model="course.upcoming"
-									:label="__('Скоро')"
+									:label="__('Upcoming')"
 								/>
 								<FormControl
 									type="checkbox"
 									v-model="course.featured"
-									:label="__('Рекомендуемый')"
+									:label="__('Featured')"
 								/>
 							</div>
 							<div class="flex flex-col space-y-3">
 								<FormControl
 									type="checkbox"
 									v-model="course.disable_self_learning"
-									:label="__('Отключить самообучение')"
+									:label="__('Disable Self Enrollment')"
 								/>
 								<FormControl
 									type="checkbox"
 									v-model="course.enable_certification"
-									:label="__('Сертификат о завершении')"
+									:label="__('Completion Certificate')"
 								/>
 							</div>
 						</div>
 					</div>
 					<div class="container border-t">
-						<div class="mt-5 mb-4 text-lg font-semibold">
-							{{ __('Цены') }}
+						<div class="text-lg font-semibold mt-5 mb-4">
+							{{ __('Pricing') }}
 						</div>
 						<div class="mb-4">
 							<FormControl
 								type="checkbox"
 								v-model="course.paid_course"
-								:label="__('Платный курс')"
+								:label="__('Paid Course')"
 							/>
 						</div>
 						<FormControl
 							v-model="course.course_price"
-							:label="__('Цена курса')"
+							:label="__('Course Price')"
 							class="mb-4"
 						/>
 						<Link
 							doctype="Currency"
 							v-model="course.currency"
 							:filters="{ enabled: 1 }"
-							:label="__('Валюта')"
+							:label="__('Currency')"
 						/>
 					</div>
 				</div>
 			</div>
-			<div class="pt-5 border-l">
+			<div class="border-l pt-5">
 				<CourseOutline
 					v-if="courseResource.data"
 					:courseName="courseResource.data.name"
@@ -236,32 +240,32 @@
 	</div>
 </template>
 <script setup>
-import Link from '@/components/Controls/Link.vue'
-import MultiSelect from '@/components/Controls/MultiSelect.vue'
-import CourseOutline from '@/components/CourseOutline.vue'
-import { useSettings } from '@/stores/settings'
-import { capture } from '@/telemetry'
-import { showToast, updateDocumentTitle } from '@/utils'
 import {
 	Breadcrumbs,
+	TextEditor,
 	Button,
 	createResource,
-	FileUploader,
 	FormControl,
-	TextEditor,
+	FileUploader,
 } from 'frappe-ui'
-import { Image, Trash2, X } from 'lucide-vue-next'
 import {
-	computed,
-	getCurrentInstance,
 	inject,
-	onBeforeUnmount,
 	onMounted,
-	reactive,
+	onBeforeUnmount,
+	computed,
 	ref,
+	reactive,
 	watch,
+	getCurrentInstance,
 } from 'vue'
+import { showToast, updateDocumentTitle } from '@/utils'
+import Link from '@/components/Controls/Link.vue'
+import { Image, Trash2, X } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
+import CourseOutline from '@/components/CourseOutline.vue'
+import MultiSelect from '@/components/Controls/MultiSelect.vue'
+import { capture } from '@/telemetry'
+import { useSettings } from '@/stores/settings'
 
 const user = inject('$user')
 const newTag = ref('')
@@ -419,18 +423,18 @@ const submitCourse = () => {
 			},
 			{
 				onSuccess() {
-					showToast('Успех', 'Курс успешно обновлен', 'check')
+					showToast('Success', 'Course updated successfully', 'check')
 				},
 				onError(err) {
-					showToast('Ошибка', err.messages?.[0] || err, 'x')
+					showToast('Error', err.messages?.[0] || err, 'x')
 				},
-			},
+			}
 		)
 	} else {
 		courseCreationResource.submit(course, {
 			onSuccess(data) {
 				capture('course_created')
-				showToast('Успех', 'Курс успешно создан', 'check')
+				showToast('Success', 'Course created successfully', 'check')
 				if (!settingsStore.onboardingDetails.data?.is_onboarded) {
 					settingsStore.onboardingDetails.reload()
 				}
@@ -440,7 +444,7 @@ const submitCourse = () => {
 				})
 			},
 			onError(err) {
-				showToast('Ошибка', err.messages?.[0] || err, 'x')
+				showToast('Error', err.messages?.[0] || err, 'x')
 			},
 		})
 	}
@@ -454,20 +458,20 @@ const deleteCourse = createResource({
 		}
 	},
 	onSuccess() {
-		showToast(__('Успех'), __('Курс успешно удален'), 'check')
+		showToast(__('Success'), __('Course deleted successfully'), 'check')
 		router.push({ name: 'Courses' })
 	},
 })
 
 const trashCourse = () => {
 	$dialog({
-		title: __('Удалить курс'),
+		title: __('Delete Course'),
 		message: __(
-			'Удаление курса также удалит все его главы и уроки. Вы уверены, что хотите удалить этот курс?',
+			'Deleting the course will also delete all its chapters and lessons. Are you sure you want to delete this course?'
 		),
 		actions: [
 			{
-				label: __('Удалить'),
+				label: __('Delete'),
 				theme: 'red',
 				variant: 'solid',
 				onClick(close) {
@@ -485,13 +489,13 @@ watch(
 		if (newVal) {
 			courseResource.reload()
 		}
-	},
+	}
 )
 
 const validateFile = (file) => {
 	let extension = file.name.split('.').pop().toLowerCase()
 	if (!['jpg', 'jpeg', 'png', 'webp'].includes(extension)) {
-		return __('Разрешены только файлы изображений.')
+		return __('Only image file is allowed.')
 	}
 }
 
@@ -520,7 +524,7 @@ const removeImage = () => {
 
 const openSettings = (close) => {
 	close()
-	settingsStore.activeTab = 'Категории'
+	settingsStore.activeTab = 'Categories'
 	settingsStore.isSettingsOpen = true
 }
 
@@ -542,7 +546,7 @@ const check_permission = () => {
 const breadcrumbs = computed(() => {
 	let crumbs = [
 		{
-			label: 'Курсы',
+			label: 'Courses',
 			route: { name: 'Courses' },
 		},
 	]
@@ -553,7 +557,7 @@ const breadcrumbs = computed(() => {
 		})
 	}
 	crumbs.push({
-		label: props.courseName == 'new' ? 'Новый курс' : 'Редактировать курс',
+		label: props.courseName == 'new' ? 'New Course' : 'Edit Course',
 		route: { name: 'CourseForm', params: { courseName: props.courseName } },
 	})
 	return crumbs
@@ -561,8 +565,8 @@ const breadcrumbs = computed(() => {
 
 const pageMeta = computed(() => {
 	return {
-		title: 'Создать курс',
-		description: 'Создайте или отредактируйте курс для вашей системы обучения.',
+		title: 'Create a Course',
+		description: 'Create or edit a course for your learning system.',
 	}
 })
 
