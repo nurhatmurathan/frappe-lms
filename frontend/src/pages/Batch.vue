@@ -9,11 +9,11 @@
 					v-if="user.data?.is_moderator"
 					@click="openCertificateDialog = true"
 				>
-					{{ __('Сгенерировать сертификаты') }}
+					{{ __('Generate Certificates') }}
 				</Button>
 				<Button v-if="user.data?.is_moderator" @click="openAnnouncementModal()">
 					<span>
-						{{ __('Сделать объявление') }}
+						{{ __('Make an Announcement') }}
 					</span>
 					<template #suffix>
 						<SendIcon class="h-4 stroke-1.5" />
@@ -78,7 +78,7 @@
 								<Discussions
 									doctype="LMS Batch"
 									:docname="batch.data.name"
-									:title="__('Обсуждения')"
+									:title="__('Discussions')"
 									:key="batch.data.name"
 									:singleThread="true"
 									:scrollToBottom="true"
@@ -140,20 +140,18 @@
 				<span
 					class="inline-flex items-center before:bg-red-600 before:w-2 before:h-2 before:rounded-md before:mr-2"
 				></span>
-				{{ __('Не разрешено') }}
+				{{ __('Not Permitted') }}
 			</div>
 			<div class="px-5 py-3">
 				<div v-if="user.data" class="mb-4 leading-6">
 					{{
 						__(
-							'Вы не являетесь участником этой группы. Пожалуйста, ознакомьтесь с нашими предстоящими группами.',
+							'You are not a member of this batch. Please checkout our upcoming batches.',
 						)
 					}}
 				</div>
 				<div v-else class="mb-4 leading-6">
-					{{
-						__('Пожалуйста, войдите, чтобы получить доступ к этой странице.')
-					}}
+					{{ __('Please login to access this page.') }}
 				</div>
 				<router-link
 					v-if="user.data"
@@ -165,7 +163,7 @@
 					}"
 				>
 					<Button variant="solid" class="w-full">
-						{{ __('Предстоящие группы') }}
+						{{ __('Upcoming Batches') }}
 					</Button>
 				</router-link>
 				<Button
@@ -174,7 +172,7 @@
 					class="w-full"
 					@click="redirectToLogin()"
 				>
-					{{ __('Войти') }}
+					{{ __('Login') }}
 				</Button>
 			</div>
 		</div>
@@ -230,10 +228,10 @@ const batch = createResource({
 })
 
 const breadcrumbs = computed(() => {
-	let crumbs = [{ label: 'Группы', route: { name: 'Batches' } }]
+	let crumbs = [{ label: 'Batches', route: { name: 'Batches' } }]
 	if (!isStudent.value) {
 		crumbs.push({
-			label: 'Детали',
+			label: 'Details',
 			route: {
 				name: 'BatchDetail',
 				params: {
@@ -261,34 +259,34 @@ const tabIndex = ref(0)
 const tabs = computed(() => {
 	let batchTabs = []
 	batchTabs.push({
-		label: 'Панель управления',
+		label: 'Dashboard',
 		icon: LayoutDashboard,
 	})
 
 	batchTabs.push({
-		label: 'Курсы',
+		label: 'Courses',
 		icon: BookOpen,
 	})
 
 	batchTabs.push({
-		label: 'Живой класс',
+		label: 'Live Class',
 		icon: Laptop,
 	})
 
 	if (user.data?.is_moderator) {
 		batchTabs.push({
-			label: 'Оценки',
+			label: 'Assessments',
 			icon: BookOpenCheck,
 		})
 	}
 
 	batchTabs.push({
-		label: 'Объявления',
+		label: 'Announcements',
 		icon: Mail,
 	})
 
 	batchTabs.push({
-		label: 'Обсуждения',
+		label: 'Discussions',
 		icon: MessageCircle,
 	})
 	return batchTabs

@@ -204,10 +204,10 @@ watch(search, () => {
 
 const getRole = (role) => {
 	const map = {
-		'LMS Student': 'Студент',
-		'Course Creator': 'Инструктор',
-		Moderator: 'Модератор',
-		'Batch Evaluator': 'Оценщик',
+		'LMS Student': 'Student',
+		'Course Creator': 'Instructor',
+		Moderator: 'Moderator',
+		'Batch Evaluator': 'Evaluator',
 	}
 	return map[role]
 }

@@ -36,7 +36,7 @@
 							/>
 						</span>
 						<span class="ml-2">
-							{{ __('Ещё') }}
+							{{ __('More') }}
 						</span>
 					</div>
 					<Button v-if="isModerator" variant="ghost" @click="openPageModal()">
@@ -64,7 +64,7 @@
 		</div>
 		<SidebarLink
 			:link="{
-				label: sidebarStore.isSidebarCollapsed ? 'Развернуть' : 'Свернуть',
+				label: sidebarStore.isSidebarCollapsed ? 'Expand' : 'Collapse',
 			}"
 			:isCollapsed="sidebarStore.isSidebarCollapsed"
 			@click="toggleSidebar()"
@@ -165,7 +165,7 @@ const unreadNotifications = createResource({
 const addNotifications = () => {
 	if (user) {
 		sidebarLinks.value.push({
-			label: 'Уведомления',
+			label: 'Notifications',
 			icon: 'Bell',
 			to: 'Notifications',
 			activeFor: ['Notifications'],
@@ -177,7 +177,7 @@ const addNotifications = () => {
 const addQuizzes = () => {
 	if (isInstructor.value || isModerator.value) {
 		sidebarLinks.value.push({
-			label: 'Викторины',
+			label: 'Quizzes',
 			icon: 'CircleHelp',
 			to: 'Quizzes',
 			activeFor: ['Quizzes', 'QuizForm'],
@@ -188,7 +188,7 @@ const addQuizzes = () => {
 const addAssignments = () => {
 	if (isInstructor.value || isModerator.value) {
 		sidebarLinks.value.push({
-			label: 'Задания',
+			label: 'Assignments',
 			icon: 'Pencil',
 			to: 'Assignments',
 			activeFor: ['Assignments', 'AssignmentForm'],
@@ -207,7 +207,7 @@ const addPrograms = () => {
 		settingsStore.learningPaths.data
 	) {
 		sidebarLinks.value = sidebarLinks.value.filter(
-			(link) => link.label !== 'Курсы',
+			(link) => link.label !== 'Courses',
 		)
 		activeFor.push('CourseDetail')
 		activeFor.push('Lesson')
@@ -219,7 +219,7 @@ const addPrograms = () => {
 
 	if (canAddProgram) {
 		sidebarLinks.value.splice(index, 0, {
-			label: 'Программы',
+			label: 'Programs',
 			icon: 'Route',
 			to: 'Programs',
 			activeFor: activeFor,

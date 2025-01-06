@@ -1,31 +1,31 @@
 <template>
 	<div class="mt-7">
 		<h2 class="mb-3 text-lg font-semibold text-gray-900">
-			{{ __('Настройки') }}
+			{{ __('Settings') }}
 		</h2>
 		<div
 			class="flex flex-col justify-between w-3/4 gap-4 mt-5 md:flex-row md:gap-0"
 		>
 			<FormControl
-				:label="__('Модератор')"
+				:label="__('Moderator')"
 				v-model="moderator"
 				type="checkbox"
 				@change.stop="changeRole('moderator')"
 			/>
 			<FormControl
-				:label="__('Создатель курсов')"
+				:label="__('Course Creator')"
 				v-model="course_creator"
 				type="checkbox"
 				@change.stop="changeRole('course_creator')"
 			/>
 			<FormControl
-				:label="__('Оценщик')"
+				:label="__('Evaluator')"
 				v-model="batch_evaluator"
 				type="checkbox"
 				@change.stop="changeRole('batch_evaluator')"
 			/>
 			<FormControl
-				:label="__('Студент')"
+				:label="__('Student')"
 				v-model="lms_student"
 				type="checkbox"
 				@change.stop="changeRole('lms_student')"
@@ -90,7 +90,7 @@ const changeRole = (role) => {
 		},
 		{
 			onSuccess(data) {
-				showToast('Успех', 'Роль успешно обновлена', 'check')
+				showToast('Success', 'Role updated successfully', 'check')
 			},
 		},
 	)

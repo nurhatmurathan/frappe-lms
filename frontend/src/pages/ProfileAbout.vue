@@ -1,7 +1,7 @@
 <template>
 	<div class="mb-10 mt-7">
 		<h2 class="mb-3 text-lg font-semibold text-gray-900">
-			{{ __('О нас') }}
+			{{ __('About') }}
 		</h2>
 		<div
 			v-if="profile.data.bio"
@@ -9,12 +9,12 @@
 			class="ProseMirror prose prose-table:table-fixed prose-td:p-2 prose-th:p-2 prose-td:border prose-th:border prose-td:border-gray-300 prose-th:border-gray-300 prose-td:relative prose-th:relative prose-th:bg-gray-100 prose-sm max-w-none !whitespace-normal"
 		></div>
 		<div v-else class="text-sm italic text-gray-700">
-			{{ __('Нет введения') }}
+			{{ __('No introduction') }}
 		</div>
 	</div>
 	<div class="mb-10 mt-7" v-if="badges.data?.length">
 		<h2 class="mb-3 text-lg font-semibold text-gray-900">
-			{{ __('Достижения') }}
+			{{ __('Achievements') }}
 		</h2>
 		<div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
 			<div v-for="badge in badges.data">
@@ -53,13 +53,13 @@
 								</div>
 								<div class="flex flex-col mb-4">
 									<span class="mb-1 text-xs font-medium text-gray-700">
-										{{ __('Выдано') }}:
+										{{ __('Issued on') }}:
 									</span>
 									{{ dayjs(badge.issued_on).format('DD MMM YYYY') }}
 								</div>
 								<div class="flex flex-col">
 									<span class="mb-1 text-xs font-medium text-gray-700">
-										{{ __('Поделиться в') }}:
+										{{ __('Share on') }}:
 									</span>
 									<div class="flex items-center space-x-2">
 										<Button
@@ -139,9 +139,9 @@ const shareOnSocial = (badge, medium) => {
 	const url = encodeURIComponent(
 		`${window.location.origin}/lms/badges/${badge.badge}/${props.profile.data?.email}`,
 	)
-	const summary = `Я рад сообщить, что получил значок ${
+	const summary = `I am happy to announce that I earned the ${
 		badge.badge
-	} ${dayjs(badge.issued_on).format('DD MMM YYYY')} в ${
+	} badge on ${dayjs(badge.issued_on).format('DD MMM YYYY')} at ${
 		branding.data?.app_name
 	}.`
 

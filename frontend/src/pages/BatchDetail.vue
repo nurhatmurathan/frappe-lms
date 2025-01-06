@@ -16,7 +16,7 @@
 				>
 					<div class="flex items-center">
 						<BookOpen class="w-4 h-4 mr-2 text-gray-700" />
-						<span> {{ batch.data?.courses?.length }} {{ __('Курсы') }} </span>
+						<span> {{ batch.data?.courses?.length }} {{ __('Courses') }} </span>
 					</div>
 					<span class="hidden lg:block" v-if="batch.data.courses"
 						>&middot;</span
@@ -65,7 +65,7 @@
 			<div v-if="batch.data.courses.length">
 				<div class="flex items-center mt-10">
 					<div class="text-2xl font-semibold">
-						{{ __('Курсы') }}
+						{{ __('Courses') }}
 					</div>
 				</div>
 				<div class="grid grid-cols-1 gap-8 mt-5 lg:grid-cols-3">
@@ -137,7 +137,7 @@ const courses = createResource({
 })
 
 const breadcrumbs = computed(() => {
-	let items = [{ label: 'Группы', route: { name: 'Batches' } }]
+	let items = [{ label: 'Batches', route: { name: 'Batches' } }]
 	items.push({
 		label: batch?.data?.title,
 		route: { name: 'BatchDetail', params: { batchName: batch?.data?.name } },

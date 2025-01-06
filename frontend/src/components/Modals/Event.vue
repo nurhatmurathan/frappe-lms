@@ -21,7 +21,7 @@
 								</span>
 							</div>
 						</Tooltip>
-						<Tooltip :text="__('Курс')">
+						<Tooltip :text="__('Course')">
 							<div class="flex items-center space-x-2 w-fit">
 								<BookOpen class="h-4 w-4 stroke-1.5" />
 								<span>
@@ -29,7 +29,7 @@
 								</span>
 							</div>
 						</Tooltip>
-						<Tooltip v-if="event.batch_title" :text="__('Группа')">
+						<Tooltip v-if="event.batch_title" :text="__('Batch')">
 							<div class="flex items-center space-x-2 w-fit">
 								<Users class="h-4 w-4 stroke-1.5" />
 								<span>
@@ -37,7 +37,7 @@
 								</span>
 							</div>
 						</Tooltip>
-						<Tooltip :text="__('Дата')">
+						<Tooltip :text="__('Date')">
 							<div class="flex items-center space-x-2 w-fit">
 								<Calendar class="h-4 w-4 stroke-1.5" />
 								<span>
@@ -45,7 +45,7 @@
 								</span>
 							</div>
 						</Tooltip>
-						<Tooltip :text="__('Время')">
+						<Tooltip :text="__('Time')">
 							<div class="flex items-center space-x-2 w-fit">
 								<Clock class="h-4 w-4 stroke-1.5" />
 								<span>
@@ -64,14 +64,14 @@
 							<template #prefix>
 								<FileText class="h-4 w-4 stroke-1.5" />
 							</template>
-							{{ __('Просмотреть сертификат') }}
+							{{ __('View Certificate') }}
 						</Button>
 						<Button v-else @click="openCallLink(event.venue)" class="w-full">
 							<template #prefix>
 								<Video class="h-4 w-4 stroke-1.5" />
 							</template>
 							<span>
-								{{ __('Присоединиться к встрече') }}
+								{{ __('Join Meeting') }}
 							</span>
 						</Button>
 					</div>
@@ -79,37 +79,37 @@
 				<Tabs :tabs="tabs" v-model="tabIndex" class="w-1/2 border-l">
 					<template #default="{ tab }">
 						<div
-							v-if="tab.label == 'Оценка'"
+							v-if="tab.label == 'Evaluation'"
 							class="flex flex-col p-5 space-y-4"
 						>
 							<div class="flex items-center justify-between">
-								<Rating v-model="evaluation.rating" :label="__('Рейтинг')" />
+								<Rating v-model="evaluation.rating" :label="__('Rating')" />
 								<FormControl
 									type="select"
 									:options="statusOptions"
 									v-model="evaluation.status"
-									:label="__('Статус')"
+									:label="__('Status')"
 									class="w-1/2"
 								/>
 							</div>
 							<Textarea
 								v-model="evaluation.summary"
-								:label="__('Резюме')"
+								:label="__('Summary')"
 								:rows="7"
 							/>
 							<Button variant="solid" @click="saveEvaluation()">
-								{{ __('Сохранить') }}
+								{{ __('Save') }}
 							</Button>
 						</div>
 						<div v-else class="flex flex-col p-5 space-y-4">
 							<FormControl
 								type="checkbox"
 								v-model="certificate.published"
-								:label="__('Опубликовано')"
+								:label="__('Published')"
 							/>
 							<Link
 								v-model="certificate.template"
-								:label="__('Шаблон')"
+								:label="__('Template')"
 								doctype="Print Format"
 								:filters="{
 									doc_type: 'LMS Certificate',
@@ -118,15 +118,15 @@
 							<FormControl
 								type="date"
 								v-model="certificate.issue_date"
-								:label="__('Дата выдачи')"
+								:label="__('Issue Date')"
 							/>
 							<FormControl
 								type="date"
 								v-model="certificate.expiry_date"
-								:label="__('Дата истечения')"
+								:label="__('Expiry Date')"
 							/>
 							<Button variant="solid" @click="saveCertificate()">
-								{{ __('Сохранить') }}
+								{{ __('Save') }}
 							</Button>
 						</div>
 					</template>
@@ -252,7 +252,7 @@ const saveEvaluation = () => {
 				} else {
 					show.value = false
 				}
-				showToast(__('Успех'), __('Оценка успешно сохранена'), 'check')
+				showToast(__('Success'), __('Evaluation saved successfully'), 'check')
 			},
 		},
 	)
@@ -307,7 +307,7 @@ const saveCertificate = () => {
 		{},
 		{
 			onSuccess: () => {
-				showToast(__('Успех'), __('Сертификат успешно сохранен'), 'check')
+				showToast(__('Success'), __('Certificate saved successfully'), 'check')
 			},
 		},
 	)
@@ -316,7 +316,7 @@ const saveCertificate = () => {
 watch(show, () => {
 	if (show.value) {
 		evaluation.rating = 0
-		evaluation.status = 'В ожидании'
+		evaluation.status = 'Pending'
 		evaluation.summary = ''
 		evaluationDetails.reload()
 
@@ -340,20 +340,20 @@ const openCertificate = (certificate) => {
 const statusOptions = computed(() => {
 	return [
 		{
-			value: 'В ожидании',
-			label: __('В ожидании'),
+			value: 'Pending',
+			label: __('Pending'),
 		},
 		{
-			value: 'В процессе',
-			label: __('В процессе'),
+			value: 'In Progress',
+			label: __('In Progress'),
 		},
 		{
-			value: 'Пройдено',
-			label: __('Пройдено'),
+			value: 'Pass',
+			label: __('Pass'),
 		},
 		{
-			value: 'Не пройдено',
-			label: __('Не пройдено'),
+			value: 'Fail',
+			label: __('Fail'),
 		},
 	]
 })
@@ -361,14 +361,14 @@ const statusOptions = computed(() => {
 const tabs = computed(() => {
 	const tabsArray = [
 		{
-			label: __('Оценка'),
+			label: __('Evaluation'),
 			icon: ClipboardList,
 		},
 	]
 
 	if (showCertification.value) {
 		tabsArray.push({
-			label: __('Сертификация'),
+			label: __('Certification'),
 			icon: GraduationCap,
 		})
 	}

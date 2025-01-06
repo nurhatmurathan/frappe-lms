@@ -1,7 +1,7 @@
 <template>
 	<div class="mb-10 mt-7">
 		<h2 class="mb-3 text-lg font-semibold text-gray-900">
-			{{ __('Сертификаты') }}
+			{{ __('Certificates') }}
 		</h2>
 		<div class="grid gap-4 grod-cols-1 md:grid-cols-2 lg:grid-cols-3">
 			<div
@@ -14,7 +14,7 @@
 					{{ certificate.course_title }}
 				</div>
 				<div class="mt-2">
-					<span class="text-xs text-gray-700"> {{ __('выдан') }}: </span>
+					<span class="text-xs text-gray-700"> {{ __('issued on') }}: </span>
 					{{ dayjs(certificate.issue_date).format('DD MMM YYYY') }}
 				</div>
 			</div>

@@ -29,7 +29,7 @@
 							<template #prefix>
 								<Edit class="w-4 h-4 stroke-1.5 text-gray-700" />
 							</template>
-							{{ __('Редактировать') }}
+							{{ __('Edit') }}
 						</Button>
 					</template>
 				</EditCoverImage>
@@ -65,7 +65,7 @@
 					<template #prefix>
 						<Edit class="w-4 h-4 stroke-1.5 text-gray-700" />
 					</template>
-					{{ __('Редактировать профиль') }}
+					{{ __('Edit Profile') }}
 				</Button>
 			</div>
 
@@ -152,17 +152,17 @@ const setActiveTab = () => {
 			activeTab.value = convertToTitleCase(section)
 		}
 	})
-	if (!activeTab.value) activeTab.value = 'Обо мне'
+	if (!activeTab.value) activeTab.value = 'About'
 }
 
 watchEffect(() => {
 	if (activeTab.value) {
 		let route = {
-			'Обо мне': { name: 'ProfileAbout' },
-			Сертификаты: { name: 'ProfileCertificates' },
-			Роли: { name: 'ProfileRoles' },
-			Слоты: { name: 'ProfileEvaluator' },
-			Расписание: { name: 'ProfileEvaluationSchedule' },
+			About: { name: 'ProfileAbout' },
+			Certificates: { name: 'ProfileCertificates' },
+			Roles: { name: 'ProfileRoles' },
+			Slots: { name: 'ProfileEvaluator' },
+			Schedule: { name: 'ProfileEvaluationSchedule' },
 		}[activeTab.value]
 		router.push(route)
 	}
@@ -184,14 +184,14 @@ const isSessionUser = () => {
 }
 
 const getTabButtons = () => {
-	let buttons = [{ label: 'Обо мне' }, { label: 'Сертификаты' }]
-	if ($user.data?.is_moderator) buttons.push({ label: 'Роли' })
+	let buttons = [{ label: 'About' }, { label: 'Certificates' }]
+	if ($user.data?.is_moderator) buttons.push({ label: 'Roles' })
 	if (
 		isSessionUser() &&
 		($user.data?.is_evaluator || $user.data?.is_moderator)
 	) {
-		buttons.push({ label: 'Слоты' })
-		buttons.push({ label: 'Расписание' })
+		buttons.push({ label: 'Slots' })
+		buttons.push({ label: 'Schedule' })
 	}
 
 	return buttons
@@ -200,7 +200,7 @@ const getTabButtons = () => {
 const breadcrumbs = computed(() => {
 	let crumbs = [
 		{
-			label: 'Люди',
+			label: 'People',
 		},
 		{
 			label: profile.data?.full_name,

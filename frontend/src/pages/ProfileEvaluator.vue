@@ -1,7 +1,7 @@
 <template>
 	<div class="mb-20 mt-7">
 		<h2 class="mb-4 text-lg font-semibold text-gray-900">
-			{{ __('Моя доступность') }}
+			{{ __('My availability') }}
 		</h2>
 
 		<div class="">
@@ -9,13 +9,13 @@
 				class="grid grid-cols-3 gap-4 mb-4 text-sm text-gray-700 md:grid-cols-4"
 			>
 				<div>
-					{{ __('День') }}
+					{{ __('Day') }}
 				</div>
 				<div>
-					{{ __('Время начала') }}
+					{{ __('Start Time') }}
 				</div>
 				<div>
-					{{ __('Время окончания') }}
+					{{ __('End Time') }}
 				</div>
 			</div>
 
@@ -72,17 +72,17 @@
 				<template #prefix>
 					<Plus class="w-4 h-4 stroke-1.5 text-gray-700" />
 				</template>
-				{{ __('Добавить слот') }}
+				{{ __('Add Slot') }}
 			</Button>
 		</div>
 		<div class="my-10">
 			<h2 class="mb-4 text-lg font-semibold text-gray-900">
-				{{ __('Я недоступен') }}
+				{{ __('I am unavailable') }}
 			</h2>
 			<div class="grid grid-cols-2 gap-4 md:grid-cols-4">
 				<FormControl
 					type="date"
-					:label="__('С')"
+					:label="__('From')"
 					v-model="from"
 					@blur="
 						() => {
@@ -95,7 +95,7 @@
 				/>
 				<FormControl
 					type="date"
-					:label="__('По')"
+					:label="__('To')"
 					v-model="to"
 					@blur="
 						() => {
@@ -110,17 +110,17 @@
 		</div>
 		<div>
 			<h2 class="mb-4 text-lg font-semibold text-gray-900">
-				{{ __('Мой календарь') }}
+				{{ __('My calendar') }}
 			</h2>
 			<div
 				v-if="evaluator.data?.calendar && evaluator.data?.is_authorized"
 				class="flex items-center p-1 mb-4 text-sm text-green-900 bg-green-100 rounded-md w-fit"
 			>
 				<Check class="h-4 w-4 stroke-1.5 mr-2" />
-				{{ __('Ваш календарь установлен.') }}
+				{{ __('Your calendar is set.') }}
 			</div>
 			<Button @click="() => authorizeCalendar.submit()">
-				{{ __('Авторизовать доступ к Google Календарю') }}
+				{{ __('Authorize Google Calendar Access') }}
 			</Button>
 		</div>
 	</div>
@@ -182,7 +182,7 @@ const createSlot = createResource({
 		}
 	},
 	onSuccess() {
-		showToast('Успех', 'Слот успешно добавлен', 'check')
+		showToast('Success', 'Slot added successfully', 'check')
 		evaluator.reload()
 		showSlotsTemplate.value = 0
 		newSlot.day = ''
@@ -190,7 +190,7 @@ const createSlot = createResource({
 		newSlot.end_time = ''
 	},
 	onError(err) {
-		showToast('Ошибка', err.messages?.[0] || err, 'x')
+		showToast('Error', err.messages?.[0] || err, 'x')
 	},
 })
 
@@ -205,10 +205,10 @@ const updateSlot = createResource({
 		}
 	},
 	onSuccess() {
-		showToast('Успех', 'Доступность успешно обновлена', 'check')
+		showToast('Success', 'Availability updated successfully', 'check')
 	},
 	onError(err) {
-		showToast('Ошибка', err.messages?.[0] || err, 'x')
+		showToast('Error', err.messages?.[0] || err, 'x')
 	},
 })
 
@@ -221,11 +221,11 @@ const deleteSlot = createResource({
 		}
 	},
 	onSuccess() {
-		showToast('Успех', 'Слот успешно удален', 'check')
+		showToast('Success', 'Slot deleted successfully', 'check')
 		evaluator.reload()
 	},
 	onError(err) {
-		showToast('Ошибка', err.messages?.[0] || err, 'x')
+		showToast('Error', err.messages?.[0] || err, 'x')
 	},
 })
 
@@ -240,10 +240,10 @@ const updateUnavailability = createResource({
 		}
 	},
 	onSuccess() {
-		showToast('Успех', 'Недоступность успешно обновлена', 'check')
+		showToast('Success', 'Unavailability updated successfully', 'check')
 	},
 	onError(err) {
-		showToast('Ошибка', err.messages?.[0] || err, 'x')
+		showToast('Error', err.messages?.[0] || err, 'x')
 	},
 })
 
@@ -257,7 +257,7 @@ const update = (name, field, value) => {
 		{
 			validate() {
 				if (!value) {
-					return `Пожалуйста, введите значение для ${convertToTitleCase(field)}`
+					return `Please enter a value for ${convertToTitleCase(field)}`
 				}
 			},
 		},
@@ -291,31 +291,31 @@ const authorizeCalendar = createResource({
 const days = computed(() => {
 	return [
 		{
-			label: 'Понедельник',
+			label: 'Monday',
 			value: 'Monday',
 		},
 		{
-			label: 'Вторник',
+			label: 'Tuesday',
 			value: 'Tuesday',
 		},
 		{
-			label: 'Среда',
+			label: 'Wednesday',
 			value: 'Wednesday',
 		},
 		{
-			label: 'Четверг',
+			label: 'Thursday',
 			value: 'Thursday',
 		},
 		{
-			label: 'Пятница',
+			label: 'Friday',
 			value: 'Friday',
 		},
 		{
-			label: 'Суббота',
+			label: 'Saturday',
 			value: 'Saturday',
 		},
 		{
-			label: 'Воскресенье',
+			label: 'Sunday',
 			value: 'Sunday',
 		},
 	]

@@ -182,7 +182,7 @@ const setupSCORMAPI = () => {
 const breadcrumbs = computed(() => {
 	return [
 		{
-			label: 'Курсы',
+			label: 'Courses',
 			route: { name: 'Courses' },
 		},
 		{

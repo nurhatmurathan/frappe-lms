@@ -5,7 +5,7 @@
 		>
 			<Breadcrumbs
 				class="h-7"
-				:items="[{ label: __('Партии'), route: { name: 'Batches' } }]"
+				:items="[{ label: __('Batches'), route: { name: 'Batches' } }]"
 			/>
 			<div class="flex space-x-2">
 				<div class="w-44">
@@ -13,7 +13,7 @@
 						v-if="categories.data?.length"
 						v-model="currentCategory"
 						:options="categories.data"
-						:placeholder="__('Категория')"
+						:placeholder="__('Category')"
 					/>
 				</div>
 				<router-link
@@ -27,7 +27,7 @@
 						<template #prefix>
 							<Plus class="h-4 w-4 stroke-1.5" />
 						</template>
-						{{ __('Новый') }}
+						{{ __('New') }}
 					</Button>
 				</router-link>
 			</div>
@@ -37,7 +37,7 @@
 				v-if="batches.data.length == 0 && batches.list.loading"
 				class="p-5 text-base text-gray-700"
 			>
-				{{ __('Загрузка партий...') }}
+				{{ __('Loading Batches...') }}
 			</div>
 			<Tabs
 				v-if="hasBatches"
@@ -81,7 +81,7 @@
 						</router-link>
 					</div>
 					<div v-else class="p-5 italic text-gray-500">
-						{{ __('Нет партий {0}').format(tab.label.toLowerCase()) }}
+						{{ __('No {0} batches').format(tab.label.toLowerCase()) }}
 					</div>
 				</template>
 			</Tabs>
@@ -107,10 +107,10 @@
 								class="p-1 text-gray-800 bg-white border rounded-full stroke-1 size-10"
 							/>
 							<div class="font-medium">
-								{{ __('Создать партию') }}
+								{{ __('Create a Batch') }}
 							</div>
 							<span class="text-sm leading-4 text-gray-700">
-								{{ __('Вы можете связать курсы и оценки с ней.') }}
+								{{ __('You can link courses and assessments to it.') }}
 							</span>
 						</div>
 					</div>
@@ -122,12 +122,12 @@
 			>
 				<BookOpen class="mx-auto text-gray-500 stroke-1 size-10" />
 				<div class="text-xl font-medium">
-					{{ __('Партии не найдены') }}
+					{{ __('No batches found') }}
 				</div>
 				<div>
 					{{
 						__(
-							'В данный момент партии отсутствуют. Следите за обновлениями, скоро появятся новые возможности для обучения!',
+							'There are no batches available at the moment. Keep an eye out, fresh learning experiences are on the way soon!',
 						)
 					}}
 				</div>
@@ -192,15 +192,15 @@ let tabs
 
 const makeTabs = computed(() => {
 	tabs = []
-	addToTabs('Предстоящие')
+	addToTabs('Upcoming')
 
 	if (user.data?.is_moderator) {
-		addToTabs('Архивные')
-		addToTabs('Приватные')
+		addToTabs('Archived')
+		addToTabs('Private')
 	}
 
 	if (user.data) {
-		addToTabs('Записанные')
+		addToTabs('Enrolled')
 	}
 
 	return tabs
@@ -247,8 +247,8 @@ watch(
 
 const pageMeta = computed(() => {
 	return {
-		title: 'Партии',
-		description: 'Все партии, разделенные по категориям',
+		title: 'Batches',
+		description: 'All batches divided by categories',
 	}
 })
 
