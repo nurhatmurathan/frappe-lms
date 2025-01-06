@@ -153,7 +153,7 @@ const unreadNotifications = createResource({
 	onSuccess(data) {
 		unreadCount.value = data
 		sidebarLinks.value = sidebarLinks.value.map((link) => {
-			if (link.label === 'Notifications') {
+			if (link.label === 'Уведомления') {
 				link.count = data
 			}
 			return link
@@ -165,7 +165,7 @@ const unreadNotifications = createResource({
 const addNotifications = () => {
 	if (user) {
 		sidebarLinks.value.push({
-			label: 'Notifications',
+			label: 'Уведомления',
 			icon: 'Bell',
 			to: 'Notifications',
 			activeFor: ['Notifications'],
@@ -177,7 +177,7 @@ const addNotifications = () => {
 const addQuizzes = () => {
 	if (isInstructor.value || isModerator.value) {
 		sidebarLinks.value.push({
-			label: 'Quizzes',
+			label: 'Викторины',
 			icon: 'CircleHelp',
 			to: 'Quizzes',
 			activeFor: ['Quizzes', 'QuizForm'],
@@ -188,7 +188,7 @@ const addQuizzes = () => {
 const addAssignments = () => {
 	if (isInstructor.value || isModerator.value) {
 		sidebarLinks.value.push({
-			label: 'Assignments',
+			label: 'Задания',
 			icon: 'Pencil',
 			to: 'Assignments',
 			activeFor: ['Assignments', 'AssignmentForm'],
@@ -219,7 +219,7 @@ const addPrograms = () => {
 
 	if (canAddProgram) {
 		sidebarLinks.value.splice(index, 0, {
-			label: 'Programs',
+			label: 'Программы',
 			icon: 'Route',
 			to: 'Programs',
 			activeFor: activeFor,
@@ -268,3 +268,4 @@ const toggleSidebar = () => {
 	sidebarStore.isSidebarCollapsed = !sidebarStore.isSidebarCollapsed
 }
 </script>
+script
