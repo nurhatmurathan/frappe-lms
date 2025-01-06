@@ -64,7 +64,7 @@
 		</div>
 		<SidebarLink
 			:link="{
-				label: sidebarStore.isSidebarCollapsed ? 'Expand' : 'Collapse',
+				label: sidebarStore.isSidebarCollapsed ? 'Развернуть' : 'Свернуть',
 			}"
 			:isCollapsed="sidebarStore.isSidebarCollapsed"
 			@click="toggleSidebar()"
