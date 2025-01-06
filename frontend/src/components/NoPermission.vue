@@ -1,14 +1,14 @@
 <template>
-	<div class="border rounded-md w-1/3 mx-auto my-32">
-		<div class="border-b px-5 py-3 font-medium">
+	<div class="w-1/3 mx-auto my-32 border rounded-md">
+		<div class="px-5 py-3 font-medium border-b">
 			<span
 				class="inline-flex items-center before:bg-red-600 before:w-2 before:h-2 before:rounded-md before:mr-2"
 			></span>
-			{{ __('Not Permitted') }}
+			{{ __('Нет доступа') }}
 		</div>
 		<div v-if="user.data" class="px-5 py-3">
 			<div>
-				{{ __('You do not have permission to access this page.') }}
+				{{ __('У вас нет разрешения на доступ к этой странице.') }}
 			</div>
 			<router-link
 				:to="{
@@ -16,23 +16,23 @@
 				}"
 			>
 				<Button variant="solid" class="mt-2">
-					{{ __('Checkout Courses') }}
+					{{ __('Посмотреть курсы') }}
 				</Button>
 			</router-link>
 		</div>
 		<div class="px-5 py-3">
 			<div>
-				{{ __('Please login to access this page.') }}
+				{{ __('Пожалуйста, войдите, чтобы получить доступ к этой странице.') }}
 			</div>
 			<Button @click="redirectToLogin()" class="mt-4">
-				{{ __('Login') }}
+				{{ __('Войти') }}
 			</Button>
 		</div>
 	</div>
 </template>
 <script setup>
-import { inject } from 'vue'
 import { Button } from 'frappe-ui'
+import { inject } from 'vue'
 
 const user = inject('$user')
 

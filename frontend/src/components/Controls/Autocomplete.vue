@@ -5,14 +5,14 @@
 				<slot name="target" v-bind="{ open: openPopover, togglePopover }">
 					<div class="w-full">
 						<button
-							class="flex w-full items-center justify-between focus:outline-none"
+							class="flex items-center justify-between w-full focus:outline-none"
 							:class="inputClasses"
 							@click="() => togglePopover()"
 						>
 							<div class="flex items-center">
 								<slot name="prefix" />
 								<span
-									class="overflow-hidden text-ellipsis whitespace-nowrap text-base leading-5"
+									class="overflow-hidden text-base leading-5 text-ellipsis whitespace-nowrap"
 									v-if="selectedValue"
 								>
 									{{ displayValue(selectedValue) }}
@@ -28,11 +28,11 @@
 			</template>
 			<template #body="{ isOpen }">
 				<div v-show="isOpen">
-					<div class="mt-1 rounded-lg bg-white py-1 text-base shadow-2xl">
+					<div class="py-1 mt-1 text-base bg-white rounded-lg shadow-2xl">
 						<div class="relative px-1.5 pt-0.5">
 							<ComboboxInput
 								ref="search"
-								class="form-input w-full"
+								class="w-full form-input"
 								type="text"
 								@change="
 									(e) => {
@@ -105,7 +105,7 @@
 								v-if="groups.length == 0"
 								class="mt-1.5 rounded-md px-2.5 py-1.5 text-base text-gray-600"
 							>
-								No results found
+								Результаты не найдены
 							</li>
 						</ComboboxOptions>
 						<div v-if="slots.footer" class="border-t p-1.5 pb-0.5">
@@ -125,12 +125,12 @@
 import {
 	Combobox,
 	ComboboxInput,
-	ComboboxOptions,
 	ComboboxOption,
+	ComboboxOptions,
 } from '@headlessui/vue'
-import { Popover, Button } from 'frappe-ui'
+import { Popover } from 'frappe-ui'
 import { ChevronDown, X } from 'lucide-vue-next'
-import { ref, computed, useAttrs, useSlots, watch, nextTick } from 'vue'
+import { computed, nextTick, ref, useAttrs, useSlots, watch } from 'vue'
 
 const props = defineProps({
 	modelValue: {
@@ -216,7 +216,7 @@ function filterOptions(options) {
 	return options.filter((option) => {
 		let searchTexts = [option.label, option.value]
 		return searchTexts.some((text) =>
-			(text || '').toString().toLowerCase().includes(query.value.toLowerCase())
+			(text || '').toString().toLowerCase().includes(query.value.toLowerCase()),
 		)
 	})
 }

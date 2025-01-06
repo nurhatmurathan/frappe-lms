@@ -2,12 +2,12 @@
 	<div class="flex flex-col justify-between min-h-0">
 		<div>
 			<div class="flex items-center justify-between">
-				<div class="font-semibold mb-1">
+				<div class="mb-1 font-semibold">
 					{{ __(label) }}
 				</div>
 				<Badge
 					v-if="isDirty"
-					:label="__('Not Saved')"
+					:label="__('Не сохранено')"
 					variant="subtle"
 					theme="orange"
 				/>
@@ -20,16 +20,16 @@
 			<SettingFields :fields="fields" :data="data.data" />
 			<div class="flex flex-row-reverse mt-auto">
 				<Button variant="solid" :loading="saveSettings.loading" @click="update">
-					{{ __('Update') }}
+					{{ __('Обновить') }}
 				</Button>
 			</div>
 		</div>
 	</div>
 </template>
 <script setup>
-import { createResource, Button, Badge } from 'frappe-ui'
 import SettingFields from '@/components/SettingFields.vue'
-import { watch, ref } from 'vue'
+import { Badge, Button, createResource } from 'frappe-ui'
+import { ref, watch } from 'vue'
 
 const isDirty = ref(false)
 
@@ -80,7 +80,7 @@ const update = () => {
 			onSuccess(data) {
 				isDirty.value = false
 			},
-		}
+		},
 	)
 }
 

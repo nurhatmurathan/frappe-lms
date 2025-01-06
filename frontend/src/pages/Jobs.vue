@@ -5,7 +5,7 @@
 		>
 			<Breadcrumbs
 				class="h-7"
-				:items="[{ label: __('Jobs'), route: { name: 'Jobs' } }]"
+				:items="[{ label: __('Вакансии'), route: { name: 'Jobs' } }]"
 			/>
 			<div class="flex space-x-2">
 				<div class="w-40 md:w-44">
@@ -13,11 +13,11 @@
 						v-model="jobType"
 						type="select"
 						:options="jobTypes"
-						:placeholder="__('Type')"
+						:placeholder="__('Тип')"
 					/>
 				</div>
 				<div class="w-28 md:w-36">
-					<FormControl type="text" placeholder="Search" v-model="searchQuery">
+					<FormControl type="text" placeholder="Поиск" v-model="searchQuery">
 						<template #prefix>
 							<Search class="w-4 h-4 stroke-1.5 text-gray-600" name="search" />
 						</template>
@@ -34,17 +34,17 @@
 				>
 					<Button variant="solid">
 						<template #prefix>
-							<Plus class="h-4 w-4" />
+							<Plus class="w-4 h-4" />
 						</template>
-						{{ __('New Job') }}
+						{{ __('Новая вакансия') }}
 					</Button>
 				</router-link>
 			</div>
 		</header>
 		<div v-if="jobsList?.length">
-			<div class="lg:w-3/4 mx-auto p-5">
-				<div class="text-xl font-semibold mb-5">
-					{{ __('Find the perfect job for you') }}
+			<div class="p-5 mx-auto lg:w-3/4">
+				<div class="mb-5 text-xl font-semibold">
+					{{ __('Найдите идеальную работу для себя') }}
 				</div>
 				<div v-for="job in jobsList" class="divide-y">
 					<router-link
@@ -59,17 +59,17 @@
 				</div>
 			</div>
 		</div>
-		<div v-else class="text-gray-700 italic p-5 w-fit mx-auto">
-			{{ __('No jobs posted') }}
+		<div v-else class="p-5 mx-auto italic text-gray-700 w-fit">
+			{{ __('Вакансий нет') }}
 		</div>
 	</div>
 </template>
 <script setup>
-import { Button, Breadcrumbs, createResource, FormControl } from 'frappe-ui'
-import { Plus, Search } from 'lucide-vue-next'
-import { inject, computed, ref, onMounted } from 'vue'
 import JobCard from '@/components/JobCard.vue'
 import { updateDocumentTitle } from '@/utils'
+import { Breadcrumbs, Button, createResource, FormControl } from 'frappe-ui'
+import { Plus, Search } from 'lucide-vue-next'
+import { computed, inject, onMounted, ref } from 'vue'
 
 const user = inject('$user')
 const jobType = ref(null)
@@ -90,8 +90,8 @@ const jobs = createResource({
 
 const pageMeta = computed(() => {
 	return {
-		title: 'Jobs',
-		description: 'An open job board for the community',
+		title: 'Вакансии',
+		description: 'Открытая доска вакансий для сообщества',
 	}
 })
 
@@ -106,7 +106,7 @@ const jobsList = computed(() => {
 			(job) =>
 				job.job_title.toLowerCase().includes(query) ||
 				job.company_name.toLowerCase().includes(query) ||
-				job.location.toLowerCase().includes(query)
+				job.location.toLowerCase().includes(query),
 		)
 	}
 	return jobData
@@ -115,10 +115,10 @@ const jobsList = computed(() => {
 const jobTypes = computed(() => {
 	return [
 		'',
-		{ label: __('Full Time'), value: 'Full Time' },
-		{ label: __('Part Time'), value: 'Part Time' },
-		{ label: __('Contract'), value: 'Contract' },
-		{ label: __('Freelance'), value: 'Freelance' },
+		{ label: __('Полный рабочий день'), value: 'Full Time' },
+		{ label: __('Частичная занятость'), value: 'Part Time' },
+		{ label: __('Контракт'), value: 'Contract' },
+		{ label: __('Фриланс'), value: 'Freelance' },
 	]
 })
 

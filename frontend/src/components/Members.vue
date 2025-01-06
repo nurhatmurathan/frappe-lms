@@ -1,18 +1,18 @@
 <template>
-	<div class="flex min-h-0 flex-col text-base">
+	<div class="flex flex-col min-h-0 text-base">
 		<div class="flex items-center justify-between">
 			<div>
-				<div class="text-xl font-semibold mb-1">
+				<div class="mb-1 text-xl font-semibold">
 					{{ __(label) }}
 				</div>
 				<!-- <div class="text-xs text-gray-600">
 					{{ __(description) }}
 				</div> -->
 			</div>
-			<div class="flex item-center space-x-2">
+			<div class="flex space-x-2 item-center">
 				<FormControl
 					v-model="search"
-					:placeholder="__('Search')"
+					:placeholder="__('Поиск')"
 					type="text"
 					:debounce="300"
 				/>
@@ -25,27 +25,27 @@
 			</div>
 		</div>
 
-		<!-- Form to add new member -->
-		<div v-if="showForm" class="flex items-center space-x-2 my-4">
+		<!-- Форма для добавления нового участника -->
+		<div v-if="showForm" class="flex items-center my-4 space-x-2">
 			<FormControl
 				v-model="member.email"
-				:placeholder="__('Email')"
+				:placeholder="__('Электронная почта')"
 				type="email"
 				class="w-full"
 			/>
 			<FormControl
 				v-model="member.first_name"
-				:placeholder="__('First Name')"
-				type="test"
+				:placeholder="__('Имя')"
+				type="text"
 				class="w-full"
 			/>
 			<Button @click="addMember()" variant="subtle">
-				{{ __('Add') }}
+				{{ __('Добавить') }}
 			</Button>
 		</div>
 
-		<div class="mt-2 pb-10 overflow-auto">
-			<!-- Member list -->
+		<div class="pb-10 mt-2 overflow-auto">
+			<!-- Список участников -->
 			<div class="overflow-y-scroll">
 				<ul class="divide-y">
 					<li
@@ -54,7 +54,7 @@
 					>
 						<div
 							@click="openProfile(member.username)"
-							class="flex items-center space-x-3 col-span-2"
+							class="flex items-center col-span-2 space-x-3"
 						>
 							<Avatar
 								:image="member.user_image"
@@ -86,7 +86,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="flex items-center justify-center text-gray-700 text-sm">
+						<div class="flex items-center justify-center text-sm text-gray-700">
 							<div v-if="member.last_active">
 								{{ dayjs(member.last_active).format('DD MMM, YYYY HH:mm a') }}
 							</div>
@@ -103,17 +103,17 @@
 					<template #prefix>
 						<RefreshCw class="h-3 w-3 stroke-1.5" />
 					</template>
-					{{ __('Load More') }}
+					{{ __('Загрузить еще') }}
 				</Button>
 			</div>
 		</div>
 	</div>
 </template>
 <script setup lang="ts">
-import { createResource, Avatar, Button, FormControl, Badge } from 'frappe-ui'
+import { Avatar, Badge, Button, createResource, FormControl } from 'frappe-ui'
+import { Plus, RefreshCw, X } from 'lucide-vue-next'
+import { inject, reactive, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { ref, watch, reactive, inject } from 'vue'
-import { RefreshCw, Plus, X } from 'lucide-vue-next'
 
 const router = useRouter()
 const show = defineModel('show')
@@ -204,10 +204,10 @@ watch(search, () => {
 
 const getRole = (role) => {
 	const map = {
-		'LMS Student': 'Student',
-		'Course Creator': 'Instructor',
-		Moderator: 'Moderator',
-		'Batch Evaluator': 'Evaluator',
+		'LMS Student': 'Студент',
+		'Course Creator': 'Инструктор',
+		Moderator: 'Модератор',
+		'Batch Evaluator': 'Оценщик',
 	}
 	return map[role]
 }

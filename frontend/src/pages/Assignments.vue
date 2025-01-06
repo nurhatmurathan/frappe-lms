@@ -15,19 +15,22 @@
 				<template #prefix>
 					<Plus class="w-4 h-4" />
 				</template>
-				{{ __('New') }}
+				{{ __('Новый') }}
 			</Button>
 		</router-link>
 	</header>
 
-	<div class="md:w-3/4 md:mx-auto py-5 mx-5">
+	<div class="py-5 mx-5 md:w-3/4 md:mx-auto">
 		<div class="grid grid-cols-3 gap-5 mb-5">
-			<FormControl v-model="titleFilter" :placeholder="__('Search by title')" />
+			<FormControl
+				v-model="titleFilter"
+				:placeholder="__('Поиск по названию')"
+			/>
 			<FormControl
 				v-model="typeFilter"
 				type="select"
 				:options="assignmentTypes"
-				:placeholder="__('Type')"
+				:placeholder="__('Тип')"
 			/>
 		</div>
 		<ListView
@@ -49,16 +52,16 @@
 		</ListView>
 		<div
 			v-else
-			class="text-center p-5 text-gray-600 mt-52 w-3/4 md:w-1/2 mx-auto space-y-2"
+			class="w-3/4 p-5 mx-auto space-y-2 text-center text-gray-600 mt-52 md:w-1/2"
 		>
-			<Pencil class="size-10 mx-auto stroke-1 text-gray-500" />
+			<Pencil class="mx-auto text-gray-500 stroke-1 size-10" />
 			<div class="text-xl font-medium">
-				{{ __('No assignments found') }}
+				{{ __('Задания не найдены') }}
 			</div>
 			<div class="leading-5">
 				{{
 					__(
-						'You have not created any assignments yet. To create a new assignment, click on the "New" button above.'
+						'Вы еще не создали ни одного задания. Чтобы создать новое задание, нажмите кнопку "Новый" выше.',
 					)
 				}}
 			</div>
@@ -68,7 +71,7 @@
 			class="flex justify-center my-5"
 		>
 			<Button @click="assignments.next()">
-				{{ __('Load More') }}
+				{{ __('Загрузить еще') }}
 			</Button>
 		</div>
 	</div>
@@ -81,8 +84,8 @@ import {
 	FormControl,
 	ListView,
 } from 'frappe-ui'
+import { Pencil, Plus } from 'lucide-vue-next'
 import { computed, inject, onMounted, ref, watch } from 'vue'
-import { Plus, Pencil } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
 
 const user = inject('$user')
@@ -149,18 +152,18 @@ const assignments = createListResource({
 const assignmentColumns = computed(() => {
 	return [
 		{
-			label: __('Title'),
+			label: __('Название'),
 			key: 'title',
 			width: 2,
 		},
 		{
-			label: __('Type'),
+			label: __('Тип'),
 			key: 'type',
 			width: 1,
 			align: 'left',
 		},
 		{
-			label: __('Created'),
+			label: __('Создано'),
 			key: 'creation',
 			width: 1,
 			align: 'center',
@@ -169,7 +172,7 @@ const assignmentColumns = computed(() => {
 })
 
 const assignmentTypes = computed(() => {
-	let types = ['', 'Document', 'Image', 'PDF', 'URL', 'Text']
+	let types = ['', 'Документ', 'Изображение', 'PDF', 'URL', 'Текст']
 	return types.map((type) => {
 		return {
 			label: __(type),
@@ -180,7 +183,7 @@ const assignmentTypes = computed(() => {
 
 const breadcrumbs = computed(() => [
 	{
-		label: 'Assignments',
+		label: 'Задания',
 		route: { name: 'Assignments' },
 	},
 ])

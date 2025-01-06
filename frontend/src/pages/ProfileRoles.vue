@@ -1,31 +1,31 @@
 <template>
 	<div class="mt-7">
 		<h2 class="mb-3 text-lg font-semibold text-gray-900">
-			{{ __('Settings') }}
+			{{ __('Настройки') }}
 		</h2>
 		<div
-			class="flex flex-col md:flex-row gap-4 md:gap-0 justify-between w-3/4 mt-5"
+			class="flex flex-col justify-between w-3/4 gap-4 mt-5 md:flex-row md:gap-0"
 		>
 			<FormControl
-				:label="__('Moderator')"
+				:label="__('Модератор')"
 				v-model="moderator"
 				type="checkbox"
 				@change.stop="changeRole('moderator')"
 			/>
 			<FormControl
-				:label="__('Course Creator')"
+				:label="__('Создатель курсов')"
 				v-model="course_creator"
 				type="checkbox"
 				@change.stop="changeRole('course_creator')"
 			/>
 			<FormControl
-				:label="__('Evaluator')"
+				:label="__('Оценщик')"
 				v-model="batch_evaluator"
 				type="checkbox"
 				@change.stop="changeRole('batch_evaluator')"
 			/>
 			<FormControl
-				:label="__('Student')"
+				:label="__('Студент')"
 				v-model="lms_student"
 				type="checkbox"
 				@change.stop="changeRole('lms_student')"
@@ -34,9 +34,9 @@
 	</div>
 </template>
 <script setup>
+import { convertToTitleCase, showToast } from '@/utils'
 import { FormControl, createResource } from 'frappe-ui'
 import { ref } from 'vue'
-import { showToast, convertToTitleCase } from '@/utils'
 
 const moderator = ref(false)
 const course_creator = ref(false)
@@ -90,9 +90,9 @@ const changeRole = (role) => {
 		},
 		{
 			onSuccess(data) {
-				showToast('Success', 'Role updated successfully', 'check')
+				showToast('Успех', 'Роль успешно обновлена', 'check')
 			},
-		}
+		},
 	)
 }
 </script>

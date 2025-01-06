@@ -6,29 +6,29 @@
 		<div class="space-x-2">
 			<Badge
 				v-if="submisisonDetails.isDirty"
-				:label="__('Not Saved')"
+				:label="__('Не сохранено')"
 				variant="subtle"
 				theme="orange"
 			/>
 			<Button variant="solid" @click="saveSubmission()">
-				{{ __('Save') }}
+				{{ __('Сохранить') }}
 			</Button>
 		</div>
 	</header>
-	<div v-if="submisisonDetails.doc" class="w-1/2 mx-auto py-5 space-y-5">
+	<div v-if="submisisonDetails.doc" class="w-1/2 py-5 mx-auto space-y-5">
 		<div class="text-xl font-semibold">
 			{{ submisisonDetails.doc.member_name }}
 		</div>
-		<div class="space-y-4 border p-5 rounded-md">
+		<div class="p-5 space-y-4 border rounded-md">
 			<div class="grid grid-cols-2 gap-5">
 				<FormControl
 					v-model="submisisonDetails.doc.quiz_title"
-					:label="__('Quiz')"
+					:label="__('Викторина')"
 					:disabled="true"
 				/>
 				<FormControl
 					v-model="submisisonDetails.doc.member_name"
-					:label="__('Member')"
+					:label="__('Участник')"
 					:disabled="true"
 				/>
 			</div>
@@ -36,12 +36,12 @@
 			<div class="grid grid-cols-2 gap-5">
 				<FormControl
 					v-model="submisisonDetails.doc.score"
-					:label="__('Score')"
+					:label="__('Оценка')"
 					:disabled="true"
 				/>
 				<FormControl
 					v-model="submisisonDetails.doc.percentage"
-					:label="__('Percentage')"
+					:label="__('Процент')"
 					:disabled="true"
 				/>
 			</div>
@@ -49,17 +49,17 @@
 
 		<div
 			v-for="row in submisisonDetails.doc.result"
-			class="border p-5 rounded-md space-y-4"
+			class="p-5 space-y-4 border rounded-md"
 		>
 			<div class="flex space-x-1 font-semibold">
 				<span class="leading-5" v-html="row.question"> </span>
 			</div>
 			<div v-html="row.answer" class="leading-5"></div>
 			<div class="grid grid-cols-2 gap-5">
-				<FormControl v-model="row.marks" :label="__('Marks')" />
+				<FormControl v-model="row.marks" :label="__('Баллы')" />
 				<FormControl
 					v-model="row.marks_out_of"
-					:label="__('Marks out of')"
+					:label="__('Максимум баллов')"
 					:disabled="true"
 				/>
 			</div>
@@ -67,16 +67,16 @@
 	</div>
 </template>
 <script setup>
-import {
-	createDocumentResource,
-	Breadcrumbs,
-	FormControl,
-	Button,
-	Badge,
-} from 'frappe-ui'
-import { computed, onBeforeUnmount, onMounted, inject } from 'vue'
-import { useRouter } from 'vue-router'
 import { showToast } from '@/utils'
+import {
+	Badge,
+	Breadcrumbs,
+	Button,
+	createDocumentResource,
+	FormControl,
+} from 'frappe-ui'
+import { computed, inject, onBeforeUnmount, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const user = inject('$user')
@@ -119,7 +119,7 @@ const submisisonDetails = createDocumentResource({
 const breadcrumbs = computed(() => {
 	return [
 		{
-			label: __('Quiz Submissions'),
+			label: __('Отправки викторин'),
 			route: {
 				name: 'QuizSubmissionList',
 				params: {
@@ -138,9 +138,9 @@ const saveSubmission = () => {
 		{},
 		{
 			onError(err) {
-				showToast(__('Error'), __(err.messages?.[0] || err), 'x')
+				showToast(__('Ошибка'), __(err.messages?.[0] || err), 'x')
 			},
-		}
+		},
 	)
 }
 </script>

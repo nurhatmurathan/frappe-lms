@@ -3,7 +3,7 @@
 		<header class="sticky top-0 z-10 border-b bg-white px-3 py-2.5 sm:px-5">
 			<Breadcrumbs :items="breadcrumbs" />
 		</header>
-		<div class="m-5 pb-10">
+		<div class="pb-10 m-5">
 			<div>
 				<div class="text-3xl font-semibold">
 					{{ batch.data.title }}
@@ -12,11 +12,11 @@
 					{{ batch.data.description }}
 				</div>
 				<div
-					class="flex flex-col gap-2 lg:gap-0 lg:flex-row lg:items-center justify-between lg:w-1/2"
+					class="flex flex-col justify-between gap-2 lg:gap-0 lg:flex-row lg:items-center lg:w-1/2"
 				>
 					<div class="flex items-center">
-						<BookOpen class="h-4 w-4 text-gray-700 mr-2" />
-						<span> {{ batch.data?.courses?.length }} {{ __('Courses') }} </span>
+						<BookOpen class="w-4 h-4 mr-2 text-gray-700" />
+						<span> {{ batch.data?.courses?.length }} {{ __('Курсы') }} </span>
 					</div>
 					<span class="hidden lg:block" v-if="batch.data.courses"
 						>&middot;</span
@@ -29,14 +29,14 @@
 						>&middot;</span
 					>
 					<div class="flex items-center">
-						<Clock class="h-4 w-4 text-gray-700 mr-2" />
+						<Clock class="w-4 h-4 mr-2 text-gray-700" />
 						<span>
 							{{ formatTime(batch.data.start_time) }} -
 							{{ formatTime(batch.data.end_time) }}
 						</span>
 					</div>
 				</div>
-				<div class="flex avatar-group overlap mt-3">
+				<div class="flex mt-3 avatar-group overlap">
 					<div
 						class="h-6 mr-1"
 						:class="{
@@ -65,10 +65,10 @@
 			<div v-if="batch.data.courses.length">
 				<div class="flex items-center mt-10">
 					<div class="text-2xl font-semibold">
-						{{ __('Courses') }}
+						{{ __('Курсы') }}
 					</div>
 				</div>
-				<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-5">
+				<div class="grid grid-cols-1 gap-8 mt-5 lg:grid-cols-3">
 					<div
 						v-if="batch.data.courses"
 						v-for="course in courses.data"
@@ -97,16 +97,16 @@
 	</div>
 </template>
 <script setup>
-import { computed, inject } from 'vue'
-import { useRouter } from 'vue-router'
-import { BookOpen, Clock } from 'lucide-vue-next'
-import { formatTime, updateDocumentTitle } from '@/utils'
-import { Breadcrumbs, createResource } from 'frappe-ui'
-import CourseCard from '@/components/CourseCard.vue'
 import BatchOverlay from '@/components/BatchOverlay.vue'
-import DateRange from '../components/Common/DateRange.vue'
+import CourseCard from '@/components/CourseCard.vue'
 import CourseInstructors from '@/components/CourseInstructors.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
+import { formatTime, updateDocumentTitle } from '@/utils'
+import { Breadcrumbs, createResource } from 'frappe-ui'
+import { BookOpen, Clock } from 'lucide-vue-next'
+import { computed, inject } from 'vue'
+import { useRouter } from 'vue-router'
+import DateRange from '../components/Common/DateRange.vue'
 
 const user = inject('$user')
 const router = useRouter()
@@ -137,7 +137,7 @@ const courses = createResource({
 })
 
 const breadcrumbs = computed(() => {
-	let items = [{ label: 'Batches', route: { name: 'Batches' } }]
+	let items = [{ label: 'Группы', route: { name: 'Batches' } }]
 	items.push({
 		label: batch?.data?.title,
 		route: { name: 'BatchDetail', params: { batchName: batch?.data?.name } },

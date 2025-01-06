@@ -28,7 +28,7 @@ function translate(message) {
 	}
 }
 
-function fetchTranslations(lang = 'en') {
+function fetchTranslations(lang = 'ru') {
 	createResource({
 		url: 'lms.lms.api.get_translations',
 		cache: 'translations',

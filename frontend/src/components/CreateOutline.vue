@@ -6,16 +6,14 @@
 		<div v-if="course.chapters.length">
 			{{ course.chapters }}
 		</div>
-		<div v-else class="border bg-white rounded-md p-5 text-center mt-4">
+		<div v-else class="p-5 mt-4 text-center bg-white border rounded-md">
 			<div>
 				{{
-					__(
-						'There are no chapters in this course. Create and manage chapters from here.'
-					)
+					__('В этом курсе нет глав. Создавайте и управляйте главами здесь.')
 				}}
 			</div>
 			<Button class="mt-4">
-				{{ __('Add Chapter') }}
+				{{ __('Добавить главу') }}
 			</Button>
 		</div>
 	</div>

@@ -2,13 +2,13 @@
 	<div>
 		<div class="flex items-center justify-between mb-4">
 			<div class="text-lg font-semibold">
-				{{ __('Courses') }}
+				{{ __('Курсы') }}
 			</div>
 			<Button v-if="canSeeAddButton()" @click="openCourseModal()">
 				<template #prefix>
-					<Plus class="h-4 w-4" />
+					<Plus class="w-4 h-4" />
 				</template>
-				{{ __('Add') }}
+				{{ __('Добавить') }}
 			</Button>
 		</div>
 		<div v-if="courses.data?.length">
@@ -25,7 +25,7 @@
 				}"
 			>
 				<ListHeader
-					class="mb-2 grid items-center space-x-4 rounded bg-gray-100 p-2"
+					class="grid items-center p-2 mb-2 space-x-4 bg-gray-100 rounded"
 				>
 					<ListHeaderItem :item="item" v-for="item in getCoursesColumns()">
 						<template #prefix="{ item }">
@@ -70,21 +70,21 @@
 	</div>
 </template>
 <script setup>
-import { ref, inject } from 'vue'
 import BatchCourseModal from '@/components/Modals/BatchCourseModal.vue'
+import { showToast } from '@/utils'
 import {
-	createResource,
 	Button,
+	createResource,
 	ListHeader,
 	ListHeaderItem,
-	ListSelectBanner,
 	ListRow,
-	ListRows,
-	ListView,
 	ListRowItem,
+	ListRows,
+	ListSelectBanner,
+	ListView,
 } from 'frappe-ui'
 import { Plus, Trash2 } from 'lucide-vue-next'
-import { showToast } from '@/utils'
+import { inject, ref } from 'vue'
 
 const showCourseModal = ref(false)
 const user = inject('$user')
@@ -112,17 +112,17 @@ const openCourseModal = () => {
 const getCoursesColumns = () => {
 	return [
 		{
-			label: 'Title',
+			label: 'Название',
 			key: 'title',
 			width: 2,
 		},
 		{
-			label: 'Lessons',
+			label: 'Уроки',
 			key: 'lessons',
 			align: 'right',
 		},
 		{
-			label: 'Enrollments',
+			label: 'Записи',
 			align: 'right',
 			key: 'enrollments',
 		},
@@ -147,10 +147,10 @@ const removeCourses = (selections, unselectAll) => {
 		{
 			onSuccess(data) {
 				courses.reload()
-				showToast(__('Success'), __('Courses deleted successfully'), 'check')
+				showToast(__('Успех'), __('Курсы успешно удалены'), 'check')
 				unselectAll()
 			},
-		}
+		},
 	)
 }
 

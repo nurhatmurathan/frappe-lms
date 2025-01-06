@@ -4,19 +4,19 @@
 	>
 		<Breadcrumbs :items="breadcrumbs" />
 	</header>
-	<div class="md:w-3/4 md:mx-auto py-5 mx-5">
+	<div class="py-5 mx-5 md:w-3/4 md:mx-auto">
 		<div class="grid grid-cols-3 gap-5 mb-5">
 			<Link
 				doctype="LMS Assignment"
 				v-model="assignmentID"
-				:placeholder="__('Assignment')"
+				:placeholder="__('Задание')"
 			/>
-			<Link doctype="User" v-model="member" :placeholder="__('Member')" />
+			<Link doctype="User" v-model="member" :placeholder="__('Участник')" />
 			<FormControl
 				v-model="status"
 				type="select"
 				:options="statusOptions"
-				:placeholder="__('Status')"
+				:placeholder="__('Статус')"
 			/>
 		</div>
 		<ListView
@@ -26,7 +26,7 @@
 			rowKey="name"
 		>
 			<ListHeader
-				class="mb-2 grid items-center space-x-4 rounded bg-gray-100 p-2"
+				class="grid items-center p-2 mb-2 space-x-4 bg-gray-100 rounded"
 			>
 				<ListHeaderItem :item="item" v-for="item in submissionColumns" />
 			</ListHeader>
@@ -60,35 +60,35 @@
 		</ListView>
 		<div
 			v-else
-			class="text-center p-5 text-gray-600 mt-52 w-3/4 md:w-1/2 mx-auto space-y-2"
+			class="w-3/4 p-5 mx-auto space-y-2 text-center text-gray-600 mt-52 md:w-1/2"
 		>
-			<Pencil class="size-8 mx-auto stroke-1 text-gray-500" />
+			<Pencil class="mx-auto text-gray-500 stroke-1 size-8" />
 			<div class="text-xl font-medium">
-				{{ __('No submissions') }}
+				{{ __('Нет отправленных заданий') }}
 			</div>
 			<div class="leading-5">
-				{{ __('There are no submissions for this assignment.') }}
+				{{ __('Для этого задания нет отправленных работ.') }}
 			</div>
 		</div>
 	</div>
 </template>
 <script setup>
+import Link from '@/components/Controls/Link.vue'
 import {
 	Badge,
 	Breadcrumbs,
 	createListResource,
 	FormControl,
-	ListView,
 	ListHeader,
 	ListHeaderItem,
-	ListRows,
 	ListRow,
 	ListRowItem,
+	ListRows,
+	ListView,
 } from 'frappe-ui'
+import { Pencil } from 'lucide-vue-next'
 import { computed, inject, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { Pencil } from 'lucide-vue-next'
-import Link from '@/components/Controls/Link.vue'
 
 const user = inject('$user')
 const dayjs = inject('$dayjs')
@@ -164,23 +164,23 @@ const reloadSubmissions = () => {
 const submissionColumns = computed(() => {
 	return [
 		{
-			label: 'Member',
+			label: 'Участник',
 			key: 'member_name',
 			width: 1,
 		},
 		{
-			label: 'Assignment',
+			label: 'Задание',
 			key: 'assignment_title',
 			width: 2,
 		},
 		{
-			label: 'Submitted',
+			label: 'Отправлено',
 			key: 'creation',
 			width: 1,
 			align: 'left',
 		},
 		{
-			label: 'Status',
+			label: 'Статус',
 			key: 'status',
 			width: 1,
 			align: 'center',
@@ -191,9 +191,9 @@ const submissionColumns = computed(() => {
 const statusOptions = computed(() => {
 	return [
 		{ label: '', value: '' },
-		{ label: 'Pass', value: 'Pass' },
-		{ label: 'Fail', value: 'Fail' },
-		{ label: 'Not Graded', value: 'Not Graded' },
+		{ label: 'Сдано', value: 'Pass' },
+		{ label: 'Не сдано', value: 'Fail' },
+		{ label: 'Не оценено', value: 'Not Graded' },
 	]
 })
 
@@ -210,7 +210,7 @@ const getStatusTheme = (status) => {
 const breadcrumbs = computed(() => {
 	return [
 		{
-			label: 'Assignment Submissions',
+			label: 'Отправленные задания',
 		},
 	]
 })

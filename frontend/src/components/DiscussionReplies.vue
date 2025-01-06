@@ -6,7 +6,7 @@
 					<ChevronLeft class="w-5 h-5 stroke-1.5 text-gray-700" />
 				</template>
 			</Button>
-			<span class="text-lg font-semibold ml-2">
+			<span class="ml-2 text-lg font-semibold">
 				{{ topic.title }}
 			</span>
 		</div>
@@ -22,7 +22,7 @@
 						<span>
 							{{ reply.user.full_name }}
 						</span>
-						<span class="text-sm ml-2">
+						<span class="ml-2 text-sm">
 							{{ timeAgo(reply.creation) }}
 						</span>
 					</div>
@@ -30,13 +30,13 @@
 						v-if="user.data.name == reply.owner && !reply.editable"
 						:options="[
 							{
-								label: 'Edit',
+								label: 'Редактировать',
 								onClick() {
 									reply.editable = true
 								},
 							},
 							{
-								label: 'Delete',
+								label: 'Удалить',
 								onClick() {
 									deleteReply(reply)
 								},
@@ -49,10 +49,10 @@
 					</Dropdown>
 					<div v-if="reply.editable">
 						<Button variant="ghost" @click="postEdited(reply)">
-							{{ __('Post') }}
+							{{ __('Опубликовать') }}
 						</Button>
 						<Button variant="ghost" @click="reply.editable = false">
-							{{ __('Discard') }}
+							{{ __('Отменить') }}
 						</Button>
 					</div>
 				</div>
@@ -75,7 +75,7 @@
 			:content="newReply"
 			:mentions="mentionUsers"
 			@change="(val) => (newReply = val)"
-			placeholder="Type your reply here..."
+			placeholder="Напишите ваш ответ здесь..."
 			:fixedMenu="true"
 			editorClass="ProseMirror prose prose-table:table-fixed prose-td:p-2 prose-th:p-2 prose-td:border prose-th:border prose-td:border-gray-300 prose-th:border-gray-300 prose-td:relative prose-th:relative prose-th:bg-gray-100 prose-sm max-w-none border border-gray-300 rounded-b-md min-h-[7rem] py-1 px-2"
 		/>
@@ -83,7 +83,7 @@
 			<span> </span>
 			<Button @click="postReply()">
 				<span>
-					{{ __('Post') }}
+					{{ __('Опубликовать') }}
 				</span>
 			</Button>
 		</div>
@@ -166,7 +166,7 @@ const postReply = () => {
 		{
 			validate() {
 				if (!newReply.value) {
-					return 'Reply cannot be empty'
+					return 'Ответ не может быть пустым'
 				}
 			},
 			onSuccess() {
@@ -175,7 +175,7 @@ const postReply = () => {
 			},
 			onError(err) {
 				createToast({
-					title: 'Error',
+					title: 'Ошибка',
 					text: err.messages?.[0] || err,
 					icon: 'x',
 					iconClasses: 'bg-red-600 text-white rounded-md p-px',
@@ -183,7 +183,7 @@ const postReply = () => {
 					timeout: 10,
 				})
 			},
-		}
+		},
 	)
 }
 
@@ -208,14 +208,14 @@ const postEdited = (reply) => {
 		{
 			validate() {
 				if (!reply.reply) {
-					return 'Reply cannot be empty'
+					return 'Ответ не может быть пустым'
 				}
 			},
 			onSuccess() {
 				reply.editable = false
 				replies.reload()
 			},
-		}
+		},
 	)
 }
 
@@ -238,7 +238,7 @@ const deleteReply = (reply) => {
 			onSuccess() {
 				replies.reload()
 			},
-		}
+		},
 	)
 }
 </script>

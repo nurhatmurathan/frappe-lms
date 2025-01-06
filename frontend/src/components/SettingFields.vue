@@ -20,7 +20,7 @@
 						<CodeEditor
 							:label="__(field.label)"
 							type="HTML"
-							description="The HTML you add here will be shown on your sign up page."
+							description="HTML, который вы добавите здесь, будет отображаться на вашей странице регистрации."
 							v-model="data[field.name]"
 							height="250px"
 							class="shrink-0"
@@ -30,7 +30,7 @@
 					</div>
 
 					<div v-else-if="field.type == 'Upload'">
-						<div class="text-sm text-gray-600 mb-1">
+						<div class="mb-1 text-sm text-gray-600">
 							{{ __(field.label) }}
 						</div>
 						<FileUploader
@@ -45,14 +45,16 @@
 								<div class="">
 									<Button @click="openFileSelector" :loading="uploading">
 										{{
-											uploading ? `Uploading ${progress}%` : 'Upload an image'
+											uploading
+												? `Загрузка ${progress}%`
+												: 'Загрузить изображение'
 										}}
 									</Button>
 								</div>
 							</template>
 						</FileUploader>
 						<div v-else>
-							<div class="flex items-center text-sm space-x-2">
+							<div class="flex items-center space-x-2 text-sm">
 								<div
 									class="flex items-center justify-center rounded border border-outline-gray-1 w-[15rem] py-5"
 								>
@@ -62,7 +64,7 @@
 									<span class="break-all">
 										{{ data[field.name]?.file_name }}
 									</span>
-									<span class="text-sm text-gray-500 mt-1">
+									<span class="mt-1 text-sm text-gray-500">
 										{{ getFileSize(data[field.name]?.file_size) }}
 									</span>
 								</div>
@@ -98,12 +100,12 @@
 	</div>
 </template>
 <script setup>
-import { FormControl, FileUploader, Button, Switch } from 'frappe-ui'
-import { computed } from 'vue'
-import { getFileSize, validateFile } from '@/utils'
-import { X } from 'lucide-vue-next'
-import Link from '@/components/Controls/Link.vue'
 import CodeEditor from '@/components/Controls/CodeEditor.vue'
+import Link from '@/components/Controls/Link.vue'
+import { getFileSize, validateFile } from '@/utils'
+import { Button, FileUploader, FormControl, Switch } from 'frappe-ui'
+import { X } from 'lucide-vue-next'
+import { computed } from 'vue'
 
 const props = defineProps({
 	fields: {

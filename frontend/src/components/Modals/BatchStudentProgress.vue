@@ -10,7 +10,7 @@
 								{{ student.full_name }}
 							</div>
 							<Badge :theme="student.progress === 100 ? 'green' : 'red'">
-								{{ student.progress }}% {{ __('Complete') }}
+								{{ student.progress }}% {{ __('Завершено') }}
 							</Badge>
 						</div>
 						<div class="text-sm text-gray-700">
@@ -26,10 +26,10 @@
 							class="grid grid-cols-[70%,30%] border-b pl-2 pb-1 mb-2 text-xs text-gray-700 font-medium"
 						>
 							<span>
-								{{ __('Assessment') }}
+								{{ __('Оценка') }}
 							</span>
 							<span>
-								{{ __('Progress') }}
+								{{ __('Прогресс') }}
 							</span>
 						</div>
 						<div
@@ -58,10 +58,10 @@
 							class="grid grid-cols-[70%,30%] mb-2 text-xs text-gray-700 border-b pl-2 pb-1 font-medium"
 						>
 							<span>
-								{{ __('Courses') }}
+								{{ __('Курсы') }}
 							</span>
 							<span>
-								{{ __('Progress') }}
+								{{ __('Прогресс') }}
 							</span>
 						</div>
 						<div
@@ -79,8 +79,8 @@
 				</div>
 
 				<!-- <span class="mt-4">
-                    {{ student }}
-                </span> -->
+					{{ student }}
+				</span> -->
 			</div>
 		</template>
 	</Dialog>

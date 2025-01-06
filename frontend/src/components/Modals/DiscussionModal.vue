@@ -5,7 +5,7 @@
 			size: '2xl',
 			actions: [
 				{
-					label: 'Post',
+					label: 'Опубликовать',
 					variant: 'solid',
 					onClick: (close) => submitTopic(close),
 				},
@@ -15,11 +15,15 @@
 		<template #body-content>
 			<div class="flex flex-col gap-4">
 				<div>
-					<FormControl v-model="topic.title" :label="__('Title')" type="text" />
+					<FormControl
+						v-model="topic.title"
+						:label="__('Заголовок')"
+						type="text"
+					/>
 				</div>
 				<div>
 					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Details') }}
+						{{ __('Детали') }}
 					</div>
 					<TextEditor
 						:content="topic.reply"
@@ -93,10 +97,10 @@ const submitTopic = (close) => {
 		{
 			validate() {
 				if (!topic.title) {
-					return 'Title cannot be empty.'
+					return 'Заголовок не может быть пустым.'
 				}
 				if (!topic.reply) {
-					return 'Reply cannot be empty.'
+					return 'Ответ не может быть пустым.'
 				}
 			},
 			onSuccess(data) {
@@ -111,13 +115,13 @@ const submitTopic = (close) => {
 							topics.value.reload()
 							close()
 						},
-					}
+					},
 				)
 			},
 			onError(err) {
-				showToast('Error', err.message, 'x')
+				showToast('Ошибка', err.message, 'x')
 			},
-		}
+		},
 	)
 }
 </script>

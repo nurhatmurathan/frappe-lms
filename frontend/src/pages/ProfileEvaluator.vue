@@ -1,28 +1,28 @@
 <template>
-	<div class="mt-7 mb-20">
+	<div class="mb-20 mt-7">
 		<h2 class="mb-4 text-lg font-semibold text-gray-900">
-			{{ __('My availability') }}
+			{{ __('Моя доступность') }}
 		</h2>
 
 		<div class="">
 			<div
-				class="grid grid-cols-3 md:grid-cols-4 gap-4 text-sm text-gray-700 mb-4"
+				class="grid grid-cols-3 gap-4 mb-4 text-sm text-gray-700 md:grid-cols-4"
 			>
 				<div>
-					{{ __('Day') }}
+					{{ __('День') }}
 				</div>
 				<div>
-					{{ __('Start Time') }}
+					{{ __('Время начала') }}
 				</div>
 				<div>
-					{{ __('End Time') }}
+					{{ __('Время окончания') }}
 				</div>
 			</div>
 
 			<div
 				v-if="evaluator.data"
 				v-for="slot in evaluator.data.slots.schedule"
-				class="grid grid-cols-3 md:grid-cols-4 gap-4 mb-4 group"
+				class="grid grid-cols-3 gap-4 mb-4 md:grid-cols-4 group"
 			>
 				<FormControl
 					type="select"
@@ -47,7 +47,7 @@
 			</div>
 
 			<div
-				class="grid grid-cols-3 md:grid-cols-4 gap-4 mb-4"
+				class="grid grid-cols-3 gap-4 mb-4 md:grid-cols-4"
 				v-show="showSlotsTemplate"
 			>
 				<FormControl
@@ -72,17 +72,17 @@
 				<template #prefix>
 					<Plus class="w-4 h-4 stroke-1.5 text-gray-700" />
 				</template>
-				{{ __('Add Slot') }}
+				{{ __('Добавить слот') }}
 			</Button>
 		</div>
 		<div class="my-10">
 			<h2 class="mb-4 text-lg font-semibold text-gray-900">
-				{{ __('I am unavailable') }}
+				{{ __('Я недоступен') }}
 			</h2>
-			<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+			<div class="grid grid-cols-2 gap-4 md:grid-cols-4">
 				<FormControl
 					type="date"
-					:label="__('From')"
+					:label="__('С')"
 					v-model="from"
 					@blur="
 						() => {
@@ -95,7 +95,7 @@
 				/>
 				<FormControl
 					type="date"
-					:label="__('To')"
+					:label="__('По')"
 					v-model="to"
 					@blur="
 						() => {
@@ -110,26 +110,26 @@
 		</div>
 		<div>
 			<h2 class="mb-4 text-lg font-semibold text-gray-900">
-				{{ __('My calendar') }}
+				{{ __('Мой календарь') }}
 			</h2>
 			<div
 				v-if="evaluator.data?.calendar && evaluator.data?.is_authorized"
-				class="flex items-center bg-green-100 text-green-900 text-sm p-1 rounded-md mb-4 w-fit"
+				class="flex items-center p-1 mb-4 text-sm text-green-900 bg-green-100 rounded-md w-fit"
 			>
 				<Check class="h-4 w-4 stroke-1.5 mr-2" />
-				{{ __('Your calendar is set.') }}
+				{{ __('Ваш календарь установлен.') }}
 			</div>
 			<Button @click="() => authorizeCalendar.submit()">
-				{{ __('Authorize Google Calendar Access') }}
+				{{ __('Авторизовать доступ к Google Календарю') }}
 			</Button>
 		</div>
 	</div>
 </template>
 <script setup>
-import { createResource, FormControl, Button } from 'frappe-ui'
-import { computed, reactive, ref, onMounted, inject } from 'vue'
-import { showToast, convertToTitleCase } from '@/utils'
-import { Plus, X, Check } from 'lucide-vue-next'
+import { convertToTitleCase, showToast } from '@/utils'
+import { Button, createResource, FormControl } from 'frappe-ui'
+import { Check, Plus, X } from 'lucide-vue-next'
+import { computed, inject, onMounted, reactive, ref } from 'vue'
 
 const user = inject('$user')
 
@@ -182,7 +182,7 @@ const createSlot = createResource({
 		}
 	},
 	onSuccess() {
-		showToast('Success', 'Slot added successfully', 'check')
+		showToast('Успех', 'Слот успешно добавлен', 'check')
 		evaluator.reload()
 		showSlotsTemplate.value = 0
 		newSlot.day = ''
@@ -190,7 +190,7 @@ const createSlot = createResource({
 		newSlot.end_time = ''
 	},
 	onError(err) {
-		showToast('Error', err.messages?.[0] || err, 'x')
+		showToast('Ошибка', err.messages?.[0] || err, 'x')
 	},
 })
 
@@ -205,10 +205,10 @@ const updateSlot = createResource({
 		}
 	},
 	onSuccess() {
-		showToast('Success', 'Availability updated successfully', 'check')
+		showToast('Успех', 'Доступность успешно обновлена', 'check')
 	},
 	onError(err) {
-		showToast('Error', err.messages?.[0] || err, 'x')
+		showToast('Ошибка', err.messages?.[0] || err, 'x')
 	},
 })
 
@@ -221,11 +221,11 @@ const deleteSlot = createResource({
 		}
 	},
 	onSuccess() {
-		showToast('Success', 'Slot deleted successfully', 'check')
+		showToast('Успех', 'Слот успешно удален', 'check')
 		evaluator.reload()
 	},
 	onError(err) {
-		showToast('Error', err.messages?.[0] || err, 'x')
+		showToast('Ошибка', err.messages?.[0] || err, 'x')
 	},
 })
 
@@ -240,10 +240,10 @@ const updateUnavailability = createResource({
 		}
 	},
 	onSuccess() {
-		showToast('Success', 'Unavailability updated successfully', 'check')
+		showToast('Успех', 'Недоступность успешно обновлена', 'check')
 	},
 	onError(err) {
-		showToast('Error', err.messages?.[0] || err, 'x')
+		showToast('Ошибка', err.messages?.[0] || err, 'x')
 	},
 })
 
@@ -257,10 +257,10 @@ const update = (name, field, value) => {
 		{
 			validate() {
 				if (!value) {
-					return `Please enter a value for ${convertToTitleCase(field)}`
+					return `Пожалуйста, введите значение для ${convertToTitleCase(field)}`
 				}
 			},
-		}
+		},
 	)
 }
 
@@ -291,31 +291,31 @@ const authorizeCalendar = createResource({
 const days = computed(() => {
 	return [
 		{
-			label: 'Monday',
+			label: 'Понедельник',
 			value: 'Monday',
 		},
 		{
-			label: 'Tuesday',
+			label: 'Вторник',
 			value: 'Tuesday',
 		},
 		{
-			label: 'Wednesday',
+			label: 'Среда',
 			value: 'Wednesday',
 		},
 		{
-			label: 'Thursday',
+			label: 'Четверг',
 			value: 'Thursday',
 		},
 		{
-			label: 'Friday',
+			label: 'Пятница',
 			value: 'Friday',
 		},
 		{
-			label: 'Saturday',
+			label: 'Суббота',
 			value: 'Saturday',
 		},
 		{
-			label: 'Sunday',
+			label: 'Воскресенье',
 			value: 'Sunday',
 		},
 	]

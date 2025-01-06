@@ -5,16 +5,16 @@
 		</template>
 		<template #body>
 			<div
-				class="absolute left-1/2 mt-3 max-w-sm -translate-x-1/2 transform rounded-lg bg-white px-4 sm:px-0 lg:max-w-3xl"
+				class="absolute max-w-sm px-4 mt-3 transform -translate-x-1/2 bg-white rounded-lg left-1/2 sm:px-0 lg:max-w-3xl"
 			>
 				<div
-					class="overflow-hidden rounded-lg p-3 shadow-2xl ring-1 ring-black ring-opacity-5"
+					class="p-3 overflow-hidden rounded-lg shadow-2xl ring-1 ring-black ring-opacity-5"
 				>
 					<div class="flex items-center space-x-2">
 						<div class="flex-1">
 							<TextInput
 								type="text"
-								placeholder="search by keyword"
+								placeholder="поиск по ключевому слову"
 								v-model="search"
 								:debounce="300"
 							/>
@@ -25,7 +25,11 @@
 							>
 								<div class="w-full text-center">
 									<Button @click="openFileSelector" :loading="uploading">
-										{{ uploading ? `Uploading ${progress}%` : 'Upload Image' }}
+										{{
+											uploading
+												? `Загрузка ${progress}%`
+												: 'Загрузить изображение'
+										}}
 									</Button>
 								</div>
 							</template>
@@ -48,8 +52,8 @@
 							/>
 						</Button>
 					</div>
-					<div class="mt-2 text-center text-sm text-gray-500">
-						{{ __('Image search powered by') }}
+					<div class="mt-2 text-sm text-center text-gray-500">
+						{{ __('Поиск изображений с помощью') }}
 						<a class="underline" target="_blank" href="https://unsplash.com">
 							{{ __('Unsplash') }}
 						</a>
@@ -62,7 +66,7 @@
 
 <script>
 // import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
-import { Popover, FileUploader, Button } from 'frappe-ui'
+import { Button, FileUploader, Popover } from 'frappe-ui'
 
 export default {
 	name: 'UnsplashImageBrowser',

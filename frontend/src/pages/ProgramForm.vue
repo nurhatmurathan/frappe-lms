@@ -4,17 +4,17 @@
 	>
 		<Breadcrumbs :items="breadbrumbs" />
 		<Button variant="solid" @click="saveProgram()">
-			{{ __('Save') }}
+			{{ __('Сохранить') }}
 		</Button>
 	</header>
-	<div v-if="program.doc" class="pt-5 px-5 w-3/4 mx-auto space-y-10">
-		<FormControl v-model="program.doc.title" :label="__('Title')" />
+	<div v-if="program.doc" class="w-3/4 px-5 pt-5 mx-auto space-y-10">
+		<FormControl v-model="program.doc.title" :label="__('Название')" />
 
 		<!-- Courses -->
 		<div>
 			<div class="flex items-center justify-between mb-2">
 				<div class="text-lg font-semibold">
-					{{ __('Program Courses') }}
+					{{ __('Курсы программы') }}
 				</div>
 				<Button
 					@click="
@@ -27,7 +27,7 @@
 					<template #prefix>
 						<Plus class="w-4 h-4" />
 					</template>
-					{{ __('Add') }}
+					{{ __('Добавить') }}
 				</Button>
 			</div>
 
@@ -40,7 +40,7 @@
 				}"
 			>
 				<ListHeader
-					class="mb-2 grid items-center space-x-4 rounded bg-gray-100 p-2"
+					class="grid items-center p-2 mb-2 space-x-4 bg-gray-100 rounded"
 				>
 					<ListHeaderItem :item="item" v-for="item in courseColumns" />
 				</ListHeader>
@@ -76,7 +76,7 @@
 		<div>
 			<div class="flex items-center justify-between mb-2">
 				<div class="text-lg font-semibold">
-					{{ __('Program Members') }}
+					{{ __('Участники программы') }}
 				</div>
 				<Button
 					@click="
@@ -89,7 +89,7 @@
 					<template #prefix>
 						<Plus class="w-4 h-4" />
 					</template>
-					{{ __('Add') }}
+					{{ __('Добавить') }}
 				</Button>
 			</div>
 
@@ -102,7 +102,7 @@
 				}"
 			>
 				<ListHeader
-					class="mb-2 grid items-center space-x-4 rounded bg-gray-100 p-2"
+					class="grid items-center p-2 mb-2 space-x-4 bg-gray-100 rounded"
 				>
 					<ListHeaderItem :item="item" v-for="item in memberColumns" />
 				</ListHeader>
@@ -130,11 +130,11 @@
 		:options="{
 			title:
 				currentForm == 'course'
-					? __('New Program Course')
-					: __('New Program Member'),
+					? __('Новый курс программы')
+					: __('Новый участник программы'),
 			actions: [
 				{
-					label: __('Add'),
+					label: __('Добавить'),
 					variant: 'solid',
 					onClick: () =>
 						currentForm == 'course'
@@ -152,10 +152,10 @@
 				:filters="{
 					disable_self_learning: 1,
 				}"
-				:label="__('Program Course')"
+				:label="__('Курс программы')"
 				:description="
 					__(
-						'Only courses for which self learning is disabled can be added to program.'
+						'Только курсы, для которых отключено самостоятельное обучение, могут быть добавлены в программу.',
 					)
 				"
 			/>
@@ -167,12 +167,14 @@
 				:filters="{
 					ignore_user_type: 1,
 				}"
-				:label="__('Program Member')"
+				:label="__('Участник программы')"
 			/>
 		</template>
 	</Dialog>
 </template>
 <script setup>
+import Link from '@/components/Controls/Link.vue'
+import { showToast } from '@/utils/'
 import {
 	Breadcrumbs,
 	Button,
@@ -180,19 +182,17 @@ import {
 	createDocumentResource,
 	Dialog,
 	FormControl,
-	ListView,
-	ListRows,
-	ListRow,
 	ListHeader,
 	ListHeaderItem,
+	ListRow,
+	ListRows,
 	ListSelectBanner,
+	ListView,
 } from 'frappe-ui'
-import { computed, ref } from 'vue'
 import { Plus, Trash2 } from 'lucide-vue-next'
-import Link from '@/components/Controls/Link.vue'
-import { showToast } from '@/utils/'
-import Draggable from 'vuedraggable'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import Draggable from 'vuedraggable'
 
 const showDialog = ref(false)
 const currentForm = ref(null)
@@ -226,13 +226,13 @@ const addProgramCourse = () => {
 			onSuccess(data) {
 				showDialog.value = false
 				course.value = null
-				showToast(__('Success'), __('Course added to program'), 'check')
+				showToast(__('Успех'), __('Курс добавлен в программу'), 'check')
 				program.reload()
 			},
 			onError(err) {
-				showToast('Error', err.messages?.[0] || err, 'x')
+				showToast('Ошибка', err.messages?.[0] || err, 'x')
 			},
-		}
+		},
 	)
 }
 
@@ -248,13 +248,13 @@ const addProgramMember = () => {
 			onSuccess(data) {
 				showDialog.value = false
 				member.value = null
-				showToast(__('Success'), __('Member added to program'), 'check')
+				showToast(__('Успех'), __('Участник добавлен в программу'), 'check')
 				program.reload()
 			},
 			onError(err) {
-				showToast('Error', err.messages?.[0] || err, 'x')
+				showToast('Ошибка', err.messages?.[0] || err, 'x')
 			},
-		}
+		},
 	)
 }
 
@@ -263,19 +263,19 @@ const remove = (selections, unselectAll, doctype) => {
 	program.setValue.submit(
 		{
 			[doctype]: program.doc[doctype].filter(
-				(row) => !selections.includes(row.name)
+				(row) => !selections.includes(row.name),
 			),
 		},
 		{
 			onSuccess(data) {
 				unselectAll()
-				showToast(__('Success'), __('Items removed successfully'), 'check')
+				showToast(__('Успех'), __('Элементы успешно удалены'), 'check')
 				program.reload()
 			},
 			onError(err) {
-				showToast('Error', err.messages?.[0] || err, 'x')
+				showToast('Ошибка', err.messages?.[0] || err, 'x')
 			},
-		}
+		},
 	)
 }
 
@@ -295,13 +295,13 @@ const updateOrder = (e) => {
 		},
 		{
 			onSuccess(data) {
-				showToast(__('Success'), __('Course moved successfully'), 'check')
+				showToast(__('Успех'), __('Курс успешно перемещен'), 'check')
 				program.reload()
 			},
 			onError(err) {
-				showToast('Error', err.messages?.[0] || err, 'x')
+				showToast('Ошибка', err.messages?.[0] || err, 'x')
 			},
-		}
+		},
 	)
 }
 
@@ -318,7 +318,7 @@ const saveProgram = () => {
 const courseColumns = computed(() => {
 	return [
 		{
-			label: 'Title',
+			label: 'Название',
 			key: 'course_title',
 			width: 3,
 		},
@@ -333,19 +333,19 @@ const courseColumns = computed(() => {
 const memberColumns = computed(() => {
 	return [
 		{
-			label: 'Member',
+			label: 'Участник',
 			key: 'member',
 			width: 3,
 			align: 'left',
 		},
 		{
-			label: 'Full Name',
+			label: 'Полное имя',
 			key: 'full_name',
 			width: 3,
 			align: 'left',
 		},
 		{
-			label: 'Progress (%)',
+			label: 'Прогресс (%)',
 			key: 'progress',
 			width: 3,
 			align: 'right',
@@ -356,11 +356,12 @@ const memberColumns = computed(() => {
 const breadbrumbs = computed(() => {
 	return [
 		{
-			label: 'Programs',
+			label: 'Программы',
 			route: { name: 'Programs' },
 		},
 		{
-			label: props.programName === 'new' ? 'New Program' : props.programName,
+			label:
+				props.programName === 'new' ? 'Новая программа' : props.programName,
 		},
 	]
 })

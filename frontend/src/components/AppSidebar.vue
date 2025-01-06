@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="flex h-full flex-col justify-between transition-all duration-300 ease-in-out bg-gray-50"
+		class="flex flex-col justify-between h-full transition-all duration-300 ease-in-out bg-gray-50"
 		:class="sidebarStore.isSidebarCollapsed ? 'w-14' : 'w-56'"
 	>
 		<div
@@ -27,16 +27,16 @@
 				>
 					<div
 						v-if="!sidebarStore.isSidebarCollapsed"
-						class="flex items-center text-sm text-gray-600 my-1"
+						class="flex items-center my-1 text-sm text-gray-600"
 					>
-						<span class="grid h-5 w-6 flex-shrink-0 place-items-center">
+						<span class="grid flex-shrink-0 w-6 h-5 place-items-center">
 							<ChevronRight
 								class="h-4 w-4 stroke-1.5 text-gray-900 transition-all duration-300 ease-in-out"
 								:class="{ 'rotate-90': showWebPages }"
 							/>
 						</span>
 						<span class="ml-2">
-							{{ __('More') }}
+							{{ __('Ещё') }}
 						</span>
 					</div>
 					<Button v-if="isModerator" variant="ghost" @click="openPageModal()">
@@ -64,14 +64,14 @@
 		</div>
 		<SidebarLink
 			:link="{
-				label: sidebarStore.isSidebarCollapsed ? 'Expand' : 'Collapse',
+				label: sidebarStore.isSidebarCollapsed ? 'Развернуть' : 'Свернуть',
 			}"
 			:isCollapsed="sidebarStore.isSidebarCollapsed"
 			@click="toggleSidebar()"
 			class="m-2"
 		>
 			<template #icon>
-				<span class="grid h-5 w-6 flex-shrink-0 place-items-center">
+				<span class="grid flex-shrink-0 w-6 h-5 place-items-center">
 					<CollapseSidebar
 						class="h-4.5 w-4.5 text-gray-700 duration-300 ease-in-out"
 						:class="{
@@ -90,19 +90,19 @@
 </template>
 
 <script setup>
-import UserDropdown from '@/components/UserDropdown.vue'
 import CollapseSidebar from '@/components/Icons/CollapseSidebar.vue'
-import SidebarLink from '@/components/SidebarLink.vue'
-import { useStorage } from '@vueuse/core'
-import { ref, onMounted, inject, watch } from 'vue'
-import { getSidebarLinks } from '../utils'
-import { usersStore } from '@/stores/user'
-import { sessionStore } from '@/stores/session'
-import { useSidebar } from '@/stores/sidebar'
-import { useSettings } from '@/stores/settings'
-import { ChevronRight, Plus } from 'lucide-vue-next'
-import { createResource, Button } from 'frappe-ui'
 import PageModal from '@/components/Modals/PageModal.vue'
+import SidebarLink from '@/components/SidebarLink.vue'
+import UserDropdown from '@/components/UserDropdown.vue'
+import { sessionStore } from '@/stores/session'
+import { useSettings } from '@/stores/settings'
+import { useSidebar } from '@/stores/sidebar'
+import { usersStore } from '@/stores/user'
+import { useStorage } from '@vueuse/core'
+import { Button, createResource } from 'frappe-ui'
+import { ChevronRight, Plus } from 'lucide-vue-next'
+import { inject, onMounted, ref, watch } from 'vue'
+import { getSidebarLinks } from '../utils'
 
 const { user, sidebarSettings } = sessionStore()
 const { userResource } = usersStore()
@@ -129,12 +129,12 @@ onMounted(() => {
 				Object.keys(data).forEach((key) => {
 					if (!parseInt(data[key])) {
 						sidebarLinks.value = sidebarLinks.value.filter(
-							(link) => link.label.toLowerCase().split(' ').join('_') !== key
+							(link) => link.label.toLowerCase().split(' ').join('_') !== key,
 						)
 					}
 				})
 			},
-		}
+		},
 	)
 })
 
@@ -165,7 +165,7 @@ const unreadNotifications = createResource({
 const addNotifications = () => {
 	if (user) {
 		sidebarLinks.value.push({
-			label: 'Notifications',
+			label: 'Уведомления',
 			icon: 'Bell',
 			to: 'Notifications',
 			activeFor: ['Notifications'],
@@ -177,7 +177,7 @@ const addNotifications = () => {
 const addQuizzes = () => {
 	if (isInstructor.value || isModerator.value) {
 		sidebarLinks.value.push({
-			label: 'Quizzes',
+			label: 'Викторины',
 			icon: 'CircleHelp',
 			to: 'Quizzes',
 			activeFor: ['Quizzes', 'QuizForm'],
@@ -188,7 +188,7 @@ const addQuizzes = () => {
 const addAssignments = () => {
 	if (isInstructor.value || isModerator.value) {
 		sidebarLinks.value.push({
-			label: 'Assignments',
+			label: 'Задания',
 			icon: 'Pencil',
 			to: 'Assignments',
 			activeFor: ['Assignments', 'AssignmentForm'],
@@ -207,7 +207,7 @@ const addPrograms = () => {
 		settingsStore.learningPaths.data
 	) {
 		sidebarLinks.value = sidebarLinks.value.filter(
-			(link) => link.label !== 'Courses'
+			(link) => link.label !== 'Курсы',
 		)
 		activeFor.push('CourseDetail')
 		activeFor.push('Lesson')
@@ -219,7 +219,7 @@ const addPrograms = () => {
 
 	if (canAddProgram) {
 		sidebarLinks.value.splice(index, 0, {
-			label: 'Programs',
+			label: 'Программы',
 			icon: 'Route',
 			to: 'Programs',
 			activeFor: activeFor,
@@ -246,7 +246,7 @@ const deletePage = (link) => {
 			onSuccess() {
 				sidebarSettings.reload()
 			},
-		}
+		},
 	)
 }
 

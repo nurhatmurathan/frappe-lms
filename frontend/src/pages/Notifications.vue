@@ -9,20 +9,23 @@
 				:loading="markAllAsRead.loading"
 				v-if="activeTab === 'Unread' && unReadNotifications.data?.length > 0"
 			>
-				{{ __('Mark all as read') }}
+				{{ __('Отметить все как прочитанные') }}
 			</Button>
 			<TabButtons
 				class="inline-block"
-				:buttons="[{ label: 'Unread', active: true }, { label: 'Read' }]"
+				:buttons="[
+					{ label: 'Непрочитанные', active: true },
+					{ label: 'Прочитанные' },
+				]"
 				v-model="activeTab"
 			/>
 		</div>
 	</header>
-	<div class="w-3/4 mx-auto px-5 pt-6 divide-y">
+	<div class="w-3/4 px-5 pt-6 mx-auto divide-y">
 		<div
 			v-if="notifications?.length"
 			v-for="log in notifications"
-			class="flex items-center py-2 justify-between"
+			class="flex items-center justify-between py-2"
 		>
 			<div class="flex items-center">
 				<UserAvatar :user="allUsers.data[log.from_user]" class="mr-2" />
@@ -33,11 +36,11 @@
 					v-if="log.link"
 					:to="log.link"
 					@click="markAsRead.submit({ name: log.name })"
-					class="text-gray-600 font-medium text-sm hover:text-gray-700"
+					class="text-sm font-medium text-gray-600 hover:text-gray-700"
 				>
-					{{ __('View') }}
+					{{ __('Просмотреть') }}
 				</Link>
-				<Tooltip :text="__('Mark as read')">
+				<Tooltip :text="__('Отметить как прочитанное')">
 					<Button
 						variant="ghost"
 						v-if="!log.read"
@@ -51,25 +54,25 @@
 			</div>
 		</div>
 		<div v-else class="text-gray-600">
-			{{ __('Nothing to see here.') }}
+			{{ __('Здесь пока ничего нет.') }}
 		</div>
 	</div>
 </template>
 <script setup>
+import UserAvatar from '@/components/UserAvatar.vue'
+import { updateDocumentTitle } from '@/utils'
 import {
+	Breadcrumbs,
+	Button,
 	createListResource,
 	createResource,
-	Breadcrumbs,
 	Link,
 	TabButtons,
-	Button,
 	Tooltip,
 } from 'frappe-ui'
-import { computed, inject, ref, onMounted } from 'vue'
-import UserAvatar from '@/components/UserAvatar.vue'
-import { useRouter } from 'vue-router'
 import { X } from 'lucide-vue-next'
-import { updateDocumentTitle } from '@/utils'
+import { computed, inject, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const user = inject('$user')
 const socket = inject('$socket')
@@ -139,7 +142,7 @@ const markAllAsRead = createResource({
 const breadcrumbs = computed(() => {
 	let crumbs = [
 		{
-			label: 'Notifications',
+			label: 'Уведомления',
 			route: {
 				name: 'Notifications',
 			},
@@ -150,8 +153,8 @@ const breadcrumbs = computed(() => {
 
 const pageMeta = computed(() => {
 	return {
-		title: 'Notifications',
-		description: 'All your notifications in one place.',
+		title: 'Уведомления',
+		description: 'Все ваши уведомления в одном месте.',
 	}
 })
 
