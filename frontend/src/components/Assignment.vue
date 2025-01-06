@@ -5,16 +5,16 @@
 		:class="{ 'border rounded-lg': !showTitle }"
 	>
 		<div class="border-r p-5 overflow-y-auto h-[calc(100vh-3.2rem)]">
-			<div v-if="showTitle" class="text-lg font-semibold mb-5">
+			<div v-if="showTitle" class="mb-5 text-lg font-semibold">
 				<div v-if="submissionName === 'new'">
-					{{ __('Submission by') }} {{ user.data?.full_name }}
+					{{ __('Отправлено') }} {{ user.data?.full_name }}
 				</div>
 				<div v-else>
-					{{ __('Submission by') }} {{ submissionResource.doc?.member_name }}
+					{{ __('Отправлено') }} {{ submissionResource.doc?.member_name }}
 				</div>
 			</div>
-			<div class="text-sm text-gray-600 font-medium mb-2">
-				{{ __('Question') }}:
+			<div class="mb-2 text-sm font-medium text-gray-600">
+				{{ __('Вопрос') }}:
 			</div>
 			<div
 				v-html="assignment.data.question"
@@ -26,11 +26,11 @@
 			<div class="p-5">
 				<div class="flex items-center justify-between mb-4">
 					<div class="font-semibold">
-						{{ __('Submission') }}
+						{{ __('Ответ') }}
 					</div>
 					<div class="flex items-center space-x-2">
 						<Badge v-if="isDirty" theme="orange">
-							{{ __('Not Saved') }}
+							{{ __('Не сохранено') }}
 						</Badge>
 						<Badge
 							v-else-if="submissionResource.doc?.status"
@@ -40,7 +40,7 @@
 							{{ submissionResource.doc?.status }}
 						</Badge>
 						<Button variant="solid" @click="submitAssignment()">
-							{{ __('Save') }}
+							{{ __('Сохранить') }}
 						</Button>
 					</div>
 				</div>
@@ -50,19 +50,21 @@
 						!['Pass', 'Fail'].includes(submissionResource.doc?.status) &&
 						submissionResource.doc?.owner == user.data?.name
 					"
-					class="bg-blue-100 p-3 rounded-md leading-5 text-sm mb-4"
+					class="p-3 mb-4 text-sm leading-5 bg-blue-100 rounded-md"
 				>
-					{{ __("You've successfully submitted the assignment.") }}
+					{{ __('Вы успешно отправили задание.') }}
 					{{
 						__(
-							"Once the moderator grades your submission, you'll find the details here."
+							'Как только модератор оценит вашу работу, вы найдете детали здесь.',
 						)
 					}}
-					{{ __('Feel free to make edits to your submission if needed.') }}
+					{{ __('Вы можете редактировать свой ответ при необходимости.') }}
 				</div>
 				<div v-if="showUploader()">
-					<div class="text-xs text-gray-600 mt-1 mb-2">
-						{{ __('Add your assignment as {0}').format(assignment.data.type) }}
+					<div class="mt-1 mb-2 text-xs text-gray-600">
+						{{
+							__('Добавьте ваше задание как {0}').format(assignment.data.type)
+						}}
 					</div>
 					<FileUploader
 						v-if="!submissionFile"
@@ -74,15 +76,15 @@
 							<Button @click="openFileSelector" :loading="uploading">
 								{{
 									uploading
-										? __('Uploading {0}%').format(progress)
-										: __('Upload File')
+										? __('Загрузка {0}%').format(progress)
+										: __('Загрузить файл')
 								}}
 							</Button>
 						</template>
 					</FileUploader>
 					<div v-else>
 						<div class="flex items-center">
-							<div class="border rounded-md p-2 mr-2">
+							<div class="p-2 mr-2 border rounded-md">
 								<FileText class="h-5 w-5 stroke-1.5 text-gray-700" />
 							</div>
 							<a
@@ -93,7 +95,7 @@
 								<span>
 									{{ submissionFile.file_name }}
 								</span>
-								<span class="text-sm text-gray-500 mt-1">
+								<span class="mt-1 text-sm text-gray-500">
 									{{ getFileSize(submissionFile.file_size) }}
 								</span>
 							</a>
@@ -106,8 +108,8 @@
 					</div>
 				</div>
 				<div v-else-if="assignment.data.type == 'URL'">
-					<div class="text-xs text-gray-600 mb-1">
-						{{ __('Enter a URL') }}
+					<div class="mb-1 text-xs text-gray-600">
+						{{ __('Введите URL') }}
 					</div>
 					<FormControl
 						v-model="answer"
@@ -116,8 +118,8 @@
 					/>
 				</div>
 				<div v-else>
-					<div class="text-sm mb-4">
-						{{ __('Write your answer here') }}
+					<div class="mb-4 text-sm">
+						{{ __('Напишите ваш ответ здесь') }}
 					</div>
 					<TextEditor
 						:content="answer"
@@ -133,32 +135,32 @@
 						user.data?.name == submissionResource.doc?.owner &&
 						submissionResource.doc?.comments
 					"
-					class="mt-8 p-3 bg-blue-100 rounded-md"
+					class="p-3 mt-8 bg-blue-100 rounded-md"
 				>
-					<div class="text-sm text-gray-600 font-medium mb-2">
-						{{ __('Comments by Evaluator') }}:
+					<div class="mb-2 text-sm font-medium text-gray-600">
+						{{ __('Комментарии оценщика') }}:
 					</div>
 					<div class="leading-5">
 						{{ submissionResource.doc.comments }}
 					</div>
 				</div>
 
-				<!-- Grading -->
+				<!-- Оценка -->
 				<div v-if="canGradeSubmission" class="mt-8 space-y-4">
-					<div class="font-semibold mb-2">
-						{{ __('Grading') }}
+					<div class="mb-2 font-semibold">
+						{{ __('Оценка') }}
 					</div>
 					<FormControl
 						v-if="submissionResource.doc"
 						v-model="submissionResource.doc.status"
-						:label="__('Grade')"
+						:label="__('Оценка')"
 						type="select"
 						:options="submissionStatusOptions"
 					/>
 					<FormControl
 						v-if="submissionResource.doc"
 						v-model="submissionResource.doc.comments"
-						:label="__('Comments')"
+						:label="__('Комментарии')"
 						type="textarea"
 					/>
 				</div>
@@ -167,19 +169,19 @@
 	</div>
 </template>
 <script setup>
+import { getFileSize, showToast } from '@/utils'
 import {
 	Badge,
 	Button,
 	call,
-	createResource,
 	createDocumentResource,
+	createResource,
 	FileUploader,
 	FormControl,
 	TextEditor,
 } from 'frappe-ui'
-import { computed, inject, onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import { FileText, X } from 'lucide-vue-next'
-import { showToast, getFileSize } from '@/utils'
+import { computed, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 const submissionFile = ref(null)
@@ -315,7 +317,7 @@ const submitAssignment = () => {
 				onSuccess(data) {
 					showToast(__('Success'), __('Changes saved successfully'), 'check')
 				},
-			}
+			},
 		)
 	} else {
 		addNewSubmission()
@@ -346,7 +348,7 @@ const addNewSubmission = () => {
 			onError(err) {
 				showToast('Error', err.messages?.[0] || err, 'x')
 			},
-		}
+		},
 	)
 }
 

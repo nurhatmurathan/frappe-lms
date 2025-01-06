@@ -4,14 +4,14 @@
 			v-if="title && (outline.data?.length || allowEdit)"
 			class="grid grid-cols-[70%,30%] mb-4 px-2"
 		>
-			<div class="font-semibold text-lg leading-5">
+			<div class="text-lg font-semibold leading-5">
 				{{ __(title) }}
 			</div>
 			<Button size="sm" v-if="allowEdit" @click="openChapterModal()">
-				{{ __('Add Chapter') }}
+				{{ __('Добавить главу') }}
 			</Button>
 			<!-- <span class="font-medium cursor-pointer" @click="expandAllChapters()">
-				{{ expandAll ? __("Collapse all chapters") : __("Expand all chapters") }}
+				{{ expandAll ? __("Свернуть все главы") : __("Развернуть все главы") }}
 			</span> -->
 		</div>
 		<div
@@ -33,27 +33,27 @@
 							hidden: chapter.is_scorm_package,
 							open: index == 1,
 						}"
-						class="h-4 w-4 text-gray-900 stroke-1"
+						class="w-4 h-4 text-gray-900 stroke-1"
 					/>
 					<div
-						class="text-base text-left font-medium leading-5 ml-2"
+						class="ml-2 text-base font-medium leading-5 text-left"
 						@click="redirectToChapter(chapter)"
 					>
 						{{ chapter.title }}
 					</div>
 					<div class="flex ml-auto space-x-4">
-						<Tooltip :text="__('Edit Chapter')" placement="bottom">
+						<Tooltip :text="__('Редактировать главу')" placement="bottom">
 							<FilePenLine
 								v-if="allowEdit"
 								@click.prevent="openChapterModal(chapter)"
-								class="h-4 w-4 text-gray-900 invisible group-hover:visible"
+								class="invisible w-4 h-4 text-gray-900 group-hover:visible"
 							/>
 						</Tooltip>
-						<Tooltip :text="__('Delete Chapter')" placement="bottom">
+						<Tooltip :text="__('Удалить главу')" placement="bottom">
 							<Trash2
 								v-if="allowEdit"
 								@click.prevent="trashChapter(chapter.name)"
-								class="h-4 w-4 text-red-500 invisible group-hover:visible"
+								class="invisible w-4 h-4 text-red-500 group-hover:visible"
 							/>
 						</Tooltip>
 					</div>
@@ -69,7 +69,7 @@
 						:data-chapter="chapter.name"
 					>
 						<template #item="{ element: lesson }">
-							<div class="outline-lesson pl-8 py-2 pr-4">
+							<div class="py-2 pl-8 pr-4 outline-lesson">
 								<router-link
 									:to="{
 										name: allowEdit ? 'LessonForm' : 'Lesson',
@@ -83,32 +83,32 @@
 									<div class="flex items-center text-sm leading-5 group">
 										<MonitorPlay
 											v-if="lesson.icon === 'icon-youtube'"
-											class="h-4 w-4 text-gray-900 stroke-1 mr-2"
+											class="w-4 h-4 mr-2 text-gray-900 stroke-1"
 										/>
 										<HelpCircle
 											v-else-if="lesson.icon === 'icon-quiz'"
-											class="h-4 w-4 text-gray-900 stroke-1 mr-2"
+											class="w-4 h-4 mr-2 text-gray-900 stroke-1"
 										/>
 										<FileText
 											v-else-if="lesson.icon === 'icon-list'"
-											class="h-4 w-4 text-gray-900 stroke-1 mr-2"
+											class="w-4 h-4 mr-2 text-gray-900 stroke-1"
 										/>
 										{{ lesson.title }}
 										<Trash2
 											v-if="allowEdit"
 											@click.prevent="trashLesson(lesson.name, chapter.name)"
-											class="h-4 w-4 text-red-500 ml-auto invisible group-hover:visible"
+											class="invisible w-4 h-4 ml-auto text-red-500 group-hover:visible"
 										/>
 										<Check
 											v-if="lesson.is_complete"
-											class="h-4 w-4 text-green-700 ml-2"
+											class="w-4 h-4 ml-2 text-green-700"
 										/>
 									</div>
 								</router-link>
 							</div>
 						</template>
 					</Draggable>
-					<div v-if="allowEdit" class="flex mt-2 mb-4 pl-8">
+					<div v-if="allowEdit" class="flex pl-8 mt-2 mb-4">
 						<router-link
 							v-if="!chapter.is_scorm_package"
 							:to="{
@@ -121,7 +121,7 @@
 							}"
 						>
 							<Button>
-								{{ __('Add Lesson') }}
+								{{ __('Добавить урок') }}
 							</Button>
 						</router-link>
 					</div>
@@ -137,22 +137,22 @@
 	/>
 </template>
 <script setup>
-import { Button, createResource, Tooltip } from 'frappe-ui'
-import { getCurrentInstance, inject, ref } from 'vue'
-import Draggable from 'vuedraggable'
+import ChapterModal from '@/components/Modals/ChapterModal.vue'
+import { showToast } from '@/utils'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
+import { Button, createResource, Tooltip } from 'frappe-ui'
 import {
 	Check,
 	ChevronRight,
-	FileText,
 	FilePenLine,
+	FileText,
 	HelpCircle,
 	MonitorPlay,
 	Trash2,
 } from 'lucide-vue-next'
+import { getCurrentInstance, inject, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import ChapterModal from '@/components/Modals/ChapterModal.vue'
-import { showToast } from '@/utils'
+import Draggable from 'vuedraggable'
 
 const route = useRoute()
 const router = useRouter()
@@ -228,7 +228,7 @@ const trashLesson = (lessonName, chapterName) => {
 	$dialog({
 		title: __('Delete this lesson?'),
 		message: __(
-			'Deleting this lesson will permanently remove it from the course. This action cannot be undone. Are you sure you want to continue?'
+			'Deleting this lesson will permanently remove it from the course. This action cannot be undone. Are you sure you want to continue?',
 		),
 		actions: [
 			{
@@ -286,7 +286,7 @@ const trashChapter = (chapterName) => {
 	$dialog({
 		title: __('Delete this chapter?'),
 		message: __(
-			'Deleting this chapter will also delete all its lessons and permanently remove it from the course. This action cannot be undone. Are you sure you want to continue?'
+			'Deleting this chapter will also delete all its lessons and permanently remove it from the course. This action cannot be undone. Are you sure you want to continue?',
 		),
 		actions: [
 			{
@@ -310,7 +310,7 @@ const redirectToChapter = (chapter) => {
 		showToast(
 			__('You are not enrolled'),
 			__('Please enroll for this course to view this lesson'),
-			'alert-circle'
+			'alert-circle',
 		)
 		return
 	}

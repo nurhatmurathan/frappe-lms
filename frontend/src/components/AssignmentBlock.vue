@@ -4,21 +4,21 @@
 		:assignmentID="assignmentID"
 		:submissionName="submission.data?.name || 'new'"
 	/>
-	<div v-else class="border rounded-md text-center py-20">
+	<div v-else class="py-20 text-center border rounded-md">
 		<div>
-			{{ __('Please login to access the assignment.') }}
+			{{ __('Пожалуйста, войдите, чтобы получить доступ к заданию.') }}
 		</div>
 		<Button @click="redirectToLogin()" class="mt-2">
 			<span>
-				{{ __('Login') }}
+				{{ __('Войти') }}
 			</span>
 		</Button>
 	</div>
 </template>
 <script setup>
-import { inject, watch } from 'vue'
-import { Button, createResource } from 'frappe-ui'
 import Assignment from '@/components/Assignment.vue'
+import { Button, createResource } from 'frappe-ui'
+import { inject } from 'vue'
 
 const user = inject('$user')
 

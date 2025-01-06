@@ -1,17 +1,17 @@
 <template>
-	<div class="text-base border rounded-md w-1/3 mx-auto my-32">
-		<div class="border-b px-5 py-3 font-medium">
+	<div class="w-1/3 mx-auto my-32 text-base border rounded-md">
+		<div class="px-5 py-3 font-medium border-b">
 			<span
 				class="inline-flex items-center before:bg-red-600 before:w-2 before:h-2 before:rounded-md before:mr-2"
 			></span>
-			{{ __(title) }}
+			{{ __('Недопустимо') }}
 		</div>
 		<div class="px-5 py-3">
 			<div class="mb-4 leading-6">
-				{{ __(text) }}
+				{{ __('Вам не разрешено посещать эту страницу.') }}
 			</div>
 			<Button variant="solid" class="w-full" @click="redirect()">
-				{{ __(buttonLabel) }}
+				{{ __('Войти') }}
 			</Button>
 		</div>
 	</div>

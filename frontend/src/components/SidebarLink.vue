@@ -1,7 +1,7 @@
 <template>
 	<button
 		v-if="link && !link.onlyMobile"
-		class="flex h-7 cursor-pointer items-center rounded text-gray-800 duration-300 ease-in-out focus:outline-none focus:transition-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-gray-400"
+		class="flex items-center text-gray-800 duration-300 ease-in-out rounded cursor-pointer h-7 focus:outline-none focus:transition-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-gray-400"
 		:class="isActive ? 'bg-white shadow-sm' : 'hover:bg-gray-100'"
 		@click="handleClick"
 	>
@@ -11,7 +11,7 @@
 		>
 			<Tooltip :text="link.label" placement="right">
 				<slot name="icon">
-					<span class="grid h-5 w-6 flex-shrink-0 place-items-center">
+					<span class="grid flex-shrink-0 w-6 h-5 place-items-center">
 						<component
 							:is="icons[link.icon]"
 							class="h-4 w-4 stroke-1.5 text-gray-800"
@@ -59,10 +59,10 @@
 	</button>
 </template>
 <script setup>
-import { Tooltip, Button } from 'frappe-ui'
+import { Tooltip } from 'frappe-ui'
+import * as icons from 'lucide-vue-next'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import * as icons from 'lucide-vue-next'
 
 const router = useRouter()
 const emit = defineEmits(['openModal', 'deletePage'])

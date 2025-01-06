@@ -1,7 +1,7 @@
 <template>
 	<div
 		v-if="course.title"
-		class="flex flex-col h-full rounded-md shadow-md text-base overflow-auto"
+		class="flex flex-col h-full overflow-auto text-base rounded-md shadow-md"
 		style="min-height: 350px"
 	>
 		<div
@@ -10,10 +10,10 @@
 			:style="{ backgroundImage: 'url(\'' + encodeURI(course.image) + '\')' }"
 		>
 			<div
-				class="flex items-center flex-wrap space-x-1 relative top-4 px-2 w-fit"
+				class="relative flex flex-wrap items-center px-2 space-x-1 top-4 w-fit"
 			>
 				<Badge v-if="course.featured" variant="subtle" theme="green" size="md">
-					{{ __('Featured') }}
+					{{ __('Рекомендуемый') }}
 				</Badge>
 				<Badge
 					variant="subtle"
@@ -31,7 +31,7 @@
 		<div class="flex flex-col flex-auto p-4">
 			<div class="flex items-center justify-between mb-2">
 				<div v-if="course.lessons">
-					<Tooltip :text="__('Lessons')">
+					<Tooltip :text="__('Уроки')">
 						<span class="flex items-center">
 							<BookOpen class="h-4 w-4 stroke-1.5 text-gray-700 mr-1" />
 							{{ course.lessons }}
@@ -40,7 +40,7 @@
 				</div>
 
 				<div v-if="course.enrollments">
-					<Tooltip :text="__('Enrolled Students')">
+					<Tooltip :text="__('Записанные студенты')">
 						<span class="flex items-center">
 							<Users class="h-4 w-4 stroke-1.5 text-gray-700 mr-1" />
 							{{ course.enrollments }}
@@ -49,7 +49,7 @@
 				</div>
 
 				<div v-if="course.rating">
-					<Tooltip :text="__('Average Rating')">
+					<Tooltip :text="__('Средний рейтинг')">
 						<span class="flex items-center">
 							<Star class="h-4 w-4 stroke-1.5 text-gray-700 mr-1" />
 							{{ course.rating }}
@@ -63,7 +63,11 @@
 						:theme="course.status === 'Under Review' ? 'orange' : 'blue'"
 						size="sm"
 					>
-						{{ course.status }}
+						{{
+							course.status === 'Under Review'
+								? 'На рассмотрении'
+								: 'В процессе'
+						}}
 					</Badge>
 				</div>
 			</div>
@@ -72,7 +76,7 @@
 				{{ course.title }}
 			</div>
 
-			<div class="short-introduction text-gray-700 text-sm">
+			<div class="text-sm text-gray-700 short-introduction">
 				{{ course.short_introduction }}
 			</div>
 
@@ -81,8 +85,8 @@
 				:progress="course.membership.progress"
 			/>
 
-			<div v-if="user && course.membership" class="text-sm mb-4">
-				{{ Math.ceil(course.membership.progress) }}% completed
+			<div v-if="user && course.membership" class="mb-4 text-sm">
+				{{ Math.ceil(course.membership.progress) }}% завершено
 			</div>
 
 			<div class="flex items-center justify-between mt-auto">
@@ -107,12 +111,12 @@
 	</div>
 </template>
 <script setup>
-import { BookOpen, Users, Star } from 'lucide-vue-next'
+import CourseInstructors from '@/components/CourseInstructors.vue'
+import ProgressBar from '@/components/ProgressBar.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
 import { sessionStore } from '@/stores/session'
 import { Badge, Tooltip } from 'frappe-ui'
-import CourseInstructors from '@/components/CourseInstructors.vue'
-import ProgressBar from '@/components/ProgressBar.vue'
+import { BookOpen, Star, Users } from 'lucide-vue-next'
 
 const { user } = sessionStore()
 

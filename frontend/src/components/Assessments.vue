@@ -2,13 +2,13 @@
 	<div>
 		<div class="flex items-center justify-between mb-4">
 			<div class="text-lg font-semibold">
-				{{ __('Assessments') }}
+				{{ __('Оценки') }}
 			</div>
 			<Button v-if="canSeeAddButton()" @click="showModal = true">
 				<template #prefix>
-					<Plus class="h-4 w-4" />
+					<Plus class="w-4 h-4" />
 				</template>
-				{{ __('Add') }}
+				{{ __('Добавить') }}
 			</Button>
 		</div>
 		<div v-if="assessments.data?.length">
@@ -23,7 +23,7 @@
 				}"
 			>
 				<ListHeader
-					class="mb-2 grid items-center space-x-4 rounded bg-gray-100 p-2"
+					class="grid items-center p-2 mb-2 space-x-4 bg-gray-100 rounded"
 				>
 					<ListHeaderItem :item="item" v-for="item in getAssessmentColumns()">
 						<template #prefix="{ item }">
@@ -40,7 +40,7 @@
 						<template #default="{ column, item }">
 							<ListRowItem :item="row[column.key]" :align="column.align">
 								<div v-if="column.key == 'assessment_type'">
-									{{ row[column.key] == 'LMS Quiz' ? 'Quiz' : 'Assignment' }}
+									{{ row[column.key] == 'LMS Quiz' ? 'Тест' : 'Задание' }}
 								</div>
 								<div v-else-if="column.key == 'title'">
 									{{ row[column.key] }}
@@ -72,7 +72,7 @@
 			</ListView>
 		</div>
 		<div v-else class="text-sm italic text-gray-600">
-			{{ __('No Assessments') }}
+			{{ __('Нет оценок') }}
 		</div>
 	</div>
 	<AssessmentModal
@@ -82,21 +82,21 @@
 	/>
 </template>
 <script setup>
+import AssessmentModal from '@/components/Modals/AssessmentModal.vue'
 import {
-	ListView,
-	ListRow,
-	ListRows,
+	Badge,
+	Button,
 	ListHeader,
 	ListHeaderItem,
+	ListRow,
 	ListRowItem,
+	ListRows,
 	ListSelectBanner,
+	ListView,
 	createResource,
-	Button,
-	Badge,
 } from 'frappe-ui'
-import { inject, ref } from 'vue'
-import AssessmentModal from '@/components/Modals/AssessmentModal.vue'
 import { Plus, Trash2 } from 'lucide-vue-next'
+import { inject, ref } from 'vue'
 
 const user = inject('$user')
 const showModal = ref(false)
@@ -148,7 +148,7 @@ const removeAssessments = (selections, unselectAll) => {
 				assessments.reload()
 				unselectAll()
 			},
-		}
+		},
 	)
 }
 

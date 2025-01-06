@@ -1,26 +1,26 @@
 <template>
 	<div class="flex items-center justify-between mb-5">
 		<div class="text-lg font-semibold">
-			{{ __('Live Class') }}
+			{{ __('Живой Класс') }}
 		</div>
 		<Button v-if="user.data.is_moderator" @click="openLiveClassModal">
 			<template #prefix>
-				<Plus class="h-4 w-4" />
+				<Plus class="w-4 h-4" />
 			</template>
 			<span>
-				{{ __('Add') }}
+				{{ __('Добавить') }}
 			</span>
 		</Button>
 	</div>
 	<div v-if="liveClasses.data?.length" class="grid grid-cols-2 gap-5">
 		<div
 			v-for="cls in liveClasses.data"
-			class="flex flex-col border rounded-md h-full text-sm text-gray-700 p-3"
+			class="flex flex-col h-full p-3 text-sm text-gray-700 border rounded-md"
 		>
-			<div class="font-semibold text-gray-900 text-lg mb-4">
+			<div class="mb-4 text-lg font-semibold text-gray-900">
 				{{ cls.title }}
 			</div>
-			<div class="leading-5 text-gray-700 text-sm mb-4">
+			<div class="mb-4 text-sm leading-5 text-gray-700">
 				{{ cls.description }}
 			</div>
 			<div class="flex items-center mb-2">
@@ -35,30 +35,30 @@
 					{{ formatTime(cls.time) }}
 				</span>
 			</div>
-			<div class="flex items-center space-x-2 text-gray-900 mt-auto">
+			<div class="flex items-center mt-auto space-x-2 text-gray-900">
 				<a
 					v-if="user.data?.is_moderator || user.data?.is_evaluator"
 					:href="cls.start_url"
 					target="_blank"
-					class="w-1/2 cursor-pointer inline-flex items-center justify-center gap-2 transition-colors focus:outline-none text-gray-800 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 focus-visible:ring focus-visible:ring-gray-400 h-7 text-base px-2 rounded"
+					class="inline-flex items-center justify-center w-1/2 gap-2 px-2 text-base text-gray-800 transition-colors bg-gray-100 rounded cursor-pointer focus:outline-none hover:bg-gray-200 active:bg-gray-300 focus-visible:ring focus-visible:ring-gray-400 h-7"
 				>
 					<Monitor class="h-4 w-4 stroke-1.5" />
-					{{ __('Start') }}
+					{{ __('Начать') }}
 				</a>
 				<a
 					v-if="cls.date <= dayjs().format('YYYY-MM-DD')"
 					:href="cls.join_url"
 					target="_blank"
-					class="w-full cursor-pointer inline-flex items-center justify-center gap-2 transition-colors focus:outline-none text-gray-800 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 focus-visible:ring focus-visible:ring-gray-400 h-7 text-base px-2 rounded"
+					class="inline-flex items-center justify-center w-full gap-2 px-2 text-base text-gray-800 transition-colors bg-gray-100 rounded cursor-pointer focus:outline-none hover:bg-gray-200 active:bg-gray-300 focus-visible:ring focus-visible:ring-gray-400 h-7"
 				>
 					<Video class="h-4 w-4 stroke-1.5" />
-					{{ __('Join') }}
+					{{ __('Присоединиться') }}
 				</a>
 			</div>
 		</div>
 	</div>
 	<div v-else class="text-sm italic text-gray-600">
-		{{ __('No live classes scheduled') }}
+		{{ __('Нет запланированных живых классов') }}
 	</div>
 	<LiveClassModal
 		:batch="props.batch"
@@ -67,12 +67,11 @@
 	/>
 </template>
 <script setup>
-import { createListResource, Button } from 'frappe-ui'
-import { Plus, Clock, Calendar, Video, Monitor } from 'lucide-vue-next'
-import { inject } from 'vue'
 import LiveClassModal from '@/components/Modals/LiveClassModal.vue'
-import { ref } from 'vue'
 import { formatTime } from '@/utils/'
+import { Button, createListResource } from 'frappe-ui'
+import { Calendar, Clock, Monitor, Plus, Video } from 'lucide-vue-next'
+import { inject, ref } from 'vue'
 
 const user = inject('$user')
 const showLiveClassModal = ref(false)

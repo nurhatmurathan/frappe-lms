@@ -1,15 +1,15 @@
 <template>
 	<div class="flex flex-col h-full">
 		<div class="flex items-center justify-between">
-			<div class="text-xl font-semibold mb-1">
+			<div class="mb-1 text-xl font-semibold">
 				{{ label }}
 			</div>
 			<!-- <Badge
-                v-if="isDirty"
-                :label="__('Not Saved')"
-                variant="subtle"
-                theme="orange"
-            /> -->
+				v-if="isDirty"
+				:label="__('Не сохранено')"
+				variant="subtle"
+				theme="orange"
+			/> -->
 		</div>
 		<div class="overflow-y-scroll">
 			<div class="flex space-x-4">
@@ -24,15 +24,15 @@
 		</div>
 		<div class="flex flex-row-reverse mt-auto">
 			<Button variant="solid" @click="update">
-				{{ __('Update') }}
+				{{ __('Обновить') }}
 			</Button>
 		</div>
 	</div>
 </template>
 <script setup>
 import SettingFields from '@/components/SettingFields.vue'
-import { createResource, Badge, Button } from 'frappe-ui'
-import { watch, ref } from 'vue'
+import { Button, createResource } from 'frappe-ui'
+import { watch } from 'vue'
 
 const props = defineProps({
 	label: {
@@ -104,6 +104,6 @@ watch(
 	() => props.data.doc.payment_gateway,
 	() => {
 		paymentGateway.reload()
-	}
+	},
 )
 </script>

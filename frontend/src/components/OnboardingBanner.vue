@@ -1,12 +1,12 @@
 <template>
 	<div v-if="showOnboardingBanner && onboardingDetails.data">
-		<Tooltip :text="__('Skip Onboarding')" placement="left">
+		<Tooltip :text="__('Пропустить обучение')" placement="left">
 			<X
-				class="w-4 h-4 stroke-1 absolute top-2 right-2 cursor-pointer mr-1"
+				class="absolute w-4 h-4 mr-1 cursor-pointer stroke-1 top-2 right-2"
 				@click="skipOnboarding.reload()"
 			/>
 		</Tooltip>
-		<div class="flex items-center justify-evenly bg-gray-100 p-10">
+		<div class="flex items-center p-10 bg-gray-100 justify-evenly">
 			<div
 				@click="redirectToCourseForm()"
 				class="flex items-center space-x-2"
@@ -16,15 +16,15 @@
 			>
 				<span
 					v-if="onboardingDetails.data.course_created?.length"
-					class="py-1 px-1 bg-white rounded-full"
+					class="px-1 py-1 bg-white rounded-full"
 				>
-					<Check class="h-4 w-4 stroke-2 text-green-600" />
+					<Check class="w-4 h-4 text-green-600 stroke-2" />
 				</span>
-				<span v-else class="font-semibold bg-white px-2 py-1 rounded-full">
+				<span v-else class="px-2 py-1 font-semibold bg-white rounded-full">
 					1
 				</span>
 				<span class="text-lg font-semibold">
-					{{ __('Create a course') }}
+					{{ __('Создать курс') }}
 				</span>
 			</div>
 			<div
@@ -39,15 +39,15 @@
 			>
 				<span
 					v-if="onboardingDetails.data.chapter_created?.length"
-					class="py-1 px-1 bg-white rounded-full"
+					class="px-1 py-1 bg-white rounded-full"
 				>
-					<Check class="h-4 w-4 stroke-2 text-green-600" />
+					<Check class="w-4 h-4 text-green-600 stroke-2" />
 				</span>
-				<span v-else class="font-semibold bg-white px-2 py-1 rounded-full">
+				<span v-else class="px-2 py-1 font-semibold bg-white rounded-full">
 					2
 				</span>
 				<span class="text-lg font-semibold">
-					{{ __('Add a chapter') }}
+					{{ __('Добавить главу') }}
 				</span>
 			</div>
 			<div
@@ -64,24 +64,24 @@
 			>
 				<span
 					v-if="onboardingDetails.data.lesson_created?.length"
-					class="py-1 px-1 bg-white rounded-full"
+					class="px-1 py-1 bg-white rounded-full"
 				>
-					<Check class="h-4 w-4 stroke-2 text-green-600" />
+					<Check class="w-4 h-4 text-green-600 stroke-2" />
 				</span>
-				<span class="font-semibold bg-white px-2 py-1 rounded-full"> 3 </span>
+				<span class="px-2 py-1 font-semibold bg-white rounded-full"> 3 </span>
 				<span class="text-lg font-semibold">
-					{{ __('Add a lesson') }}
+					{{ __('Добавить урок') }}
 				</span>
 			</div>
 		</div>
 	</div>
 </template>
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { Check, X } from 'lucide-vue-next'
-import { useRouter } from 'vue-router'
 import { useSettings } from '@/stores/settings'
 import { createResource, Tooltip } from 'frappe-ui'
+import { Check, X } from 'lucide-vue-next'
+import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
 const showOnboardingBanner = ref(false)
 const settings = useSettings()

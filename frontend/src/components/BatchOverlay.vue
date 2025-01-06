@@ -1,26 +1,27 @@
 <template>
-	<div v-if="batch.data" class="shadow rounded-md p-5 lg:w-72">
+	<div v-if="batch.data" class="p-5 rounded-md shadow lg:w-72">
 		<Badge
 			v-if="batch.data.seat_count && seats_left > 0"
 			theme="green"
-			class="self-start mb-2 float-right"
+			class="self-start float-right mb-2"
 		>
-			{{ seats_left }} <span v-if="seats_left > 1">{{ __('Seats Left') }}</span
-			><span v-else-if="seats_left == 1">{{ __('Seat Left') }}</span>
+			{{ seats_left }}
+			<span v-if="seats_left > 1">{{ __('Осталось мест') }}</span
+			><span v-else-if="seats_left == 1">{{ __('Осталось одно место') }}</span>
 		</Badge>
 		<Badge
 			v-else-if="batch.data.seat_count && seats_left <= 0"
 			theme="red"
-			class="self-start mb-2 float-right"
+			class="self-start float-right mb-2"
 		>
-			{{ __('Sold Out') }}
+			{{ __('Продано') }}
 		</Badge>
-		<div v-if="batch.data.amount" class="text-lg font-semibold mb-3">
+		<div v-if="batch.data.amount" class="mb-3 text-lg font-semibold">
 			{{ formatNumberIntoCurrency(batch.data.amount, batch.data.currency) }}
 		</div>
 		<div class="flex items-center mb-3">
 			<BookOpen class="h-4 w-4 stroke-1.5 mr-2 text-gray-700" />
-			<span> {{ batch.data.courses.length }} {{ __('Courses') }} </span>
+			<span> {{ batch.data.courses.length }} {{ __('Курсы') }} </span>
 		</div>
 		<DateRange
 			:startDate="batch.data.start_date"
@@ -51,7 +52,7 @@
 		>
 			<Button variant="solid" class="w-full mt-4">
 				<span>
-					{{ isModerator ? __('Manage Batch') : __('Visit Batch') }}
+					{{ isModerator ? __('Управлять группой') : __('Посетить группу') }}
 				</span>
 			</Button>
 		</router-link>
@@ -67,7 +68,7 @@
 		>
 			<Button v-if="!isStudent" class="w-full mt-4" variant="solid">
 				<span>
-					{{ __('Register Now') }}
+					{{ __('Зарегистрироваться сейчас') }}
 				</span>
 			</Button>
 		</router-link>
@@ -77,7 +78,7 @@
 			v-else-if="batch.data.allow_self_enrollment && batch.data.seats_left"
 			@click="enrollInBatch()"
 		>
-			{{ __('Enroll Now') }}
+			{{ __('Записаться сейчас') }}
 		</Button>
 		<router-link
 			v-if="isModerator"
@@ -90,18 +91,18 @@
 		>
 			<Button class="w-full mt-2">
 				<span>
-					{{ __('Edit') }}
+					{{ __('Редактировать') }}
 				</span>
 			</Button>
 		</router-link>
 	</div>
 </template>
 <script setup>
-import { inject, computed } from 'vue'
+import DateRange from '@/components/Common/DateRange.vue'
+import { formatNumberIntoCurrency, formatTime, showToast } from '@/utils'
 import { Badge, Button, createResource } from 'frappe-ui'
 import { BookOpen, Clock, Globe } from 'lucide-vue-next'
-import { formatNumberIntoCurrency, formatTime, showToast } from '@/utils'
-import DateRange from '@/components/Common/DateRange.vue'
+import { computed, inject } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -134,7 +135,7 @@ const enrollInBatch = () => {
 				showToast(
 					__('Success'),
 					__('You have been enrolled in this batch'),
-					'check'
+					'check',
 				)
 				router.push({
 					name: 'Batch',
@@ -143,7 +144,7 @@ const enrollInBatch = () => {
 					},
 				})
 			},
-		}
+		},
 	)
 }
 

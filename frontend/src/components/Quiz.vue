@@ -1,47 +1,45 @@
 <template>
 	<div v-if="quiz.data">
 		<div
-			class="bg-blue-100 space-y-1 py-2 px-2 mb-4 rounded-md text-sm text-blue-800"
+			class="px-2 py-2 mb-4 space-y-1 text-sm text-blue-800 bg-blue-100 rounded-md"
 		>
 			<div class="leading-5">
-				{{
-					__('This quiz consists of {0} questions.').format(questions.length)
-				}}
+				{{ __('Этот тест состоит из {0} вопросов.').format(questions.length) }}
 			</div>
 			<div v-if="quiz.data?.duration" class="leading-5">
 				{{
 					__(
-						'Please ensure that you complete all the questions in {0} minutes.'
+						'Пожалуйста, убедитесь, что вы завершите все вопросы за {0} минут.',
 					).format(quiz.data.duration)
 				}}
 			</div>
 			<div v-if="quiz.data?.duration" class="leading-5">
 				{{
 					__(
-						'If you fail to do so, the quiz will be automatically submitted when the timer ends.'
+						'Если вы не успеете, тест будет автоматически отправлен по окончании времени.',
 					)
 				}}
 			</div>
 			<div v-if="quiz.data.passing_percentage" class="leading-relaxed">
 				{{
 					__(
-						'You will have to get {0}% correct answers in order to pass the quiz.'
+						'Вам нужно набрать {0}% правильных ответов, чтобы пройти тест.',
 					).format(quiz.data.passing_percentage)
 				}}
 			</div>
 			<div v-if="quiz.data.max_attempts" class="leading-relaxed">
 				{{
-					__('You can attempt this quiz {0}.').format(
+					__('Вы можете попытаться пройти этот тест {0}.').format(
 						quiz.data.max_attempts == 1
-							? '1 time'
-							: `${quiz.data.max_attempts} times`
+							? '1 раз'
+							: `${quiz.data.max_attempts} раз`,
 					)
 				}}
 			</div>
 		</div>
 
-		<div v-if="quiz.data.duration" class="flex items-center space-x-2 my-4">
-			<span class="text-gray-600 text-xs"> {{ __('Time') }}: </span>
+		<div v-if="quiz.data.duration" class="flex items-center my-4 space-x-2">
+			<span class="text-xs text-gray-600"> {{ __('Время') }}: </span>
 			<ProgressBar :progress="timerProgress" />
 			<span class="font-semibold">
 				{{ formatTimer(timer) }}
@@ -49,8 +47,8 @@
 		</div>
 
 		<div v-if="activeQuestion == 0">
-			<div class="border text-center p-20 rounded-md">
-				<div class="font-semibold text-lg">
+			<div class="p-20 text-center border rounded-md">
+				<div class="text-lg font-semibold">
 					{{ quiz.data.title }}
 				</div>
 				<Button
@@ -62,13 +60,13 @@
 					class="mt-2"
 				>
 					<span>
-						{{ __('Start') }}
+						{{ __('Начать') }}
 					</span>
 				</Button>
 				<div v-else>
 					{{
 						__(
-							'You have already exceeded the maximum number of attempts allowed for this quiz.'
+							'Вы уже превысили максимальное количество попыток, разрешенных для этого теста.',
 						)
 					}}
 				</div>
@@ -78,30 +76,30 @@
 			<div v-for="(question, qtidx) in questions">
 				<div
 					v-if="qtidx == activeQuestion - 1 && questionDetails.data"
-					class="border rounded-md p-5"
+					class="p-5 border rounded-md"
 				>
 					<div class="flex justify-between">
 						<div class="text-sm text-gray-600">
 							<span class="mr-2">
-								{{ __('Question {0}').format(activeQuestion) }}:
+								{{ __('Вопрос {0}').format(activeQuestion) }}:
 							</span>
 							<span>
 								{{ getInstructions(questionDetails.data) }}
 							</span>
 						</div>
-						<div class="text-gray-900 text-sm font-semibold item-left">
+						<div class="text-sm font-semibold text-gray-900 item-left">
 							{{ question.marks }}
-							{{ question.marks == 1 ? __('Mark') : __('Marks') }}
+							{{ question.marks == 1 ? __('Бал') : __('Балов') }}
 						</div>
 					</div>
 					<div
-						class="text-gray-900 font-semibold mt-2 leading-5"
+						class="mt-2 font-semibold leading-5 text-gray-900"
 						v-html="questionDetails.data.question"
 					></div>
 					<div v-if="questionDetails.data.type == 'Choices'" v-for="index in 4">
 						<label
 							v-if="questionDetails.data[`option_${index}`]"
-							class="flex items-center bg-gray-200 rounded-md p-3 mt-4 w-full cursor-pointer focus:border-blue-600"
+							class="flex items-center w-full p-3 mt-4 bg-gray-200 rounded-md cursor-pointer focus:border-blue-600"
 						>
 							<input
 								v-if="!showAnswers.length && !questionDetails.data.multiple"
@@ -160,14 +158,18 @@
 							class="my-2"
 						/>
 						<div v-if="showAnswers.length">
-							<Badge v-if="showAnswers[0]" :label="__('Correct')" theme="green">
+							<Badge
+								v-if="showAnswers[0]"
+								:label="__('Правильно')"
+								theme="green"
+							>
 								<template #prefix>
-									<CheckCircle class="w-4 h-4 text-green-500 mr-1" />
+									<CheckCircle class="w-4 h-4 mr-1 text-green-500" />
 								</template>
 							</Badge>
-							<Badge v-else theme="red" :label="__('Incorrect')">
+							<Badge v-else theme="red" :label="__('Неправильно')">
 								<template #prefix>
-									<XCircle class="w-4 h-4 text-red-500 mr-1" />
+									<XCircle class="w-4 h-4 mr-1 text-red-500" />
 								</template>
 							</Badge>
 						</div>
@@ -185,10 +187,7 @@
 					<div class="flex items-center justify-between mt-4">
 						<div class="text-sm text-gray-600">
 							{{
-								__('Question {0} of {1}').format(
-									activeQuestion,
-									questions.length
-								)
+								__('Вопрос {0} из {1}').format(activeQuestion, questions.length)
 							}}
 						</div>
 						<Button
@@ -200,7 +199,7 @@
 							@click="checkAnswer()"
 						>
 							<span>
-								{{ __('Check') }}
+								{{ __('Проверить') }}
 							</span>
 						</Button>
 						<Button
@@ -208,37 +207,37 @@
 							@click="nextQuetion()"
 						>
 							<span>
-								{{ __('Next') }}
+								{{ __('Далее') }}
 							</span>
 						</Button>
 						<Button v-else @click="submitQuiz()">
 							<span>
-								{{ __('Submit') }}
+								{{ __('Отправить') }}
 							</span>
 						</Button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div v-else class="border rounded-md p-20 text-center space-y-4">
+		<div v-else class="p-20 space-y-4 text-center border rounded-md">
 			<div class="text-lg font-semibold">
-				{{ __('Quiz Summary') }}
+				{{ __('Результаты теста') }}
 			</div>
 			<div v-if="quizSubmission.data.is_open_ended">
 				{{
 					__(
-						"Your submission has been successfully saved. The instructor will review and grade it shortly, and you'll be notified of your final result."
+						'Ваши ответы успешно сохранены. Преподаватель проверит и оценит их в ближайшее время, и вы получите уведомление о результатах.',
 					)
 				}}
 			</div>
 			<div v-else>
 				{{
 					__(
-						'You got {0}% correct answers with a score of {1} out of {2}'
+						'Вы набрали {0}% правильных ответов с результатом {1} из {2}',
 					).format(
 						Math.ceil(quizSubmission.data.percentage),
 						quizSubmission.data.score,
-						quizSubmission.data.score_out_of
+						quizSubmission.data.score_out_of,
 					)
 				}}
 			</div>
@@ -251,7 +250,7 @@
 				"
 			>
 				<span>
-					{{ __('Try Again') }}
+					{{ __('Попробовать снова') }}
 				</span>
 			</Button>
 		</div>
@@ -270,21 +269,21 @@
 	</div>
 </template>
 <script setup>
+import ProgressBar from '@/components/ProgressBar.vue'
+import { timeAgo } from '@/utils'
+import { createToast } from '@/utils/'
 import {
 	Badge,
 	Button,
 	call,
 	createResource,
+	FormControl,
 	ListView,
 	TextEditor,
-	FormControl,
 } from 'frappe-ui'
-import { ref, watch, reactive, inject, computed } from 'vue'
-import { createToast } from '@/utils/'
-import { CheckCircle, XCircle, MinusCircle } from 'lucide-vue-next'
-import { timeAgo } from '@/utils'
+import { CheckCircle, MinusCircle, XCircle } from 'lucide-vue-next'
+import { computed, inject, reactive, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import ProgressBar from '@/components/ProgressBar.vue'
 
 const user = inject('$user')
 const activeQuestion = ref(0)
@@ -409,7 +408,7 @@ watch(
 			attempts.reload()
 			resetQuiz()
 		}
-	}
+	},
 )
 
 const quizSubmission = createResource({
@@ -444,7 +443,7 @@ watch(
 		if (newName) {
 			quiz.reload()
 		}
-	}
+	},
 )
 
 const startQuiz = () => {
@@ -569,7 +568,7 @@ const createSubmission = () => {
 				if (quiz.data && quiz.data.max_attempts) attempts.reload()
 				if (quiz.data.duration) clearInterval(timerInterval)
 			},
-		}
+		},
 	)
 }
 

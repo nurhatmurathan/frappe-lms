@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<Button v-if="!singleThread" class="float-right" @click="openTopicModal()">
-			{{ __('New {0}').format(singularize(title)) }}
+			{{ __('Новая {0}').format(singularize(title)) }}
 		</Button>
 		<div class="text-xl font-semibold">
 			{{ __(title) }}
@@ -11,19 +11,19 @@
 		<div v-if="showTopics" v-for="(topic, index) in topics.data">
 			<div
 				@click="showReplies(topic)"
-				class="flex items-center cursor-pointer py-5 w-full"
+				class="flex items-center w-full py-5 cursor-pointer"
 				:class="{ 'border-b': index + 1 != topics.data.length }"
 			>
 				<UserAvatar :user="topic.user" size="2xl" class="mr-4" />
 				<div>
-					<div class="text-lg font-semibold mb-1">
+					<div class="mb-1 text-lg font-semibold">
 						{{ topic.title }}
 					</div>
 					<div class="flex items-center">
 						<span>
 							{{ topic.user.full_name }}
 						</span>
-						<span class="text-sm ml-3">
+						<span class="ml-3 text-sm">
 							{{ timeAgo(topic.creation) }}
 						</span>
 					</div>
@@ -42,11 +42,11 @@
 	</div>
 	<div
 		v-else
-		class="flex flex-col items-center justify-center border-2 border-dashed mt-5 py-8 rounded-md"
+		class="flex flex-col items-center justify-center py-8 mt-5 border-2 border-dashed rounded-md"
 	>
 		<MessageSquareText class="w-7 h-7 text-gray-500 stroke-1.5 mr-2" />
 		<div class="">
-			<div v-if="emptyStateTitle" class="font-medium mb-2">
+			<div v-if="emptyStateTitle" class="mb-2 font-medium">
 				{{ __(emptyStateTitle) }}
 			</div>
 			<div class="text-gray-600">
@@ -56,21 +56,21 @@
 	</div>
 	<DiscussionModal
 		v-model="showTopicModal"
-		:title="__('New {0}').format(title)"
+		:title="__('Новая {0}').format(title)"
 		:doctype="props.doctype"
 		:docname="props.docname"
 		v-model:reloadTopics="topics"
 	/>
 </template>
 <script setup>
-import { createResource, Button } from 'frappe-ui'
-import UserAvatar from '@/components/UserAvatar.vue'
-import { singularize, timeAgo } from '../utils'
-import { ref, onMounted, inject } from 'vue'
 import DiscussionReplies from '@/components/DiscussionReplies.vue'
 import DiscussionModal from '@/components/Modals/DiscussionModal.vue'
-import { MessageSquareText } from 'lucide-vue-next'
+import UserAvatar from '@/components/UserAvatar.vue'
 import { getScrollContainer } from '@/utils/scrollContainer'
+import { Button, createResource } from 'frappe-ui'
+import { MessageSquareText } from 'lucide-vue-next'
+import { inject, onMounted, ref } from 'vue'
+import { singularize, timeAgo } from '../utils'
 
 const showTopics = ref(true)
 const currentTopic = ref(null)

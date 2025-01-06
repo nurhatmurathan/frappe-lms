@@ -5,10 +5,10 @@
 			@click="openReviewModal()"
 			class="float-right"
 		>
-			{{ __('Write a Review') }}
+			{{ __('Написать отзыв') }}
 		</Button>
-		<div class="flex items-center font-semibold text-2xl">
-			{{ __('Student Reviews') }}
+		<div class="flex items-center text-2xl font-semibold">
+			{{ __('Отзывы студентов') }}
 		</div>
 		<div class="grid gap-8 mt-10">
 			<div v-for="(review, index) in reviews.data">
@@ -28,7 +28,7 @@
 								params: { username: review.owner_details.username },
 							}"
 						>
-							<span class="text-lg font-medium mr-4">
+							<span class="mr-4 text-lg font-medium">
 								{{ review.owner_details.full_name }}
 							</span>
 						</router-link>
@@ -38,7 +38,7 @@
 						<div class="flex mt-2">
 							<Star
 								v-for="index in 5"
-								class="h-5 w-5 text-gray-100 bg-gray-200 rounded-sm mr-2"
+								class="w-5 h-5 mr-2 text-gray-100 bg-gray-200 rounded-sm"
 								:class="
 									index <= Math.ceil(review.rating)
 										? 'fill-orange-500'
@@ -62,11 +62,11 @@
 	/>
 </template>
 <script setup>
-import { Star } from 'lucide-vue-next'
-import { createResource, Button } from 'frappe-ui'
-import { computed, ref, inject } from 'vue'
-import UserAvatar from '@/components/UserAvatar.vue'
 import ReviewModal from '@/components/Modals/ReviewModal.vue'
+import UserAvatar from '@/components/UserAvatar.vue'
+import { Button, createResource } from 'frappe-ui'
+import { Star } from 'lucide-vue-next'
+import { inject, ref } from 'vue'
 
 const user = inject('$user')
 

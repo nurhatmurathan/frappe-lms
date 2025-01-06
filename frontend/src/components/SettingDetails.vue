@@ -1,35 +1,35 @@
 <template>
 	<div class="flex flex-col justify-between h-full">
 		<div>
-			<div class="flex itemsc-center justify-between">
-				<div class="text-xl font-semibold leading-none mb-1">
-					{{ __(label) }}
+			<div class="flex justify-between itemsc-center">
+				<div class="mb-1 text-xl font-semibold leading-none">
+					{{ __('Метка') }}
 				</div>
 				<Badge
 					v-if="data.isDirty"
-					:label="__('Not Saved')"
+					:label="__('Не сохранено')"
 					variant="subtle"
 					theme="orange"
 				/>
 			</div>
 			<div class="text-xs text-gray-600">
-				{{ __(description) }}
+				{{ __('Описание') }}
 			</div>
 		</div>
 
 		<SettingFields :fields="fields" :data="data.doc" />
 		<div class="flex flex-row-reverse mt-auto">
 			<Button variant="solid" :loading="data.save.loading" @click="update">
-				{{ __('Update') }}
+				{{ __('Обновить') }}
 			</Button>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { Button, Badge } from 'frappe-ui'
 import SettingFields from '@/components/SettingFields.vue'
 import { showToast } from '@/utils'
+import { Badge, Button } from 'frappe-ui'
 
 const props = defineProps({
 	fields: {
@@ -61,7 +61,7 @@ const update = () => {
 			onError(err) {
 				showToast(__('Error'), err.messages?.[0] || err, 'x')
 			},
-		}
+		},
 	)
 }
 </script>
