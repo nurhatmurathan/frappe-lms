@@ -148,7 +148,7 @@ const dayjs = inject('$dayjs')
 const breadcrumbs = computed(() => {
 	return [
 		{
-			label: 'Statistics',
+			label: 'Статистика',
 			route: {
 				name: 'Statistics',
 			},

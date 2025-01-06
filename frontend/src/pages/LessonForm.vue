@@ -458,7 +458,7 @@ const showToast = (title, text, icon) => {
 const breadcrumbs = computed(() => {
 	let crumbs = [
 		{
-			label: 'Courses',
+			label: 'Курсы',
 			route: { name: 'Courses' },
 		},
 		{
@@ -481,7 +481,7 @@ const breadcrumbs = computed(() => {
 		})
 	}
 	crumbs.push({
-		label: lessonDetails?.data?.lesson ? 'Edit Lesson' : 'Create Lesson',
+		label: lessonDetails?.data?.lesson ? 'Редактировать урок' : 'Создать урок',
 		route: {
 			name: 'LessonForm',
 			params: {

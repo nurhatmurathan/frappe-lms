@@ -4,16 +4,16 @@
 	>
 		<Breadcrumbs :items="breadcrumbs" />
 	</header>
-	<div class="md:w-7/12 md:mx-auto mx-4 py-10">
+	<div class="py-10 mx-4 md:w-7/12 md:mx-auto">
 		<Quiz :quizName="quizID" />
 	</div>
 </template>
 <script setup>
 import Quiz from '@/components/Quiz.vue'
-import { createResource, Breadcrumbs } from 'frappe-ui'
+import { updateDocumentTitle } from '@/utils'
+import { Breadcrumbs, createResource } from 'frappe-ui'
 import { computed, inject, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { updateDocumentTitle } from '@/utils'
 
 const user = inject('$user')
 const router = useRouter()
@@ -42,9 +42,8 @@ const title = createResource({
 	},
 	auto: true,
 })
-
 const breadcrumbs = computed(() => {
-	return [{ label: __('Quiz Submission') }, { label: title.data?.title }]
+	return [{ label: 'Отправка викторины' }, { label: title.data?.title }]
 })
 
 const pageMeta = computed(() => {

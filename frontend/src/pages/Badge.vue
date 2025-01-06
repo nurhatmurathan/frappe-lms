@@ -1,26 +1,26 @@
 <template>
 	<div v-if="badge.doc">
-		<div class="p-5 flex flex-col items-center mt-40">
+		<div class="flex flex-col items-center p-5 mt-40">
 			<div class="text-3xl font-semibold">
 				{{ badge.doc.title }}
 			</div>
-			<img :src="badge.doc.image" :alt="badge.doc.title" class="h-60 mt-2" />
+			<img :src="badge.doc.image" :alt="badge.doc.title" class="mt-2 h-60" />
 			<div class="text-lg">
 				{{
 					__('This badge has been awarded to {0} on {1}.').format(
 						userName,
-						dayjs(issuedOn.data?.issued_on).format('DD MMM YYYY')
+						dayjs(issuedOn.data?.issued_on).format('DD MMM YYYY'),
 					)
 				}}
 			</div>
-			<div class="text-lg mt-2">
+			<div class="mt-2 text-lg">
 				{{ badge.doc.description }}
 			</div>
 		</div>
 	</div>
 </template>
 <script setup>
-import { createDocumentResource, createResource, Breadcrumbs } from 'frappe-ui'
+import { createDocumentResource, createResource } from 'frappe-ui'
 import { computed, inject } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -46,7 +46,7 @@ const badge = createDocumentResource({
 
 const userName = computed(() => {
 	const user = Object.values(allUsers.data).find(
-		(user) => user.name === props.email
+		(user) => user.name === props.email,
 	)
 	return user ? user.full_name : props.email
 })
@@ -74,7 +74,7 @@ const issuedOn = createResource({
 const breadcrumbs = computed(() => {
 	return [
 		{
-			label: 'Badges',
+			label: 'Значки',
 		},
 		{
 			label: badge.doc.title,

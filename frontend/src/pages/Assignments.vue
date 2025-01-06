@@ -183,7 +183,7 @@ const assignmentTypes = computed(() => {
 
 const breadcrumbs = computed(() => [
 	{
-		label: 'Assignments',
+		label: 'Задания',
 		route: { name: 'Assignments' },
 	},
 ])

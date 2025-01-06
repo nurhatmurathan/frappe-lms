@@ -171,11 +171,11 @@ watch(assignment, () => {
 
 const breadcrumbs = computed(() => [
 	{
-		label: __('Assignments'),
+		label: __('Задания'),
 		route: { name: 'Assignments' },
 	},
 	{
-		label: assignment.doc ? assignment.doc.title : __('New Assignment'),
+		label: assignment.doc ? assignment.doc.title : __('Новое задание'),
 	},
 ])
 

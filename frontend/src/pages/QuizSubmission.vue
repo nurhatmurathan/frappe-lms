@@ -119,7 +119,7 @@ const submisisonDetails = createDocumentResource({
 const breadcrumbs = computed(() => {
 	return [
 		{
-			label: __('Quiz Submissions'),
+			label: __('Отправки викторин'),
 			route: {
 				name: 'QuizSubmissionList',
 				params: {

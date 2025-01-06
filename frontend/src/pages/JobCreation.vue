@@ -311,11 +311,11 @@ const jobStatuses = computed(() => {
 const breadcrumbs = computed(() => {
 	let crumbs = [
 		{
-			label: 'Jobs',
+			label: 'Работы',
 			route: { name: 'Jobs' },
 		},
 		{
-			label: props.jobName == 'new' ? 'New Job' : 'Edit Job',
+			label: props.jobName == 'new' ? 'Новая работа' : 'Редактировать работу',
 			route: { name: 'JobCreation' },
 		},
 	]

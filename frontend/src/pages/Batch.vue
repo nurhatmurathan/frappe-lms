@@ -230,10 +230,10 @@ const batch = createResource({
 })
 
 const breadcrumbs = computed(() => {
-	let crumbs = [{ label: 'Batches', route: { name: 'Batches' } }]
+	let crumbs = [{ label: 'Группы', route: { name: 'Batches' } }]
 	if (!isStudent.value) {
 		crumbs.push({
-			label: 'Details',
+			label: 'Детали',
 			route: {
 				name: 'BatchDetail',
 				params: {

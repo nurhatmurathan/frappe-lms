@@ -544,7 +544,7 @@ const check_permission = () => {
 const breadcrumbs = computed(() => {
 	let crumbs = [
 		{
-			label: 'Courses',
+			label: 'Курсы',
 			route: { name: 'Courses' },
 		},
 	]
@@ -555,7 +555,7 @@ const breadcrumbs = computed(() => {
 		})
 	}
 	crumbs.push({
-		label: props.courseName == 'new' ? 'New Course' : 'Edit Course',
+		label: props.courseName == 'new' ? 'Новый курс' : 'Редактировать курс',
 		route: { name: 'CourseForm', params: { courseName: props.courseName } },
 	})
 	return crumbs

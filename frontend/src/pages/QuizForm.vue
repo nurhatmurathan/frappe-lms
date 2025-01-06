@@ -435,7 +435,7 @@ const deleteQuestions = (selections, unselectAll) => {
 const breadcrumbs = computed(() => {
 	let crumbs = [
 		{
-			label: __('Quizzes'),
+			label: __('Викторины'),
 			route: {
 				name: 'Quizzes',
 			},

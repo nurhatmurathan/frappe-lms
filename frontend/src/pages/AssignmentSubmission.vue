@@ -9,9 +9,9 @@
 	</div>
 </template>
 <script setup>
+import Assignment from '@/components/Assignment.vue'
 import { Breadcrumbs, createResource } from 'frappe-ui'
 import { computed, inject, onMounted } from 'vue'
-import Assignment from '@/components/Assignment.vue'
 
 const user = inject('$user')
 
@@ -47,7 +47,7 @@ onMounted(() => {
 const breadcrumbs = computed(() => {
 	let crumbs = [
 		{
-			label: 'Submissions',
+			label: 'Отправки',
 			route: { name: 'AssignmentSubmissionList' },
 		},
 		{

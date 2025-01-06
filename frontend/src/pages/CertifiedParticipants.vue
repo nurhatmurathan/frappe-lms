@@ -68,7 +68,9 @@ const participants = createResource({
 })
 
 const breadcrumbs = computed(() => {
-	return [{ label: 'Certified Participants', to: '/certified-participants' }]
+	return [
+		{ label: 'Сертифицированные участники', to: '/certified-participants' },
+	]
 })
 
 const pageMeta = computed(() => {

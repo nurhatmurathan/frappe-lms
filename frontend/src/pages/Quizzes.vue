@@ -135,7 +135,7 @@ const quizColumns = computed(() => {
 const breadcrumbs = computed(() => {
 	return [
 		{
-			label: __('Quizzes'),
+			label: __('Тесты'),
 			route: {
 				name: 'Quizzes',
 			},
