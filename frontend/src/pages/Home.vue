@@ -5,15 +5,15 @@
 			@click="$resources.ping.fetch"
 			:loading="$resources.ping.loading"
 		>
-			Click to send 'ping' request
+			Нажмите, чтобы отправить запрос 'ping'
 		</Button>
 		<div>
 			{{ $resources.ping.data }}
 		</div>
 		<pre>{{ $resources.ping }}</pre>
 
-		<Button @click="showDialog = true">Open Dialog</Button>
-		<Dialog title="Title" v-model="showDialog"> Dialog content </Dialog>
+		<Button @click="showDialog = true">Открыть Диалог</Button>
+		<Dialog title="Заголовок" v-model="showDialog"> Содержимое диалога </Dialog>
 	</div>
 </template>
 

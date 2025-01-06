@@ -1,20 +1,20 @@
 <template>
-	<div class="mt-7 mb-10">
+	<div class="mb-10 mt-7">
 		<h2 class="mb-3 text-lg font-semibold text-gray-900">
-			{{ __('Certificates') }}
+			{{ __('Сертификаты') }}
 		</h2>
-		<div class="grid grod-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+		<div class="grid gap-4 grod-cols-1 md:grid-cols-2 lg:grid-cols-3">
 			<div
 				v-for="certificate in certificates.data"
 				:key="certificate.name"
-				class="bg-white shadow rounded-lg p-3 cursor-pointer"
+				class="p-3 bg-white rounded-lg shadow cursor-pointer"
 				@click="openCertificate(certificate)"
 			>
 				<div class="font-medium leading-5">
 					{{ certificate.course_title }}
 				</div>
 				<div class="mt-2">
-					<span class="text-xs text-gray-700"> {{ __('issued on') }}: </span>
+					<span class="text-xs text-gray-700"> {{ __('выдан') }}: </span>
 					{{ dayjs(certificate.issue_date).format('DD MMM YYYY') }}
 				</div>
 			</div>
@@ -45,7 +45,7 @@ const openCertificate = (certificate) => {
 	window.open(
 		`/api/method/frappe.utils.print_format.download_pdf?doctype=LMS+Certificate&name=${
 			certificate.name
-		}&format=${encodeURIComponent(certificate.template)}`
+		}&format=${encodeURIComponent(certificate.template)}`,
 	)
 }
 </script>

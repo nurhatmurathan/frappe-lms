@@ -14,35 +14,35 @@
 				}"
 			>
 				<Button>
-					{{ __('Submission List') }}
+					{{ __('Список ответов') }}
 				</Button>
 			</router-link>
 			<Button variant="solid" @click="saveAssignment()">
-				{{ __('Save') }}
+				{{ __('Сохранить') }}
 			</Button>
 		</div>
 	</header>
-	<div class="w-3/4 mx-auto py-5">
-		<div class="font-semibold mb-4">
-			{{ __('Details') }}
+	<div class="w-3/4 py-5 mx-auto">
+		<div class="mb-4 font-semibold">
+			{{ __('Детали') }}
 		</div>
 		<div class="grid grid-cols-2 gap-5 mt-4 mb-8">
 			<FormControl
 				v-model="model.title"
-				:label="__('Title')"
+				:label="__('Название')"
 				:required="true"
 			/>
 			<FormControl
 				v-model="model.type"
 				type="select"
 				:options="assignmentOptions"
-				:label="__('Type')"
+				:label="__('Тип')"
 				:required="true"
 			/>
 		</div>
 		<div>
-			<div class="text-xs text-gray-600 mb-2">
-				{{ __('Question') }}
+			<div class="mb-2 text-xs text-gray-600">
+				{{ __('Вопрос') }}
 				<span class="text-ink-red-3">*</span>
 			</div>
 			<TextEditor
@@ -56,6 +56,7 @@
 	</div>
 </template>
 <script setup>
+import { showToast } from '@/utils'
 import {
 	Breadcrumbs,
 	Button,
@@ -67,12 +68,11 @@ import {
 import {
 	computed,
 	inject,
-	onMounted,
 	onBeforeUnmount,
+	onMounted,
 	reactive,
 	watch,
 } from 'vue'
-import { showToast } from '@/utils'
 import { useRouter } from 'vue-router'
 
 const user = inject('$user')
@@ -158,7 +158,7 @@ const saveAssignment = () => {
 				onError(err) {
 					showToast(__('Error'), __(err.messages?.[0] || err), 'x')
 				},
-			}
+			},
 		)
 	}
 }

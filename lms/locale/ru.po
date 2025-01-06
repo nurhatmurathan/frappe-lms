@@ -740,7 +740,7 @@ msgstr "Название сертификации"
 #. Label of the certified_participants (Check) field in DocType 'LMS Settings'
 #: lms/lms/doctype/lms_settings/lms_settings.json
 msgid "Certified Participants"
-msgstr "Сертифицированные участники"
+msgstr "Сертифицир. участники"
 
 #: lms/templates/assignment.html:13
 msgid "Change"

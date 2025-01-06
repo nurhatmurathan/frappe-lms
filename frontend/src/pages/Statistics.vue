@@ -6,13 +6,13 @@
 			<Breadcrumbs class="h-7" :items="breadcrumbs" />
 		</header>
 		<div v-if="chartDetails.data" class="p-5">
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-				<div class="flex items-center shadow py-2 px-3 rounded-md">
-					<div class="p-2 rounded-md bg-gray-100 mr-3">
+			<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
+				<div class="flex items-center px-3 py-2 rounded-md shadow">
+					<div class="p-2 mr-3 bg-gray-100 rounded-md">
 						<BookOpen class="w-18 h-18 stroke-1.5 text-gray-700" />
 					</div>
 					<div>
-						<div class="text-xl font-semibold mb-1">
+						<div class="mb-1 text-xl font-semibold">
 							{{ formatNumber(chartDetails.data.courses) }}
 						</div>
 						<div class="text-gray-700">
@@ -20,12 +20,12 @@
 						</div>
 					</div>
 				</div>
-				<div class="flex items-center shadow py-2 px-3 rounded-md">
-					<div class="p-2 rounded-md bg-gray-100 mr-3">
+				<div class="flex items-center px-3 py-2 rounded-md shadow">
+					<div class="p-2 mr-3 bg-gray-100 rounded-md">
 						<LogIn class="w-18 h-18 stroke-1.5 text-gray-700" />
 					</div>
 					<div>
-						<div class="text-xl font-semibold mb-1">
+						<div class="mb-1 text-xl font-semibold">
 							{{ formatNumber(chartDetails.data.users) }}
 						</div>
 						<div class="text-gray-700">
@@ -33,12 +33,12 @@
 						</div>
 					</div>
 				</div>
-				<div class="flex items-center shadow py-2 px-3 rounded-md">
-					<div class="p-2 rounded-md bg-gray-100 mr-3">
+				<div class="flex items-center px-3 py-2 rounded-md shadow">
+					<div class="p-2 mr-3 bg-gray-100 rounded-md">
 						<BookOpenCheck class="w-18 h-18 stroke-1.5 text-gray-700" />
 					</div>
 					<div>
-						<div class="text-xl font-semibold mb-1">
+						<div class="mb-1 text-xl font-semibold">
 							{{ formatNumber(chartDetails.data.enrollments) }}
 						</div>
 						<div class="text-gray-700">
@@ -46,56 +46,56 @@
 						</div>
 					</div>
 				</div>
-				<div class="flex items-center shadow py-2 px-3 rounded-md">
-					<div class="p-2 rounded-md bg-gray-100 mr-3">
+				<div class="flex items-center px-3 py-2 rounded-md shadow">
+					<div class="p-2 mr-3 bg-gray-100 rounded-md">
 						<FileCheck class="w-18 h-18 stroke-1.5 text-gray-700" />
 					</div>
 					<div>
-						<div class="text-xl font-semibold mb-1">
+						<div class="mb-1 text-xl font-semibold">
 							{{ formatNumber(chartDetails.data.completions) }}
 						</div>
 						<div class="text-gray-700">
-							{{ __('Доработки') }}
+							{{ __('Завершения') }}
 						</div>
 					</div>
 				</div>
-				<div class="flex items-center shadow py-2 px-3 rounded-md">
-					<div class="p-2 rounded-md bg-gray-100 mr-3">
+				<div class="flex items-center px-3 py-2 rounded-md shadow">
+					<div class="p-2 mr-3 bg-gray-100 rounded-md">
 						<FileCheck2 class="w-18 h-18 stroke-1.5 text-gray-700" />
 					</div>
 					<div>
-						<div class="text-xl font-semibold mb-1">
+						<div class="mb-1 text-xl font-semibold">
 							{{ formatNumber(chartDetails.data.lesson_completions) }}
 						</div>
 						<div class="text-gray-700">
-							{{ __('Milestones') }}
+							{{ __('Уроки завершены') }}
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-				<div class="shadow rounded-md p-5 min-h-72">
+			<div class="grid grid-cols-1 gap-4 mt-4 lg:grid-cols-2">
+				<div class="p-5 rounded-md shadow min-h-72">
 					<Line
 						v-if="signupsChart.data"
 						:data="signupsChart.data"
 						:options="signupChartOptions()"
 					/>
 				</div>
-				<div class="shadow rounded-md p-5 min-h-72">
+				<div class="p-5 rounded-md shadow min-h-72">
 					<Line
 						v-if="enrollmentChart.data"
 						:data="enrollmentChart.data"
 						:options="enrollmentChartOptions()"
 					/>
 				</div>
-				<div class="shadow rounded-md p-5">
+				<div class="p-5 rounded-md shadow">
 					<Line
 						v-if="lessonCompletion.data"
 						:data="lessonCompletion.data"
 						:options="lessonChartOptions()"
 					/>
 				</div>
-				<div class="shadow rounded-md p-5">
+				<div class="p-5 rounded-md shadow">
 					<Pie
 						v-if="courseCompletion.data"
 						:data="courseCompletion.data"
@@ -107,23 +107,29 @@
 	</div>
 </template>
 <script setup>
-import { createResource, Breadcrumbs } from 'frappe-ui'
-import { computed, inject } from 'vue'
-import { updateDocumentTitle } from '@/utils'
-import { formatNumber } from '@/utils'
-import { Line, Pie } from 'vue-chartjs'
+import { formatNumber, updateDocumentTitle } from '@/utils'
 import {
+	ArcElement,
+	CategoryScale,
 	Chart as ChartJS,
+	Filler,
+	Legend,
+	LinearScale,
+	LineElement,
+	PointElement,
 	Title,
 	Tooltip,
-	Legend,
-	LineElement,
-	CategoryScale,
-	LinearScale,
-	PointElement,
-	ArcElement,
-	Filler,
 } from 'chart.js'
+import { Breadcrumbs, createResource } from 'frappe-ui'
+import {
+	BookOpen,
+	BookOpenCheck,
+	FileCheck,
+	FileCheck2,
+	LogIn,
+} from 'lucide-vue-next'
+import { computed, inject } from 'vue'
+import { Line, Pie } from 'vue-chartjs'
 
 ChartJS.register(
 	Title,
@@ -134,15 +140,8 @@ ChartJS.register(
 	LinearScale,
 	PointElement,
 	ArcElement,
-	Filler
+	Filler,
 )
-import {
-	BookOpen,
-	LogIn,
-	FileCheck,
-	FileCheck2,
-	BookOpenCheck,
-} from 'lucide-vue-next'
 
 const dayjs = inject('$dayjs')
 

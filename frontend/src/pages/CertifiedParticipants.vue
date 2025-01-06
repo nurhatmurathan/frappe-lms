@@ -6,7 +6,7 @@
 		<div>
 			<FormControl
 				type="text"
-				placeholder="Search"
+				placeholder="Поиск"
 				v-model="searchQuery"
 				@input="participants.reload()"
 				class="w-40"
@@ -18,7 +18,7 @@
 		</div>
 	</header>
 
-	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-5">
+	<div class="grid grid-cols-1 gap-4 m-5 md:grid-cols-2 lg:grid-cols-3">
 		<div
 			v-if="participants.data?.length"
 			v-for="participant in participantsList"
@@ -29,7 +29,7 @@
 					params: { username: participant.username },
 				}"
 			>
-				<div class="flex shadow rounded-md h-full p-2">
+				<div class="flex h-full p-2 rounded-md shadow">
 					<UserAvatar :user="participant" size="3xl" class="mr-2" />
 					<div>
 						<router-link
@@ -38,7 +38,7 @@
 								params: { username: participant.username },
 							}"
 						>
-							<div class="text-lg font-semibold mb-2">
+							<div class="mb-2 text-lg font-semibold">
 								{{ participant.full_name }}
 							</div>
 						</router-link>
@@ -52,11 +52,11 @@
 	</div>
 </template>
 <script setup>
-import { Breadcrumbs, FormControl, createResource } from 'frappe-ui'
-import { ref, computed } from 'vue'
 import UserAvatar from '@/components/UserAvatar.vue'
-import { Search } from 'lucide-vue-next'
 import { updateDocumentTitle } from '@/utils'
+import { Breadcrumbs, FormControl, createResource } from 'frappe-ui'
+import { Search } from 'lucide-vue-next'
+import { computed, ref } from 'vue'
 
 const searchQuery = ref('')
 

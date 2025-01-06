@@ -11,10 +11,10 @@
 			<template #prefix>
 				<Plus class="h-4 w-4 stroke-1.5" />
 			</template>
-			{{ __('New') }}
+			{{ __('Новый') }}
 		</Button>
 	</header>
-	<div v-if="programs.data?.length" class="pt-5 px-5">
+	<div v-if="programs.data?.length" class="px-5 pt-5">
 		<div v-for="program in programs.data" class="mb-10">
 			<div class="flex items-center justify-between">
 				<div class="text-xl font-semibold">
@@ -29,7 +29,9 @@
 					>
 						{{ program.members }}
 						{{
-							program.members == 1 ? __(singularize('members')) : __('members')
+							program.members == 1
+								? __(singularize('участник'))
+								: __('участники')
 						}}
 					</Badge>
 					<Badge
@@ -38,7 +40,7 @@
 						theme="blue"
 						size="lg"
 					>
-						{{ program.progress }}{{ __('% completed') }}
+						{{ program.progress }}{{ __('% завершено') }}
 					</Badge>
 
 					<router-link
@@ -52,14 +54,14 @@
 							<template #prefix>
 								<Edit class="h-4 w-4 stroke-1.5" />
 							</template>
-							{{ __('Edit') }}
+							{{ __('Редактировать') }}
 						</Button>
 					</router-link>
 				</div>
 			</div>
 			<div
 				v-if="program.courses?.length"
-				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5"
+				class="grid grid-cols-1 gap-5 mt-5 md:grid-cols-2 lg:grid-cols-3"
 			>
 				<div v-for="course in program.courses" class="relative group">
 					<CourseCard
@@ -69,33 +71,33 @@
 					/>
 					<div
 						v-if="lockCourse(course)"
-						class="absolute inset-0 bg-black-overlay-500 opacity-60 rounded-md"
+						class="absolute inset-0 rounded-md bg-black-overlay-500 opacity-60"
 					></div>
 					<div
 						v-if="lockCourse(course)"
 						class="absolute inset-0 flex items-center justify-center"
 					>
-						<LockKeyhole class="size-10 text-white" />
+						<LockKeyhole class="text-white size-10" />
 					</div>
 				</div>
 			</div>
-			<div v-else class="text-sm italic text-gray-600 mt-4">
-				{{ __('No courses in this program') }}
+			<div v-else class="mt-4 text-sm italic text-gray-600">
+				{{ __('Нет курсов в этой программе') }}
 			</div>
 		</div>
 	</div>
 	<div
 		v-else
-		class="text-center p-5 text-gray-600 mt-52 w-3/4 md:w-1/2 mx-auto space-y-2"
+		class="w-3/4 p-5 mx-auto space-y-2 text-center text-gray-600 mt-52 md:w-1/2"
 	>
-		<BookOpen class="size-10 mx-auto stroke-1 text-gray-500" />
+		<BookOpen class="mx-auto text-gray-500 stroke-1 size-10" />
 		<div class="text-xl font-medium">
-			{{ __('No programs found') }}
+			{{ __('Программы не найдены') }}
 		</div>
 		<div class="leading-5">
 			{{
 				__(
-					'There are no programs available at the moment. Keep an eye out, fresh learning experiences are on the way soon!'
+					'В данный момент нет доступных программ. Следите за обновлениями, скоро появятся новые возможности для обучения!',
 				)
 			}}
 		</div>
@@ -104,10 +106,10 @@
 	<Dialog
 		v-model="showDialog"
 		:options="{
-			title: __('New Program'),
+			title: __('Новая программа'),
 			actions: [
 				{
-					label: __('Create'),
+					label: __('Создать'),
 					variant: 'solid',
 					onClick: () => createProgram(close),
 				},
@@ -115,11 +117,14 @@
 		}"
 	>
 		<template #body-content>
-			<FormControl :label="__('Title')" v-model="title" />
+			<FormControl :label="__('Название')" v-model="title" />
 		</template>
 	</Dialog>
 </template>
 <script setup>
+import CourseCard from '@/components/CourseCard.vue'
+import { useSettings } from '@/stores/settings'
+import { showToast, singularize } from '@/utils'
 import {
 	Badge,
 	Breadcrumbs,
@@ -129,12 +134,9 @@ import {
 	Dialog,
 	FormControl,
 } from 'frappe-ui'
+import { BookOpen, Edit, LockKeyhole, Plus } from 'lucide-vue-next'
 import { computed, inject, onMounted, ref } from 'vue'
-import { BookOpen, Edit, Plus, LockKeyhole } from 'lucide-vue-next'
-import CourseCard from '@/components/CourseCard.vue'
 import { useRouter } from 'vue-router'
-import { showToast, singularize } from '@/utils'
-import { useSettings } from '@/stores/settings'
 
 const user = inject('$user')
 const showDialog = ref(false)

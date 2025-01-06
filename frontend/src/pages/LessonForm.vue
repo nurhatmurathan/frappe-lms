@@ -11,25 +11,25 @@
 						@click="saveLesson({ showSuccessMessage: true })"
 						class="mt-3 md:mt-0"
 					>
-						{{ __('Save') }}
+						{{ __('Сохранить') }}
 					</Button>
 				</header>
 				<div class="py-5">
 					<div class="w-5/6 mx-auto">
 						<FormControl
 							v-model="lesson.title"
-							label="Title"
+							label="Название"
 							class="mb-4"
 							:required="true"
 						/>
 						<FormControl
 							v-model="lesson.include_in_preview"
 							type="checkbox"
-							label="Include in Preview"
+							label="Включить в предварительный просмотр"
 						/>
 					</div>
-					<div class="border-t mt-4">
-						<div class="w-5/6 mx-auto pt-4">
+					<div class="mt-4 border-t">
+						<div class="w-5/6 pt-4 mx-auto">
 							<div
 								class="flex justify-between cursor-pointer"
 								@click="
@@ -38,11 +38,11 @@
 									}
 								"
 							>
-								<label class="block font-medium text-gray-600 mb-1">
-									{{ __('Instructor Notes') }}
+								<label class="block mb-1 font-medium text-gray-600">
+									{{ __('Заметки инструктора') }}
 								</label>
 								<ChevronRight
-									class="stroke-2 h-5 w-5 text-gray-600"
+									class="w-5 h-5 text-gray-600 stroke-2"
 									:class="{
 										'rotate-90 transform duration-200': openInstructorEditor,
 										'duration-200': !openInstructorEditor,
@@ -56,10 +56,10 @@
 							></div>
 						</div>
 					</div>
-					<div class="border-t mt-4">
-						<div class="w-5/6 mx-auto pt-4">
-							<label class="block font-medium text-gray-600 mb-1">
-								{{ __('Content') }}
+					<div class="mt-4 border-t">
+						<div class="w-5/6 pt-4 mx-auto">
+							<label class="block mb-1 font-medium text-gray-600">
+								{{ __('Содержание') }}
 							</label>
 							<div
 								id="content"
@@ -78,21 +78,21 @@
 	</div>
 </template>
 <script setup>
+import LessonHelp from '@/components/LessonHelp.vue'
+import { useSettings } from '@/stores/settings'
+import { capture } from '@/telemetry'
+import { createToast, getEditorTools, updateDocumentTitle } from '@/utils'
+import EditorJS from '@editorjs/editorjs'
 import { Breadcrumbs, Button, createResource, FormControl } from 'frappe-ui'
+import { ChevronRight } from 'lucide-vue-next'
 import {
 	computed,
-	reactive,
-	onMounted,
 	inject,
-	ref,
 	onBeforeUnmount,
+	onMounted,
+	reactive,
+	ref,
 } from 'vue'
-import EditorJS from '@editorjs/editorjs'
-import LessonHelp from '@/components/LessonHelp.vue'
-import { ChevronRight } from 'lucide-vue-next'
-import { updateDocumentTitle, createToast, getEditorTools } from '@/utils'
-import { capture } from '@/telemetry'
-import { useSettings } from '@/stores/settings'
 
 const editor = ref(null)
 const instructorEditor = ref(null)
@@ -401,13 +401,13 @@ const createNewLesson = () => {
 							}
 							lessonDetails.reload()
 						},
-					}
+					},
 				)
 			},
 			onError(err) {
 				showToast('Error', err.message, 'x')
 			},
-		}
+		},
 	)
 }
 
@@ -428,7 +428,7 @@ const editCurrentLesson = () => {
 			onError(err) {
 				showToast('Error', err.message, 'x')
 			},
-		}
+		},
 	)
 }
 

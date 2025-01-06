@@ -18,7 +18,7 @@
 				class="h-[130px] w-full"
 			></div>
 			<div
-				class="absolute bottom-0 left-1/2 mb-4 flex -translate-x-1/2 space-x-2 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100"
+				class="absolute bottom-0 flex mb-4 space-x-2 transition-opacity -translate-x-1/2 opacity-0 left-1/2 focus-within:opacity-100 group-hover:opacity-100"
 				v-if="isSessionUser()"
 			>
 				<EditCoverImage
@@ -29,14 +29,14 @@
 							<template #prefix>
 								<Edit class="w-4 h-4 stroke-1.5 text-gray-700" />
 							</template>
-							{{ __('Edit') }}
+							{{ __('Редактировать') }}
 						</Button>
 					</template>
 				</EditCoverImage>
 			</div>
 		</div>
-		<div class="mx-auto -mt-10 md:-mt-4 max-w-4xl translate-x-0 px-5">
-			<div class="flex flex-col md:flex-row items-center">
+		<div class="max-w-4xl px-5 mx-auto -mt-10 translate-x-0 md:-mt-4">
+			<div class="flex flex-col items-center md:flex-row">
 				<div>
 					<img
 						v-if="profile.data.user_image"
@@ -65,11 +65,11 @@
 					<template #prefix>
 						<Edit class="w-4 h-4 stroke-1.5 text-gray-700" />
 					</template>
-					{{ __('Edit Profile') }}
+					{{ __('Редактировать профиль') }}
 				</Button>
 			</div>
 
-			<div class="mb-4 mt-6">
+			<div class="mt-6 mb-4">
 				<TabButtons
 					class="inline-block"
 					:buttons="getTabButtons()"
@@ -86,16 +86,16 @@
 	/>
 </template>
 <script setup>
-import { Breadcrumbs, createResource, Button, TabButtons } from 'frappe-ui'
-import { computed, inject, watch, ref, onMounted, watchEffect } from 'vue'
-import { sessionStore } from '@/stores/session'
-import { Edit } from 'lucide-vue-next'
-import UserAvatar from '@/components/UserAvatar.vue'
-import { useRoute, useRouter } from 'vue-router'
-import NoPermission from '@/components/NoPermission.vue'
-import { convertToTitleCase, updateDocumentTitle } from '@/utils'
-import EditProfile from '@/components/Modals/EditProfile.vue'
 import EditCoverImage from '@/components/Modals/EditCoverImage.vue'
+import EditProfile from '@/components/Modals/EditProfile.vue'
+import NoPermission from '@/components/NoPermission.vue'
+import UserAvatar from '@/components/UserAvatar.vue'
+import { sessionStore } from '@/stores/session'
+import { convertToTitleCase, updateDocumentTitle } from '@/utils'
+import { Breadcrumbs, Button, createResource, TabButtons } from 'frappe-ui'
+import { Edit } from 'lucide-vue-next'
+import { computed, inject, onMounted, ref, watch, watchEffect } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const { user } = sessionStore()
 const $user = inject('$user')
@@ -172,7 +172,7 @@ watch(
 	() => props.username,
 	() => {
 		profile.reload()
-	}
+	},
 )
 
 const editProfile = () => {

@@ -5,19 +5,19 @@
 		>
 			<Breadcrumbs class="h-7" :items="breadcrumbs" />
 			<Button variant="solid" @click="saveBatch()">
-				{{ __('Save') }}
+				{{ __('Сохранить') }}
 			</Button>
 		</header>
-		<div class="w-1/2 mx-auto py-5">
+		<div class="w-1/2 py-5 mx-auto">
 			<div class="">
-				<div class="text-lg font-semibold mb-4">
-					{{ __('Details') }}
+				<div class="mb-4 text-lg font-semibold">
+					{{ __('Детали') }}
 				</div>
 				<div class="grid grid-cols-2 gap-10 mb-4 space-y-2">
 					<div>
 						<FormControl
 							v-model="batch.title"
-							:label="__('Title')"
+							:label="__('Название')"
 							:required="true"
 						/>
 					</div>
@@ -25,19 +25,19 @@
 						<FormControl
 							v-model="batch.published"
 							type="checkbox"
-							:label="__('Published')"
+							:label="__('Опубликовано')"
 						/>
 						<FormControl
 							v-model="batch.allow_self_enrollment"
 							type="checkbox"
-							:label="__('Allow self enrollment')"
+							:label="__('Разрешить самостоятельную регистрацию')"
 						/>
 					</div>
 				</div>
 			</div>
 			<div class="mb-4">
-				<div class="text-xs text-gray-600 mb-2">
-					{{ __('Meta Image') }}
+				<div class="mb-2 text-xs text-gray-600">
+					{{ __('Мета изображение') }}
 				</div>
 				<FileUploader
 					v-if="!batch.image"
@@ -47,17 +47,17 @@
 				>
 					<template v-slot="{ file, progress, uploading, openFileSelector }">
 						<div class="flex items-center">
-							<div class="border rounded-md w-fit py-5 px-20">
-								<Image class="size-5 stroke-1 text-gray-700" />
+							<div class="px-20 py-5 border rounded-md w-fit">
+								<Image class="text-gray-700 stroke-1 size-5" />
 							</div>
 							<div class="ml-4">
 								<Button @click="openFileSelector">
-									{{ __('Upload') }}
+									{{ __('Загрузить') }}
 								</Button>
-								<div class="mt-2 text-gray-600 text-sm">
+								<div class="mt-2 text-sm text-gray-600">
 									{{
 										__(
-											'Appears when the batch URL is shared on any online platform'
+											'Появляется, когда URL партии делится на любой онлайн платформе',
 										)
 									}}
 								</div>
@@ -67,15 +67,15 @@
 				</FileUploader>
 				<div v-else class="mb-4">
 					<div class="flex items-center">
-						<img :src="batch.image.file_url" class="border rounded-md w-40" />
+						<img :src="batch.image.file_url" class="w-40 border rounded-md" />
 						<div class="ml-4">
 							<Button @click="removeImage()">
-								{{ __('Remove') }}
+								{{ __('Удалить') }}
 							</Button>
-							<div class="mt-2 text-gray-600 text-sm">
+							<div class="mt-2 text-sm text-gray-600">
 								{{
 									__(
-										'Appears when the batch URL is shared on any online platform'
+										'Появляется, когда URL партии делится на любой онлайн платформе',
 									)
 								}}
 							</div>
@@ -86,22 +86,22 @@
 			<MultiSelect
 				v-model="instructors"
 				doctype="User"
-				:label="__('Instructors')"
+				:label="__('Инструкторы')"
 				:required="true"
 				:filters="{ ignore_user_type: 1 }"
 			/>
 			<div class="mb-4">
 				<FormControl
 					v-model="batch.description"
-					:label="__('Description')"
+					:label="__('Описание')"
 					type="textarea"
 					class="my-4"
-					:placeholder="__('Short description of the batch')"
+					:placeholder="__('Краткое описание партии')"
 					:required="true"
 				/>
 				<div>
-					<label class="block text-sm text-gray-600 mb-1">
-						{{ __('Batch Details') }}
+					<label class="block mb-1 text-sm text-gray-600">
+						{{ __('Детали партии') }}
 						<span class="text-red-500">*</span>
 					</label>
 					<TextEditor
@@ -114,21 +114,21 @@
 				</div>
 			</div>
 			<div class="mb-4">
-				<div class="text-lg font-semibold mb-4">
-					{{ __('Date and Time') }}
+				<div class="mb-4 text-lg font-semibold">
+					{{ __('Дата и время') }}
 				</div>
 				<div class="grid grid-cols-2 gap-10">
 					<div>
 						<FormControl
 							v-model="batch.start_date"
-							:label="__('Start Date')"
+							:label="__('Дата начала')"
 							type="date"
 							class="mb-4"
 							:required="true"
 						/>
 						<FormControl
 							v-model="batch.end_date"
-							:label="__('End Date')"
+							:label="__('Дата окончания')"
 							type="date"
 							class="mb-4"
 							:required="true"
@@ -137,23 +137,23 @@
 					<div>
 						<FormControl
 							v-model="batch.start_time"
-							:label="__('Start Time')"
+							:label="__('Время начала')"
 							type="time"
 							class="mb-4"
 							:required="true"
 						/>
 						<FormControl
 							v-model="batch.end_time"
-							:label="__('End Time')"
+							:label="__('Время окончания')"
 							type="time"
 							class="mb-4"
 							:required="true"
 						/>
 						<FormControl
 							v-model="batch.timezone"
-							:label="__('Timezone')"
+							:label="__('Часовой пояс')"
 							type="text"
-							:placeholder="__('Example: IST (+5:30)')"
+							:placeholder="__('Пример: IST (+5:30)')"
 							class="mb-4"
 							:required="true"
 						/>
@@ -161,21 +161,21 @@
 				</div>
 			</div>
 			<div class="mb-4">
-				<div class="text-lg font-semibold mb-4">
-					{{ __('Settings') }}
+				<div class="mb-4 text-lg font-semibold">
+					{{ __('Настройки') }}
 				</div>
 				<div class="grid grid-cols-2 gap-10">
 					<div>
 						<FormControl
 							v-model="batch.seat_count"
-							:label="__('Seat Count')"
+							:label="__('Количество мест')"
 							type="number"
 							class="mb-4"
-							:placeholder="__('Number of seats available')"
+							:placeholder="__('Количество доступных мест')"
 						/>
 						<FormControl
 							v-model="batch.evaluation_end_date"
-							:label="__('Evaluation End Date')"
+							:label="__('Дата окончания оценки')"
 							type="date"
 							class="mb-4"
 						/>
@@ -186,20 +186,20 @@
 							type="select"
 							:options="[
 								{
-									label: 'Online',
+									label: 'Онлайн',
 									value: 'Online',
 								},
 								{
-									label: 'Offline',
+									label: 'Офлайн',
 									value: 'Offline',
 								},
 							]"
-							:label="__('Medium')"
+							:label="__('Среда')"
 							class="mb-4"
 						/>
 						<Link
 							doctype="LMS Category"
-							:label="__('Category')"
+							:label="__('Категория')"
 							v-model="batch.category"
 						/>
 					</div>
@@ -207,18 +207,18 @@
 			</div>
 
 			<div class="">
-				<div class="text-lg font-semibold mb-4">
-					{{ __('Payment') }}
+				<div class="mb-4 text-lg font-semibold">
+					{{ __('Оплата') }}
 				</div>
 				<div>
 					<FormControl
 						v-model="batch.paid_batch"
 						type="checkbox"
-						:label="__('Paid Batch')"
+						:label="__('Платная партия')"
 					/>
 					<FormControl
 						v-model="batch.amount"
-						:label="__('Amount')"
+						:label="__('Сумма')"
 						type="number"
 						class="my-4"
 					/>
@@ -226,7 +226,7 @@
 						doctype="Currency"
 						v-model="batch.currency"
 						:filters="{ enabled: 1 }"
-						:label="__('Currency')"
+						:label="__('Валюта')"
 					/>
 				</div>
 			</div>
@@ -234,28 +234,28 @@
 	</div>
 </template>
 <script setup>
-import {
-	computed,
-	onMounted,
-	inject,
-	reactive,
-	onBeforeUnmount,
-	ref,
-} from 'vue'
+import Link from '@/components/Controls/Link.vue'
+import MultiSelect from '@/components/Controls/MultiSelect.vue'
+import { capture } from '@/telemetry'
+import { showToast } from '@/utils'
 import {
 	Breadcrumbs,
-	FormControl,
-	FileUploader,
 	Button,
+	FileUploader,
+	FormControl,
 	TextEditor,
 	createResource,
 } from 'frappe-ui'
-import Link from '@/components/Controls/Link.vue'
-import { useRouter } from 'vue-router'
-import { showToast } from '@/utils'
 import { Image } from 'lucide-vue-next'
-import { capture } from '@/telemetry'
-import MultiSelect from '@/components/Controls/MultiSelect.vue'
+import {
+	computed,
+	inject,
+	onBeforeUnmount,
+	onMounted,
+	reactive,
+	ref,
+} from 'vue'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const user = inject('$user')
@@ -414,7 +414,7 @@ const createNewBatch = () => {
 			onError(err) {
 				showToast('Error', err.messages?.[0] || err, 'x')
 			},
-		}
+		},
 	)
 }
 
@@ -433,7 +433,7 @@ const editBatchDetails = () => {
 			onError(err) {
 				showToast('Error', err.messages?.[0] || err, 'x')
 			},
-		}
+		},
 	)
 }
 

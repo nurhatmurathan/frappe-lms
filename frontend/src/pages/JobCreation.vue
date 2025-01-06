@@ -5,32 +5,32 @@
 		>
 			<Breadcrumbs :items="breadcrumbs" />
 			<Button variant="solid" @click="saveJob()">
-				{{ __('Save') }}
+				{{ __('Сохранить') }}
 			</Button>
 		</header>
 		<div class="py-5">
-			<div class="container border-b mb-4 pb-4">
-				<div class="text-lg font-semibold mb-4">
-					{{ __('Job Details') }}
+			<div class="container pb-4 mb-4 border-b">
+				<div class="mb-4 text-lg font-semibold">
+					{{ __('Детали работы') }}
 				</div>
 				<div class="grid grid-cols-2 gap-4">
 					<div>
 						<FormControl
 							v-model="job.job_title"
-							:label="__('Title')"
+							:label="__('Название')"
 							class="mb-4"
 							:required="true"
 						/>
 						<FormControl
 							v-model="job.location"
-							:label="__('Location')"
+							:label="__('Местоположение')"
 							:required="true"
 						/>
 					</div>
 					<div>
 						<FormControl
 							v-model="job.type"
-							:label="__('Type')"
+							:label="__('Тип')"
 							type="select"
 							:options="jobTypes"
 							class="mb-4"
@@ -38,7 +38,7 @@
 						/>
 						<FormControl
 							v-model="job.status"
-							:label="__('Status')"
+							:label="__('Статус')"
 							type="select"
 							:options="jobStatuses"
 							:required="true"
@@ -46,8 +46,8 @@
 					</div>
 				</div>
 				<div class="mt-4">
-					<label class="block text-gray-600 text-xs mb-1">
-						{{ __('Description') }}
+					<label class="block mb-1 text-xs text-gray-600">
+						{{ __('Описание') }}
 						<span class="text-red-500">*</span>
 					</label>
 					<TextEditor
@@ -59,33 +59,33 @@
 					/>
 				</div>
 			</div>
-			<div class="container mb-4 pb-4">
-				<div class="text-lg font-semibold mb-4">
-					{{ __('Company Details') }}
+			<div class="container pb-4 mb-4">
+				<div class="mb-4 text-lg font-semibold">
+					{{ __('Детали компании') }}
 				</div>
 				<div class="grid grid-cols-2 gap-4">
 					<div>
 						<FormControl
 							v-model="job.company_name"
-							:label="__('Company Name')"
+							:label="__('Название компании')"
 							class="mb-4"
 							:required="true"
 						/>
 						<FormControl
 							v-model="job.company_website"
-							:label="__('Company Website')"
+							:label="__('Вебсайт компании')"
 							:required="true"
 						/>
 					</div>
 					<div>
 						<FormControl
 							v-model="job.company_email_address"
-							:label="__('Company Email Address')"
+							:label="__('Электронная почта компании')"
 							class="mb-4"
 							:required="true"
 						/>
-						<label class="block text-gray-600 text-xs mb-1 mt-4">
-							{{ __('Company Logo') }}
+						<label class="block mt-4 mb-1 text-xs text-gray-600">
+							{{ __('Логотип компании') }}
 							<span class="text-red-500">*</span>
 						</label>
 						<FileUploader
@@ -100,7 +100,9 @@
 								<div class="mb-4">
 									<Button @click="openFileSelector" :loading="uploading">
 										{{
-											uploading ? `Uploading ${progress}%` : 'Upload an image'
+											uploading
+												? `Загрузка ${progress}%`
+												: 'Загрузить изображение'
 										}}
 									</Button>
 								</div>
@@ -108,14 +110,14 @@
 						</FileUploader>
 						<div v-else class="">
 							<div class="flex items-center">
-								<div class="border rounded-md p-2 mr-2">
+								<div class="p-2 mr-2 border rounded-md">
 									<FileText class="h-5 w-5 stroke-1.5 text-gray-700" />
 								</div>
 								<div class="flex flex-col">
 									<span>
 										{{ job.image.file_name }}
 									</span>
-									<span class="text-sm text-gray-500 mt-1">
+									<span class="mt-1 text-sm text-gray-500">
 										{{ getFileSize(job.image.file_size) }}
 									</span>
 								</div>
@@ -134,14 +136,14 @@
 <script setup>
 import {
 	Breadcrumbs,
-	FormControl,
-	createResource,
 	Button,
-	TextEditor,
 	FileUploader,
+	FormControl,
+	TextEditor,
+	createResource,
 } from 'frappe-ui'
-import { computed, onMounted, reactive, inject } from 'vue'
 import { FileText, X } from 'lucide-vue-next'
+import { computed, inject, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { getFileSize, showToast } from '../utils'
 
@@ -252,7 +254,7 @@ const createNewJob = () => {
 			onError(err) {
 				showToast('Error', err.messages?.[0] || err, 'x')
 			},
-		}
+		},
 	)
 }
 
@@ -271,7 +273,7 @@ const editJobDetails = () => {
 			onError(err) {
 				showToast('Error', err.messages?.[0] || err, 'x')
 			},
-		}
+		},
 	)
 }
 

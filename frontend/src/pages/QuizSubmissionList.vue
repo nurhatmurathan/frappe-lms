@@ -4,8 +4,8 @@
 	>
 		<Breadcrumbs :items="breadcrumbs" />
 	</header>
-	<div v-if="submissions.data?.length" class="md:w-3/4 md:mx-auto py-5 mx-5">
-		<div class="text-xl font-semibold mb-5">
+	<div v-if="submissions.data?.length" class="py-5 mx-5 md:w-3/4 md:mx-auto">
+		<div class="mb-5 text-xl font-semibold">
 			{{ submissions.data[0].quiz_title }}
 		</div>
 		<ListView
@@ -15,7 +15,7 @@
 			:options="{ showTooltip: false, selectable: false }"
 		>
 			<ListHeader
-				class="mb-2 grid items-center space-x-4 rounded bg-gray-100 p-2"
+				class="grid items-center p-2 mb-2 space-x-4 bg-gray-100 rounded"
 			>
 				<ListHeaderItem :item="item" v-for="item in quizColumns">
 				</ListHeaderItem>
@@ -36,23 +36,23 @@
 		</ListView>
 		<div class="flex justify-center my-5">
 			<Button v-if="submissions.hasNextPage" @click="submissions.next()">
-				{{ __('Load More') }}
+				{{ __('Загрузить еще') }}
 			</Button>
 		</div>
 	</div>
 </template>
 <script setup>
 import {
-	createListResource,
 	Breadcrumbs,
 	Button,
-	ListView,
-	ListRow,
-	ListRows,
+	createListResource,
 	ListHeader,
 	ListHeaderItem,
+	ListRow,
+	ListRows,
+	ListView,
 } from 'frappe-ui'
-import { computed, onMounted, inject } from 'vue'
+import { computed, inject, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
