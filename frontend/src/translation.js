@@ -22,7 +22,7 @@ function translate(message) {
 					return typeof args[number] != 'undefined'
 						? args[number]
 						: match
-				}
+				},
 			)
 		},
 	}
