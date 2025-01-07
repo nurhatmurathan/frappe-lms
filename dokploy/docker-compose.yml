@@ -12,6 +12,7 @@ services:
       - REDIS_CACHE_HOST
       - REDIS_SOCKETIO_HOST
       - MARIADB_HOST
+      - DB_NAME
     working_dir: /home/frappe
     volumes:
       - .:/workspace
