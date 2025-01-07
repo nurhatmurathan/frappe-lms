@@ -13,6 +13,10 @@ services:
       - REDIS_SOCKETIO_HOST
       - MARIADB_HOST
       - DB_NAME
+      - DB_USER
+      - DB_PASS
+      - DB_HOST
+      - DB_PORT
     working_dir: /home/frappe
     volumes:
       - .:/workspace
