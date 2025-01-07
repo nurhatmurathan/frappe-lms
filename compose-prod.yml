@@ -286,3 +286,4 @@ x-depends-on-configurator:
   depends_on:
     configurator:
       condition: service_completed_successfully
+      
