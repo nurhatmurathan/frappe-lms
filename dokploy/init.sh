@@ -31,6 +31,7 @@ sed -i '/watch/d' ./Procfile
 bench get-app https://github.com/nurhatmurathan/frappe-lms.git
 
 bench new-site lms.localhost \
+--force \
 --admin-password "${ADMIN_PASSWORD:-admin}" \
 --no-mariadb-socket \
 --db-name "${DB_NAME:-frappe-lms}" \
