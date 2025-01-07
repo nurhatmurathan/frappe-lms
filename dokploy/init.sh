@@ -32,6 +32,7 @@ bench get-app https://github.com/nurhatmurathan/frappe-lms.git
 
 bench new-site lms.localhost \
 --force \
+--mariadb-root-password "${MARIADB_ROOT_PASSWORD:-123}" \
 --admin-password "${ADMIN_PASSWORD:-admin}" \
 --no-mariadb-socket \
 --db-name "${DB_NAME:-frappe-lms}" \
