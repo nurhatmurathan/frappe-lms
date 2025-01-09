@@ -107,7 +107,7 @@ python3 ./easy-install.py deploy \
     --project=learning_prod_setup \
     --email=your_email@example.com \
     --image=nurhatmurathan/frappe-lms \
-    --version=002 \
+    --version=003 \
     --app=lms \
     --sitename subdomain.domain.tld
 ```
