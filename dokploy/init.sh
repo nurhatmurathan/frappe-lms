@@ -31,10 +31,14 @@ sed -i '/watch/d' ./Procfile
 bench get-app https://github.com/nurhatmurathan/frappe-lms.git
 
 bench new-site lms.localhost \
---force \
 --mariadb-root-password "${MARIADB_ROOT_PASSWORD:-123}" \
 --admin-password "${ADMIN_PASSWORD:-admin}" \
---no-mariadb-socket
+--no-mariadb-socket \
+--db-name "${DB_NAME:-frappe-lms}" \
+--db-user "${DB_USER:-user}" \
+--db-password "${DB_PASS:-pass}" \
+--db-host "${DB_HOST:-mariadb}" \
+--db-port "${DB_PORT:-3306}"
 
 bench --site lms.localhost install-app lms
 bench --site lms.localhost set-config developer_mode 1
