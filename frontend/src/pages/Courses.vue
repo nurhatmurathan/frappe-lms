@@ -209,23 +209,23 @@ let tabs
 
 const makeTabs = computed(() => {
 	tabs = []
-	addToTabs('В прямом эфире')
-	addToTabs('Новые')
-	addToTabs('Предстоящие')
+	addToTabs('Live')
+	addToTabs('New')
+	addToTabs('Upcoming')
 
 	if (user.data) {
-		addToTabs('Записанные')
+		addToTabs('Enrolled')
 
 		if (
 			user.data.is_moderator ||
 			user.data.is_instructor ||
 			courses.data?.created?.length
 		) {
-			addToTabs('Созданные')
+			addToTabs('Created')
 		}
 
 		if (user.data.is_moderator) {
-			addToTabs('На рассмотрении')
+			addToTabs('Under Review')
 		}
 	}
 	return tabs
@@ -310,3 +310,4 @@ const pageMeta = computed(() => {
 })
 
 updateDocumentTitle(pageMeta)
+</script>
