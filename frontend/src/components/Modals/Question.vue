@@ -12,10 +12,10 @@
 							id="existing"
 							value="existing"
 							v-model="questionType"
-							class="w-3 h-3 cursor-pointer"
+							class="w-3 h-3 accent-gray-900"
 						/>
-						<label for="existing" class="cursor-pointer">
-							{{ __('Добавить существующий вопрос') }}
+						<label for="existing">
+							{{ __('Add an existing question') }}
 						</label>
 					</div>
 
@@ -25,17 +25,17 @@
 							id="new"
 							value="new"
 							v-model="questionType"
-							class="w-3 h-3 cursor-pointer"
+							class="w-3 h-3"
 						/>
-						<label for="new" class="cursor-pointer">
-							{{ __('Создать новый вопрос') }}
+						<label for="new">
+							{{ __('Create a new question') }}
 						</label>
 					</div>
 				</div>
 				<div v-if="questionType == 'new' || editMode" class="space-y-2">
 					<div>
 						<label class="block mb-1 text-xs text-gray-600">
-							{{ __('Вопрос') }}
+							{{ __('Question') }}
 						</label>
 						<TextEditor
 							:content="question.question"
@@ -47,56 +47,56 @@
 					</div>
 					<FormControl
 						v-model="question.marks"
-						:label="__('Баллы')"
+						:label="__('Marks')"
 						type="number"
 					/>
 					<FormControl
-						:label="__('Тип')"
+						:label="__('Type')"
 						v-model="question.type"
 						type="select"
 						:options="['Choices', 'User Input', 'Open Ended']"
 						class="pb-2"
 						:required="true"
 					/>
-					<div v-if="question.type == 'Выбор'" class="border-t divide-y">
+					<div v-if="question.type == 'Choices'" class="border-t divide-y">
 						<div v-for="n in 4" class="py-2 space-y-4">
 							<FormControl
-								:label="__('Вариант') + ' ' + n"
+								:label="__('Option') + ' ' + n"
 								v-model="question[`option_${n}`]"
 								:required="n <= 2 ? true : false"
 							/>
 							<FormControl
-								:label="__('Объяснение')"
+								:label="__('Explanation')"
 								v-model="question[`explanation_${n}`]"
 							/>
 							<FormControl
-								:label="__('Правильный ответ')"
+								:label="__('Correct Answer')"
 								v-model="question[`is_correct_${n}`]"
 								type="checkbox"
 							/>
 						</div>
 					</div>
 					<div
-						v-else-if="question.type == 'Ввод пользователя'"
+						v-else-if="question.type == 'User Input'"
 						v-for="n in 4"
 						class="space-y-2"
 					>
 						<FormControl
-							:label="__('Возможность') + ' ' + n"
+							:label="__('Possibility') + ' ' + n"
 							v-model="question[`possibility_${n}`]"
-							:required="n == 1 ? true : false"
+							:required="n <= 2 ? true : false"
 						/>
 					</div>
 				</div>
 				<div v-else-if="questionType == 'existing'" class="space-y-2">
 					<Link
 						v-model="existingQuestion.question"
-						:label="__('Выбрать вопрос')"
+						:label="__('Select a question')"
 						doctype="LMS Question"
 					/>
 					<FormControl
 						v-model="existingQuestion.marks"
-						:label="__('Баллы')"
+						:label="__('Marks')"
 						type="number"
 					/>
 				</div>
@@ -130,7 +130,7 @@ const populateFields = () => {
 	let counter = 1
 	fields.forEach((field) => {
 		while (counter <= 4) {
-			question[`${field}_${counter}`] = field === 'is_correct' ? false : null
+			question[`${field}_${counter}`] = field === 'is_correct' ? false : ''
 			counter++
 		}
 	})
