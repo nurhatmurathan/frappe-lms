@@ -2,30 +2,30 @@
 	<Dropdown class="p-2" :options="userDropdownOptions">
 		<template v-slot="{ open }">
 			<button
-				class="flex h-12 py-2 items-center rounded-md duration-300 ease-in-out"
+				class="flex items-center h-12 py-2 duration-300 ease-in-out rounded-md"
 				:class="
 					isCollapsed
 						? 'px-0 w-auto'
 						: open
-						? 'bg-white shadow-sm px-2 w-52'
-						: 'hover:bg-gray-200 px-2 w-52'
+							? 'bg-white shadow-sm px-2 w-52'
+							: 'hover:bg-gray-200 px-2 w-52'
 				"
 			>
 				<img
 					v-if="branding.data?.banner_image"
 					:src="branding.data?.banner_image.file_url"
-					class="w-8 h-8 rounded flex-shrink-0"
+					class="flex-shrink-0 w-8 h-12 rounded"
 				/>
-				<LMSLogo v-else class="w-8 h-8 rounded flex-shrink-0" />
+				<LMSLogo v-else class="flex-shrink-0 w-8 h-12 rounded" />
 				<div
-					class="flex flex-1 flex-col text-left duration-300 ease-in-out"
+					class="flex flex-col flex-1 text-left duration-300 ease-in-out"
 					:class="
 						isCollapsed
 							? 'opacity-0 ml-0 w-0 overflow-hidden'
 							: 'opacity-100 ml-2 w-auto'
 					"
 				>
-					<div class="text-base font-medium text-gray-900 leading-none">
+					<div class="text-base font-medium leading-none text-gray-900">
 						<span
 							v-if="
 								branding.data?.app_name && branding.data?.app_name != 'Frappe'
@@ -37,7 +37,7 @@
 					</div>
 					<div
 						v-if="userResource"
-						class="mt-1 text-sm text-gray-700 leading-none"
+						class="mt-1 text-sm leading-none text-gray-700"
 					>
 						{{ convertToTitleCase(userResource.data?.full_name) }}
 					</div>
@@ -50,7 +50,7 @@
 							: 'opacity-100 ml-2 w-auto'
 					"
 				>
-					<ChevronDown class="h-4 w-4 text-gray-700" />
+					<ChevronDown class="w-4 h-4 text-gray-700" />
 				</div>
 			</button>
 		</template>
@@ -62,17 +62,17 @@
 </template>
 
 <script setup>
-import LMSLogo from '@/components/Icons/LMSLogo.vue'
-import { sessionStore } from '@/stores/session'
-import { Dropdown } from 'frappe-ui'
 import Apps from '@/components/Apps.vue'
-import { ChevronDown, LogIn, LogOut, User, Settings } from 'lucide-vue-next'
+import LMSLogo from '@/components/Icons/LMSLogo.vue'
+import SettingsModal from '@/components/Modals/Settings.vue'
+import { sessionStore } from '@/stores/session'
+import { useSettings } from '@/stores/settings'
+import { usersStore } from '@/stores/user'
+import { Dropdown } from 'frappe-ui'
+import { ChevronDown, LogIn, LogOut, Settings, User } from 'lucide-vue-next'
+import { markRaw, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { convertToTitleCase } from '../utils'
-import { usersStore } from '@/stores/user'
-import { useSettings } from '@/stores/settings'
-import { markRaw, watch, ref } from 'vue'
-import SettingsModal from '@/components/Modals/Settings.vue'
 
 const router = useRouter()
 const { logout, branding } = sessionStore()
@@ -92,7 +92,7 @@ watch(
 	() => settingsStore.isSettingsOpen,
 	(value) => {
 		showSettingsModal.value = value
-	}
+	},
 )
 
 const userDropdownOptions = [
